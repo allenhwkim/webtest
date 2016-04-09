@@ -52,49 +52,38 @@ function closeBrowser() {
  * returns ManagedPromise<Element>
  */
 function moveMouseTo(locator) {
-  var element;
   return driver.wait(until.elementLocated(locator), config.timeout)
-    .then(function(response) {
-      element = response;
+    .then(function(element) {
       return driver.actions().mouseMove(element).perform()
+        .then( () => element );
     })
-    .then(function() {return element});
 };
 
 /**
  * returns ManagedPromise<Element>
  */
 function find(locator) {   // ManagedPromise<Element>
-  var element;
-  return driver.wait(until.elementLocated(locator), config.timeout)
-    .then(function(response) {
-       element = response;
-       return element;
-     })
-    .then(function() {return element});
+  return moveMouseTo(locator)
+    .then((element) => element);
 };
 
 /**
  * returns ManagedPromise<Element>
  */
 function click(locator) {   // ManagedPromise<Element>
-  var element;
-  return driver.wait(until.elementLocated(locator), config.timeout)
-    .then(function(response) {
-       element = response;
-       return element.click();
+  return moveMouseTo(locator)
+    .then(function(element) {
+       element.click();
+       return element;
      })
-    .then(function() {return element});
 }
 
 /**
  * returns ManagedPromise<Element>
  */
-function enterTextInto(element, text) {
-  var element; 
-  return driver.wait(until.elementLocated(element), config.timeout)
-    .then(function(response) {
-      element = response;
+function enterTextInto(locator, text) {
+  return moveMouseTo(locator)
+    .then(function(element) {
       element.clear();
       element.sendKeys(text);
       return element;

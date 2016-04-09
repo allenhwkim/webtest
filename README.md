@@ -1,31 +1,38 @@
-Selenuim WebDriver is great! ..........
-But, it's not that easy for a beginner who does not understand full concept of Promise used in there.
+Selenuim WebDriver is great! ..........  But, it's not that easy for a beginner who does not understand full concept of Promise used in there.
 
 For example, the following test code does make sense, but it will only work if you are super lucky;
 
+    var webdriver = require('selenium-webdriver'),
+        until = webdriver.until;
+
+    var driver = new webdriver.Builder().forBrowser('firefox').build();
+
     driver.get('https://run.plnkr.co/plunks/aWTZswhBnUVLg7qyDr83/');
     driver.findElement({css:'input'}).then(function(element) {
-       element.getAttribute('value').then(function(str) {
-         console.log('str', str); 
-       });
-    });;
-
-    driver.findElement({css:'input'}).then(function(element) {
-       element.sendKeys('Cheese!');
-    });;
-
-    driver.findElement({css:'button'}).then(function(element) {
-       element.click();
+      element.sendKeys('Cheese!');
+      element.getAttribute('value').then(function(str) {
+        console.log('str', str); 
+      });
     });;
 
     driver.quit();
 
 You may get this error very easily, NoSuchElementError: Unable to locate element.
 
-The reason is not only about timeout, but also every instruction is not executed insequence.
-Almost all hates to deal with chainging these properly, and even properly chained code is not so maintainable.
+    /Users/allen/github/webdriver-tt/node_modules/selenium-webdriver/lib/promise.js:654
+        throw error;
+        ^
+
+    NoSuchElementError: Unable to locate element: {"method":"css selector","selector":"input"}
+
+The reason is not only about timeout, but also every about implicit wait instruction is not executed insequence.
+
+This pain grows when we deal with Angular, especially Angular2.
+That might be the reason `protractor` is invented. However, even with `protractor`, timeout error, implicit and explicit wait still comes time to time, makes successful tests very inconsistent.
 
 WebDriver has very nice feature of wait/until to resolve things before to go further tests.
+We can change it to use explicit wait by using `driver.wait` and `webdriver.until`, 
+but almost all hates to deal with chainging these properly, and even properly chained code is not so maintainable.
 
 wait syntax
 
@@ -98,5 +105,6 @@ These are pattern of commands
   * verify {{ELEMENT}} text matches {{REGULAR_EXPRESSION}}
 
 
+Error: The ChromeDriver could not be found on the current PATH. Please download the latest version of the ChromeDriver from http://chromedriver.storage.googleapis.com/index.html and ensure it can be found on your PATH.
 
-
+Solution: download chromedriver into your current directory.
