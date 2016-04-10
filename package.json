@@ -1,0 +1,24 @@
+{
+  "name": "webdriver-tt",
+  "version": "0.1.0",
+  "description": "Execute test written in test case",
+  "main": "webdriver-tt.js",
+  "dependencies": {
+    "chromedriver": "^2.21.2",
+    "selenium-webdriver": "^2.53.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsvalley/webdriver-tt.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jsvalley/webdriver-tt/issues"
+  },
+  "homepage": "https://github.com/jsvalley/webdriver-tt#readme"
+}

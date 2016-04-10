@@ -11,7 +11,9 @@ var defaultConfig = {
       width: null,
       height: null
     },
-    timeout: 10000
+    timeout: 10000,
+    speed: null,
+    highlight: true
   };
 
 class WebDriverTT {
@@ -28,6 +30,7 @@ class WebDriverTT {
       }
     }
     this.driver = new webdriver.Builder();
+    this.highlightedEl;
   }
 
   openBrowser(url) {
@@ -45,7 +48,14 @@ class WebDriverTT {
       window.setSize(bConfig.width,  bConfig.height);
     }
 
-    return this.driver.get(url)
+    return this.driver.get(url).then(() => {
+      this.driver.executeScript(`
+        var style = document.createElement('style');
+        style.innerHTML = 
+          '*[wdtt-highlight] {background-color: yellow;}';
+        document.body.appendChild(style);
+      `);
+    });
   }
 
   closeBrowser() {
@@ -53,6 +63,11 @@ class WebDriverTT {
   }
 
   visit(url) {
+    if (this.hilightedEl) { //remove existing highlight
+      this.driver.executeScript(`
+          arguments[0].removeAttribute('wdtt-highlight');
+        `, this.hilightedEl);
+    };
     return this.driver.get(url);
   }
 
@@ -61,11 +76,23 @@ class WebDriverTT {
    */
   moveMouseTo(locator) {
     locator = typeof locator === 'string' ? {css: locator} : locator;
+    let element;
     return this.driver.wait(until.elementLocated(locator), this.timeout)
-      .then((element) => {
-        return this.driver.actions().mouseMove(element).perform()
-          .then( () => element );
-      })
+      .then(el => 
+        (element = el) && this.driver.actions().mouseMove(el).perform()
+      )
+      .then(() => this.driver.sleep(this.speed))
+      .then(() => {
+        if (this.highlight) {
+          this.driver.executeScript(`
+              arguments[0] &&
+                arguments[0].removeAttribute('wdtt-highlight');
+              arguments[1].setAttribute('wdtt-highlight', '');
+            `, this.highlightedEl, element);
+          this.highlightedEl = element;
+        }
+        return element;
+      });
   };
 
   /**

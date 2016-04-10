@@ -1,6 +1,7 @@
+require('chromedriver');
 var WebDriverTT = require('./webdriver-tt');
 var I = new WebDriverTT({
-  browser: {name: 'chrome', width: 500, height: 100}
+  browser: {name: 'chrome', width: 500, height: 800}
 })
 
 I.openBrowser('https://run.plnkr.co/plunks/aWTZswhBnUVLg7qyDr83/')
@@ -21,4 +22,3 @@ I.openBrowser('https://run.plnkr.co/plunks/aWTZswhBnUVLg7qyDr83/')
     I.closeBrowser();
     throw e;
   });
- 
