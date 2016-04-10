@@ -125,8 +125,7 @@ class WebDriverTT {
     }
     console.log('wait until', arg0, [arg1, arg2].join(' '));
 
-    return this.driver.wait(condition, this.timeout)
-      .then( resp => resp )
+    return this.driver.wait(condition, this.timeout);
   };
 
 }
