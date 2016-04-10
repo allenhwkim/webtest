@@ -1,19 +1,24 @@
-var webdriverTT = require('./webdriver-tt');
-for(var key in webdriverTT) {
-  global[key] = webdriverTT[key];
-}
+var WebDriverTT = require('./webdriver-tt');
+var I = new WebDriverTT({
+  browser: {name: 'chrome', width: 500, height: 100}
+})
 
-setBrowser({browser:'chrome', left:0, top: 0, width: 500, height: 100});
+I.openBrowser('https://run.plnkr.co/plunks/aWTZswhBnUVLg7qyDr83/')
 
-openBrowser('https://run.plnkr.co/plunks/aWTZswhBnUVLg7qyDr83/')
-  .then(()=> find({css:'input'}))
-  .then(element => element.getAttribute('value'))
-  .then(str => console.log('text', str))
-  .then(() => enterTextInto({css:'input'}, 'Foo Bar'))
-  .then(() => click({css: 'button'}))
-  .then(() => closeBrowser())
+  .then(() => I.find('input'))
+  .then(el => el.getAttribute('value'))
+  .then(st => console.log('text', st))
+  .then(() => I.enterTextInto('input', 'Foo Bar'))
+  .then(() => I.click('button'))
+
+  .then(() => I.visit('https://run.plnkr.co/plunks/9AF9PrxOWeb3JtmoHr9i/'))
+  .then(() => I.waitUntil('titleIs', 'Angular 2 Form Builder'))
+  .then(() => I.waitUntil('titleContains', 'Angular 2'))
+  .then(() => I.waitUntil('titleMatches', /Angular 2/))
+
+  .then(() => I.closeBrowser())
   .catch(e => {
-    closeBrowser();
+    I.closeBrowser();
     throw e;
   });
  

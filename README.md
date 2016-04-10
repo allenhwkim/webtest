@@ -38,24 +38,11 @@ wait syntax
 
     driver.wait(CONDITION, MS);
 
-We can combine this syntax with `driver.until` **conditions**
+We can combine this syntax with `driver.until`. **conditions**. For example, 
 
-    driver.until.alertIsPresent()                      -> alert
-    driver.until.titleIs(string)                       -> boolean
-    driver.until.titleContains(stirng)                 -> boolean
-    driver.until.titleMatches(RE)                      -> boolean
-    driver.until.elementLocated(locator)               -> element
-    driver.until.elementIsVisible(locator)             -> boolean
-    driver.until.elementIsNotVisible(locator)          -> boolean
-    driver.until.elementIsEnabled(locator)             -> boolean
-    driver.until.elementIsDisabled(locator)            -> boolean
-    driver.until.elementIsSelected(locator)            -> boolean
-    driver.until.elementIsNotSelected(locator)         -> boolean
-    driver.until.elementTextIs(locator, string)        -> string
-    driver.until.elementTextContains(locator, string)  -> string
-    driver.until.elementTextMatches(locator, RE)       -> string
+    driver.until.elementIsVisible({css: '.my-class'})
 
-The problem is that we can do only one. The following code is not guranteed to run in sequence
+The problem is that we can do only once. The following code is not guranteed to run in sequence
 
     driver.wait(CONDITION1, 2000).then(function() { console.log(1) });
     driver.wait(CONDITION2, 2000).then(function() { console.log(2) });
@@ -77,33 +64,31 @@ To make it really sequenctial, we need to code like the following
      })
     })
 
-Although the above code works, the repeativive `function()`, `then`, and `{ ..}` makes people not to focus on test, but the promise syntax.
+Although the above code works, the repeativive `function()`, `then`, and `{ ..}` makes people not to focus on test, but the Javascript promise syntax.
 
-webdriver-testcase is designed to focus on test cases, not Javascript syntax by genrating promise-chained `then..then..then..then..then..` code from clean test cases.
+webdriver-tt is designed to focus on test cases, not Javascript syntax by genrating promise-chained `then..then..then..then..then..` code from clean test cases.
 
 These are pattern of commands
 
+  * open browser {{URL}}
   * visit {{URL}}
   * find {{ELEMENT}}
   * enter {{STRING}} into {{ELEMENT}}
-  * move mouse to {{ELEMENT}}
-  * scroll to {{ELEMENT}}
   * click {{ELEMENT}}
-  * verify {{ELEMENT}} is located
-  * verify {{ELEMENT}} is visible
-  * verify {{ELEMENT}} is not visible
-  * verify {{ELEMENT}} is enabled
-  * verify {{ELEMENT}} is disabled
-  * verify {{ELEMENT}} is selected
-  * verify {{ELEMENT}} is not selected
-  * verify title is {{STRING}}
-  * verify title contains {{STRING}}
-  * verify title matches {{REGULAR_EXPRESSION}}
-  * verify {{TEXT}}
-  * verify {{ELEMENT}} text is {{STRING}}
-  * verify {{ELEMENT}} text contains {{STRING}}
-  * verify {{ELEMENT}} text matches {{REGULAR_EXPRESSION}}
-
+  * wait until alert is present
+  * wait until title is {{TEXT}}
+  * wait until title contains {{TEXT}}
+  * wait until title matches {{REGULAR_EXPRESSION}}
+  * wait until {{ELEMENT}} present
+  * wait until {{ELEMENT}} is visible
+  * wait until {{ELEMENT}} is not visible
+  * wait until {{ELEMENT}} is enabled
+  * wait until {{ELEMENT}} is disabled
+  * wait until {{ELEMENT}} is selected
+  * wait until {{ELEMENT}} is not selected
+  * wait until {{ELEMENT}} text is {{TEXT}}
+  * wait until {{ELEMENT}} text contains {{TEXT}}
+  * wait until {{ELEMENT}} text matches {{REGULAR_EXPRESSION}}
 
 Error: The ChromeDriver could not be found on the current PATH. Please download the latest version of the ChromeDriver from http://chromedriver.storage.googleapis.com/index.html and ensure it can be found on your PATH.
 
