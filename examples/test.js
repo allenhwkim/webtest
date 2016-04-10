@@ -1,5 +1,6 @@
 require('chromedriver');
-var WebDriverTT = require('./webdriver-tt');
+var WebDriverTT = require('../index');
+console.log(111111111111, WebDriverTT);
 var I = new WebDriverTT({
   browser: {name: 'chrome', width: 500, height: 800}
 })

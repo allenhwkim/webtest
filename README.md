@@ -1,3 +1,13 @@
+Features
+========
+
+  * Plain English selenium webdriver test
+  * Built-in chromedriver or firefox driver 
+  * Built-in reporter
+  * No need to run a selenium-server standalone jar file
+  * Ability to control execution speed
+  * Ability highight the current element
+
 Selenuim WebDriver is great! ..........  But, it's not that easy for a beginner who does not understand full concept of Promise used in there.
 
 For example, the following test code does make sense, but it will only work if you are super lucky;
@@ -76,19 +86,10 @@ These are pattern of commands
   * enter {{STRING}} into {{ELEMENT}}
   * click {{ELEMENT}}
   * wait until alert is present
-  * wait until title is {{TEXT}}
-  * wait until title contains {{TEXT}}
-  * wait until title matches {{REGULAR_EXPRESSION}}
   * wait until {{ELEMENT}} present
-  * wait until {{ELEMENT}} is visible
-  * wait until {{ELEMENT}} is not visible
-  * wait until {{ELEMENT}} is enabled
-  * wait until {{ELEMENT}} is disabled
-  * wait until {{ELEMENT}} is selected
-  * wait until {{ELEMENT}} is not selected
-  * wait until {{ELEMENT}} text is {{TEXT}}
-  * wait until {{ELEMENT}} text contains {{TEXT}}
-  * wait until {{ELEMENT}} text matches {{REGULAR_EXPRESSION}}
+  * wait until {{ELEMENT}} is (not) visible
+  * wait until {{ELEMENT}} is (en|dis)abled
+  * wait until {{ELEMENT}} is (not) selected
 
 Error: The ChromeDriver could not be found on the current PATH. Please download the latest version of the ChromeDriver from http://chromedriver.storage.googleapis.com/index.html and ensure it can be found on your PATH.
 
