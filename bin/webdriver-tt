@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+'use strict';
+var fs = require('fs'),
+    Reporter = require('../lib/reporter'),
+    indentParser = require('../lib/indent-parser');
+
+var argv = require('yargs')
+      .usage('Usage $0 filename')
+      .demand(1)
+      .argv;
+
+var rpt = new Reporter();
+
+var filename = argv._[0], contents;
+if (fs.existsSync(filename)) {
+  contents = fs.readFileSync(filename).toString();
+} else {
+  throw "File" + argv._[0] + "does not exist";
+}
+
+var parsed = indentParser(contents);
+for (var scenario in parsed) {
+  rpt.log(scenario);
+  var testcases = parsed[scenario]
+
+  for(var testcase in testcases) {
+    rpt.log('\n  ' + testcase);
+
+    var steps = testcases[testcase];
+    steps.forEach(step => {
+      rpt.log('    ' + step);
+    });
+
+  }
+}
+
+

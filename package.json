@@ -5,7 +5,8 @@
   "main": "webdriver-tt.js",
   "dependencies": {
     "chromedriver": "^2.21.2",
-    "selenium-webdriver": "^2.53.1"
+    "selenium-webdriver": "^2.53.1",
+    "yargs": "^4.6.0"
   },
   "devDependencies": {},
   "scripts": {
