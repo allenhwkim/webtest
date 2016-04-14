@@ -1,14 +1,32 @@
 Features
 ========
 
-  * Plain English selenium webdriver test
-  * Built-in chromedriver or firefox driver 
-  * Built-in reporter
+  * Run plain English test case as a test
+  * Built-in chromedriver, firefox driver, and reporter
   * No need to run a selenium-server standalone jar file
   * Ability to control execution speed
-  * Ability highight the current element
+  * Angular2-Friendly without Protractor
 
-Selenuim WebDriver is great! ..........  But, it's not that easy for a beginner who does not understand full concept of Promise used in there.
+Install 
+-------
+  * npm install webdriver-tt
+
+Usage
+-----
+ 
+  * node_modules/webdriver-tt/bin my-test-case.txt
+
+Test Case File Example
+----------------------
+
+    My Test Scenario
+      My Test Case
+        open /login
+        enter 'John' into 'username'
+        enter 'secret' into 'password'
+        see 'successful'
+
+Selenuim WebDriver is great! ..........  But, it's not that easy for a beginner who does not understand full concept of Promise used in there. 
 
 For example, the following test code does make sense, but it will only work if you are super lucky;
 
@@ -90,7 +108,3 @@ These are pattern of commands
   * wait until {{ELEMENT}} is (not) visible
   * wait until {{ELEMENT}} is (en|dis)abled
   * wait until {{ELEMENT}} is (not) selected
-
-Error: The ChromeDriver could not be found on the current PATH. Please download the latest version of the ChromeDriver from http://chromedriver.storage.googleapis.com/index.html and ensure it can be found on your PATH.
-
-Solution: download chromedriver into your current directory.
