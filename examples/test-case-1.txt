@@ -1,0 +1,31 @@
+This is my test scenario
+
+  Test case 1
+    open browser https://run.plnkr.co/plunks/3wZsyl/
+    click input.form-control
+    enter text 'Foo Bar' into input.form-control
+    submit
+    see '"greenCarName": "Foo Bar"'
+
+  Test case 2
+    click link 'Angular 2 Form Builder'
+    see 'Name : ( required )'
+    click
+    see 'Color : ( required )'
+    click
+    see 'Doors : ( required )'
+    click
+    enter text 'Foo' into #no1
+    enter text 'Bar' into #no2
+    enter text 'FooBar' into #no3
+    see 'true'
+
+  Test case 3
+    click link 'Angular 2 Router'
+    see 'Angular 2 Router Example'
+    click link '#route1'
+    see 'Angular 2 Products Component'
+    click link '#route2'
+    see 'about us'
+    click link '#route3'
+    see 'Angular 2 Contact Component'
