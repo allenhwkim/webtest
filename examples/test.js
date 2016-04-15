@@ -1,11 +1,12 @@
-var WebDriverTT = require('../index');
+var WebDriverTT = require('../index'),
+    Reporter = require('../lib/reporter');
 
 var I = new WebDriverTT({
   browser: {name: 'chrome', width: 500, height: 800},
   speed: 1000
 });
 
-console.log('Test Scenario');
+Reporter.log(Reporter.SCENARIO, 'Test Scenario');
 
 I.addTestCase('Test Case 1', () =>
   I.openBrowser('https://run.plnkr.co/plunks/3wZsyl/')
