@@ -1,8 +1,8 @@
 {
-  "name": "webdriver-tt",
+  "name": "webdriver-rt",
   "version": "0.1.0",
   "description": "Execute test written in test case",
-  "main": "webdriver-tt.js",
+  "main": "index.js",
   "dependencies": {
     "chromedriver": "^2.21.2",
     "mustache": "^2.2.1",

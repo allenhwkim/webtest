@@ -1,7 +1,7 @@
-var WebDriverTT = require('../index'),
+var WebDriverRT = require('../index'),
     Reporter = require('../lib/reporter');
 
-var I = new WebDriverTT({
+var I = new WebDriverRT({
   browser: {name: 'chrome', width: 500, height: 800},
   speed: 1000
 });

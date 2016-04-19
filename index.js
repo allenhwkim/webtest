@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require('./lib/webdriver-tt');;
+module.exports = require('./lib/webdriver-rt');;

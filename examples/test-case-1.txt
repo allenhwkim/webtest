@@ -1,9 +1,9 @@
 This is my test scenario
 
   Test case 1
-    open browser https://run.plnkr.co/plunks/3wZsyl/
-    click input.form-control
-    enter text 'Foo Bar' into input.form-control
+    open browser 'https://run.plnkr.co/plunks/3wZsyl/'
+    click 'input.form-control'
+    enter text 'Foo Bar' into 'input.form-control'
     submit
     see '"greenCarName": "Foo Bar"'
 
@@ -15,9 +15,9 @@ This is my test scenario
     click
     see 'Doors : ( required )'
     click
-    enter text 'Foo' into #no1
-    enter text 'Bar' into #no2
-    enter text 'FooBar' into #no3
+    enter text 'Foo' into '#no1'
+    enter text 'Bar' into '#no2'
+    enter text 'FooBar' into '#no3'
     see 'true'
 
   Test case 3
