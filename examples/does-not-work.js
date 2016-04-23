@@ -1,3 +1,7 @@
+/**
+ * This is to demonstrate a normal webdriver command does not work
+ * without giving explicit wait for every command
+ */
 var webdriver = require('selenium-webdriver'),
     until = webdriver.until;
 

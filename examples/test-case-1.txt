@@ -23,10 +23,10 @@ This is my test scenario
   Test case 3
     click link 'Angular 2 Router'
     see 'Angular 2 Router Example'
-    click link '#route1'
+    click link 'Products'
     see 'Angular 2 Products Component'
-    click link '#route2'
+    click link 'About Us'
     see 'about us'
-    click link '#route3'
+    click link 'Contact'
     see 'Angular 2 Contact Component'
     close browser
