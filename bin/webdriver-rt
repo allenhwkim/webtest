@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 'use strict';
 var fs = require('fs'),
-    compile = require('../lib/compiler');
+    path = require('path'),
+    Compiler = require('../lib/compiler');
 
 var argv = require('yargs')
       .usage('Usage $0 filename')
       .demand(1)
       .argv;
+var filePath = path.resolve(process.cwd(), argv._[0])
 
-var filename = argv._[0], contents;
-if (fs.existsSync(filename)) {
-  contents = fs.readFileSync(filename).toString();
-} else {
-  throw "File" + argv._[0] + "does not exist";
-}
-
-console.log(compile(contents));
+var compiler = new Compiler(filePath, {
+    expressionDirs: ['lib/expressions'],
+    browser: { name: 'chrome', width: 500, height: 800},
+    speed: 1000
+  });
+compiler.run();
 

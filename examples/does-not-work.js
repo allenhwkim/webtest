@@ -1,6 +1,6 @@
 /**
- * This is to demonstrate a normal webdriver command does not work
- * without giving explicit wait for every command
+ * This is to demonstrate a common webdriver coding does not work
+ * without explicit wait and chained promises
  */
 var webdriver = require('selenium-webdriver'),
     until = webdriver.until;
@@ -8,18 +8,15 @@ var webdriver = require('selenium-webdriver'),
 var driver = new webdriver.Builder().forBrowser('firefox').build();
 
 driver.get('https://run.plnkr.co/plunks/aWTZswhBnUVLg7qyDr83/');
-driver.findElement({css:'input'}).then(function(element) {
-  element.getAttribute('value').then(function(str) {
-    console.log('str', str); 
-  });
-});;
 
-driver.findElement({css:'body'}.then(function(element) {
-  element.sendKeys('Cheese!');
-});;
+driver.findElement({css:'input'})
+  .then(element => element.getAttribute('value'))
+  .then(str => console.log('str', str) );
 
-driver.findElement({css:'button'}).then(function(element) {
-  element.click();
-});;
+driver.findElement({css:'body'})
+  .then(element =>  element.sendKeys('Cheese!') );
+
+driver.findElement({css:'button'})
+  .then(element => element.click() );
 
 driver.quit();
