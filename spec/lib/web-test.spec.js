@@ -1,9 +1,16 @@
 'use strict';
 
-var WebDriverRT = require('./../../lib/web-test');
+var fs = require('fs');
+var WebTest = require('./../../lib/web-test');
+var Reporter = require('./../../lib/reporter');
 
-describe('WebDriverRT', () => {
-  let I = new WebDriverRT();
+var I;
+describe('WebTest', () => {
+  beforeEach(() => {
+    spyOn(fs, "accessSync").and.returnValue(true);
+    spyOn(fs, "readFileSync").and.returnValue('scenario 1');
+    I = new WebTest({}, new Reporter('scenarioFile'));
+  });
   
   describe('#scenario', () =>  {
     it('should register scenario name', () => {
@@ -17,23 +24,24 @@ describe('WebDriverRT', () => {
       var fn1 = () => {};
       var fn2 = () => {};
       I.testCase('test case 1', fn1);
-      expect(I.testCases[0]).toEqual({name: 'test case 1', function: fn1});
+      expect(I.testCases[0]).toEqual({name: 'test case 1', func: fn1});
       I.testCase('test case 2', fn2);
-      expect(I.testCases[1]).toEqual({name: 'test case 2', function: fn2});
+      expect(I.testCases[1]).toEqual({name: 'test case 2', func: fn2});
     });
   });
   
   describe('#registerExpression', () => {
     it('should register expression', () => {
       let myFunc = function myFunc(string) {};
-      WebDriverRT.registerExpression('my expression', myFunc);
-      expect(WebDriverRT.expressions[`^my expression$`]).toBe(myFunc);
+      I.registerExpression('my expression', myFunc);
+      expect(WebTest.expressions['my expression'].regExp).toEqual(/^my expression$/i);
+      expect(WebTest.expressions['my expression'].funcName).toBe('myFunc');
       expect(typeof I.myFunc).toBe('function');
     });
   });
   
   describe('#runScenario', () => {
-    it('should run scenario', (done) => {
+    it('should run scenario', () => {
       let collection = [];
       I.testCases = [
         {name: 'a', function: function a() {collection.push(1)} },
@@ -44,7 +52,6 @@ describe('WebDriverRT', () => {
 
       I.runScenario().then( () => {
         expect(collection).toEqual([1,2,3,4]);
-        done();
       })
 
     });

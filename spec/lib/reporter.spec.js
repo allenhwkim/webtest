@@ -10,29 +10,12 @@ describe('Reporter', () => {
   
   beforeEach( () => {
     spyOn(fs, "accessSync").and.returnValue(true);
-    spyOn(fs, "readFileSync").and.returnValue('123');
-    spyOn(Scenario, "parse").and.returnValue({
-      name: 'scenario 1',
-      status: Status.PENDING,
-      testCases: [
-        {
-          name: 'test case 1',
-          status: Status.PENDING,
-          testSteps: [
-            {name: '1', status: Status.PENDING},
-            {name: '2', status: Status.PENDING},
-          ]
-        },
-        {
-          name: 'test case 2',
-          status: Status.PENDING,
-          testSteps: [
-            {name: '1', status: Status.PENDING},
-            {name: '2', status: Status.PENDING},
-          ]
-        }
-      ]
-    });
+    spyOn(fs, "readFileSync").and.returnValue(`
+scenario 1
+  test case 1
+    test step 1
+    test step 2
+    `);
     
     reporter = new Reporter('aFile');
   });
@@ -66,6 +49,8 @@ describe('Reporter', () => {
       expect(reporter.scenario.status).toBe(Status.PASS);
     });
     it('should set a testcase succeeded', () => {
+      reporter.start(Scenario.TESTCASE, 'test case 1');
+      reporter.pass(Scenario.TESTSTEP);
       reporter.pass(Scenario.TESTCASE, 'test case 1');
       expect(reporter.scenario.testCases[0].status).toBe(Status.PASS);
     });
@@ -73,7 +58,7 @@ describe('Reporter', () => {
       reporter.pass(Scenario.TESTSTEP);
       expect(reporter.scenario.testCases[0].testSteps[0].status).toBe(Status.PASS);
       reporter.pass(Scenario.TESTSTEP);
-      expect(reporter.scenario.testCases[0].testSteps[1].status).toBe(Status.PASS);
+      expect(reporter.scenario.testCases[0].testSteps[1].status).toBe(Status.PENDING);
     });
   });
 
@@ -90,7 +75,7 @@ describe('Reporter', () => {
       reporter.fail(Scenario.TESTSTEP);
       expect(reporter.scenario.testCases[0].testSteps[0].status).toBe(Status.FAIL);
       reporter.fail(Scenario.TESTSTEP);
-      expect(reporter.scenario.testCases[0].testSteps[1].status).toBe(Status.FAIL);
+      expect(reporter.scenario.testCases[0].testSteps[1].status).toBe(Status.PENDING);
     });
   });
 });
