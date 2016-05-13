@@ -2,18 +2,70 @@
 'use strict';
 var fs = require('fs'),
     path = require('path'),
-    Compiler = require('../lib/compiler');
-
-var argv = require('yargs')
-      .usage('Usage $0 filename')
+    Compiler = require('../lib/compiler'),
+    argv = require('yargs')
+      .usage('Usage: $0 <scenario-file> [options]')
+      .command('scenario file', 'A scenario file to execute')
       .demand(1)
+      .example('$0 my-scenario.txt -r')
+      .example('$0 my-scenario.txt -r -b chrome -w 400 -h 300 -x 0 -y 0 -t 10 -s 1')
+      .options({
+        r: {
+          alias: 'run', type: 'boolean', demand: false,
+          describe: 'run the scenario file'
+        },
+        b: {
+          alias: 'browser', type: 'string', demand: false,
+          describe: 'browser to run. default. chrome'
+        },
+        w: {
+          alias: 'width', type: 'number', demand: false,
+          describe: 'width of browser. default. 500',
+        },
+        h: {
+          alias: 'height', type: 'number', demand: false,
+          describe: 'height of browser. default. 500',
+        },
+        x: {
+          alias: 'left', type: 'number', demand: false,
+          describe: 'left position of browser.'
+        },
+        y: {
+          alias: 'top', type: 'number', demand: false,
+          describe: 'top position of browser.'
+        },
+        t: {
+          alias: 'timeout', type: 'number', demand: false,
+          describe: 'timeout in seconds. default 10'
+        },
+        d: {
+          alias: 'delay', type: 'number', demand: false,
+          describe: 'delay in seconds for each execution.'
+        }
+      })
+      .help('h', 'help')
       .argv;
+
+var WebDriverRT = require('../lib/webdriver-rt'),
+    Reporter = require('../lib/reporter');
+
 var filePath = path.resolve(process.cwd(), argv._[0])
-
-var compiler = new Compiler(filePath, {
+var config = {
     expressionDirs: ['lib/expressions'],
-    browser: { name: 'chrome', width: 500, height: 800},
-    speed: 1000
-  });
-compiler.run();
+    browser: { name: 'chrome', width: 500, height: 800}
+  };
 
+//override default config from options
+console.log('argv', argv);
+argv.browser && (config.browser.name   = argv.browser);
+argv.width   && (config.browser.width  = argv.width);
+argv.height  && (config.browser.height = argv.height);
+argv.top !== undefined  && (config.browser.top    = argv.top);
+argv.left !== undefined && (config.browser.left   = argv.left);
+argv.timeout && (config.timeout = argv.timeout * 1000);
+argv.delay !== undefined  && (config.speed = argv.delay * 1000);
+
+var compiler = new Compiler(filePath, config);
+var javascript = compiler.compile();
+// if `-x`, execute immediately, or else printout out
+argv.run ? eval(javascript) : console.log(javascript);

@@ -1,8 +1,8 @@
 'use strict';
 var fs = require('fs');
-var Scenario = require('./scenario');
-var Status = require('./status');
-var Reporter = require('./reporter');
+var Scenario = require('./../../lib/scenario');
+var Status = require('./../../lib/status');
+var Reporter = require('./../../lib/reporter');
 
 describe('Reporter', () => {
   

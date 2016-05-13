@@ -1,7 +1,7 @@
 'use strict';
 
-var Scenario = require('./scenario');
-var Status = require('./status');
+var Scenario = require('./../../lib/scenario');
+var Status = require('./../../lib/status');
 
 describe('Scenario', () => {
   
