@@ -1,6 +1,6 @@
 'use strict';
 
-var WebDriverRT = require('./../../lib/webdriver-rt');
+var WebDriverRT = require('./../../lib/web-test');
 
 describe('WebDriverRT', () => {
   let I = new WebDriverRT();

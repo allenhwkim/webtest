@@ -2,7 +2,7 @@ var WebDriverRT = require('./index'),
     Reporter = WebDriverRT.Reporter;
 
 // prepare report for a scenario
-var reporter = new Reporter('/Users/allen/github/webdriver-rt/examples/scenario1.txt');
+var reporter = new Reporter('/Users/allen/github/web-test/examples/scenario1.txt');
 
 var I = new WebDriverRT({"expressionDirs":["lib/expressions"],"browser":{"name":"chrome","width":500,"height":800},"speed":1000}, reporter);
 

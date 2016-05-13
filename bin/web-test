@@ -46,7 +46,7 @@ var fs = require('fs'),
       .help('h', 'help')
       .argv;
 
-var WebDriverRT = require('../lib/webdriver-rt'),
+var WebDriverRT = require('../lib/web-test'),
     Reporter = require('../lib/reporter');
 
 var filePath = path.resolve(process.cwd(), argv._[0])

@@ -1,7 +1,7 @@
 {
-  "name": "webdriver-rt",
+  "name": "web-test",
   "version": "0.1.0",
-  "description": "Execute test written in test case",
+  "description": "Execute test scenario in plain English",
   "main": "index.js",
   "dependencies": {
     "chromedriver": "^2.21.2",
@@ -17,12 +17,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jsvalley/webdriver-tt.git"
+    "url": "git+https://github.com/jsvalley/web-test.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jsvalley/webdriver-tt/issues"
+    "url": "https://github.com/jsvalley/web-test/issues"
   },
-  "homepage": "https://github.com/jsvalley/webdriver-tt#readme"
+  "homepage": "https://github.com/jsvalley/web-test#readme"
 }
