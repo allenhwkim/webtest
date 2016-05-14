@@ -1,110 +1,102 @@
-Features
-========
+Web-Test
+=========
+Run Test In Plain English
 
-  * Run plain English test case as a test
-  * Built-in chromedriver, firefox driver, and reporter
-  * No need to run a selenium-server standalone jar file
-  * Ability to control execution speed
-  * Angular2-Friendly without Protractor
+Goal
+------
+The test script should be like this;
 
-Install 
--------
-  * npm install webdriver-tt
+    open browser '/login'
+    enter text 'John' into 'username'
+    submit
+    close browser
 
-Usage
------
- 
-  * node_modules/webdriver-tt/bin my-test-case.txt
-
-Test Case File Example
-----------------------
-
-    My Test Scenario
-      My Test Case
-        open /login
-        enter 'John' into 'username'
-        enter 'secret' into 'password'
-        see 'successful'
-
-Selenuim WebDriver is great! ..........  But, it's not that easy for a beginner who does not understand full concept of Promise used in there. 
-
-For example, the following test code does make sense, but it will only work if you are super lucky;
+Instead of;
 
     var webdriver = require('selenium-webdriver'),
         until = webdriver.until;
 
-    var driver = new webdriver.Builder().forBrowser('firefox').build();
+    var driver = new webdriver.Builder().forBrowser('chrome').build();
 
-    driver.get('https://run.plnkr.co/plunks/aWTZswhBnUVLg7qyDr83/');
-    driver.findElement({css:'input'}).then(function(element) {
-      element.sendKeys('Cheese!');
-      element.getAttribute('value').then(function(str) {
-        console.log('str', str); 
-      });
-    });;
+    driver.get('/login');
+    driver.findElement({css:'input[placeholder="username"'})
+      .then(function(element) {
+        element.sendKeys('John');
+      })
+    });
+
+    ... more here ...
 
     driver.quit();
 
-You may get this error very easily, NoSuchElementError: Unable to locate element.
+Features
+----------
 
-    /Users/allen/github/webdriver-tt/node_modules/selenium-webdriver/lib/promise.js:654
-        throw error;
-        ^
+  * Run test as plain English test scenario
+  * Built-in chromedriver, firefox driver, and reporter
+  * No need to run a selenium-server standalone jar file
+  * Ability to control execution speed
+  * No protractor, just test web page
+  * Angular1-friendly and Angular2-friendly
 
-    NoSuchElementError: Unable to locate element: {"method":"css selector","selector":"input"}
 
-The reason is not only about timeout, but also every about implicit wait instruction is not executed insequence.
+Install 
+-------
+  * `npm install web-test`
+  * or, `npm install web-test -g` to enable `web-test` command globally
 
-This pain grows when we deal with Angular, especially Angular2.
-That might be the reason `protractor` is invented. However, even with `protractor`, timeout error, implicit and explicit wait still comes time to time, makes successful tests very inconsistent.
+Usage
+-----
 
-WebDriver has very nice feature of wait/until to resolve things before to go further tests.
-We can change it to use explicit wait by using `driver.wait` and `webdriver.until`, 
-but almost all hates to deal with chainging these properly, and even properly chained code is not so maintainable.
+  1. Write test scenario in plain English. e.g.,  my-test-scenario.txt
 
-wait syntax
+         open browser 'http://google.com'
+         enter 'Allen Kim' into 'Search'
+         submit
+         see 'allenhwkim (Allen Kim) · GitHub'
 
-    driver.wait(CONDITION, MS);
+  2. Run the test
 
-We can combine this syntax with `driver.until`. **conditions**. For example, 
+         web-test my-test-scenario.txt
 
-    driver.until.elementIsVisible({css: '.my-class'})
+  3. Done
 
-The problem is that we can do only once. The following code is not guranteed to run in sequence
+Scenario File Example
+---------------------
 
-    driver.wait(CONDITION1, 2000).then(function() { console.log(1) });
-    driver.wait(CONDITION2, 2000).then(function() { console.log(2) });
-    driver.wait(CONDITION3, 2000).then(function() { console.log(3) });
+    This is my scenario
 
-To make it really sequenctial, we need to code like the following
+      Angular2 test 1 and this is a test case
+        open browser 'https://run.plnkr.co/plunks/3wZsyl/'
+        click 'input.form-control'
+        enter text 'Foo Bar' into 'input.form-control'
+        submit
+        see '"greenCarName": "Foo Bar"'
 
-    driver.get('http://www.primefaces.org/primeng/#/autocomplete');
+      Angular2 test 2 and this is a test case
+        click link 'Angular 2 Form Builder'
+        close browser
 
-    driver.wait(until.elementLocated({css:"h3.first"}), 20000).then(function() {
-     console.log(1);
-    }).then(function() {
-      driver.wait(until.elementLocated({css:"div"}), 20000).then(function() {
-       console.log(2);
-     })
-    }).then(function() {
-      driver.wait(until.elementLocated({css:"body"}), 20000).then(function() {
-       console.log(3);
-     })
-    })
-
-Although the above code works, the repeativive `function()`, `then`, and `{ ..}` makes people not to focus on test, but the Javascript promise syntax.
-
-webdriver-tt is designed to focus on test cases, not Javascript syntax by genrating promise-chained `then..then..then..then..then..` code from clean test cases.
-
-These are pattern of commands
-
-  * open browser {{URL}}
-  * visit {{URL}}
-  * find {{ELEMENT}}
-  * enter {{STRING}} into {{ELEMENT}}
-  * click {{ELEMENT}}
-  * wait until alert is present
-  * wait until {{ELEMENT}} present
-  * wait until {{ELEMENT}} is (not) visible
-  * wait until {{ELEMENT}} is (en|dis)abled
-  * wait until {{ELEMENT}} is (not) selected
+Core Commands
+--------------
+  * open browser {{STR}}
+  * click
+  * click {{STR}}
+  * click link {{STR}}
+  * close browser
+  * visit {{STR}}
+  * see {{STR}}
+  * submit
+  * enter text {{STR1}} into {{STR2}}
+  * wait for page load
+  * verify title is {{STR}}
+  * verify title matches {{STR}}
+  * verify element {{STR}} located
+  * verify element {{STR}} is visible
+  * verify element {{STR}} is not visible
+  * verify element {{STR}} is enabled
+  * verify element {{STR}} is disabled
+  * verify element {{STR}} is selected
+  * verify element {{STR}} is not selected
+  * verify element {{STR1}} text is {{STR2}}
+  * verify element {{STR1}} text matches {{STR2}}
