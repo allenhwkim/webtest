@@ -2,8 +2,8 @@ Core Expression Test Scenario
 
   Core Expressions
 
-    open browser 'file:///Users/allen/github/webdriver-rt/spec/lib/expressions/core.test.html'
-    visit 'file:///Users/allen/github/webdriver-rt/spec/lib/expressions/core.test.html'
+    open browser '/core.scenario.test.html'
+    visit '/core.scenario.test.html'
     wait for page load
     see 'This is core expression test page'
     click

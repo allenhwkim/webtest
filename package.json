@@ -10,10 +10,12 @@
     "yargs": "^4.6.0"
   },
   "devDependencies": {
-    "jasmine": "^2.4.1"
+    "connect": "^3.4.1",
+    "jasmine": "^2.4.1",
+    "serve-static": "^1.10.2"
   },
   "scripts": {
-    "test": "node_modules/jasmine/bin/jasmine.js"
+    "test": "node_modules/jasmine/bin/jasmine.js && node spec/lib/expressions/test.js"
   },
   "repository": {
     "type": "git",

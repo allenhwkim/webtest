@@ -7,16 +7,20 @@ var fs = require('fs'),
       .usage('Usage: $0 <scenario-file> [options]')
       .command('scenario file', 'A scenario file to execute')
       .demand(1)
-      .example('$0 my-scenario.txt -r')
-      .example('$0 my-scenario.txt -r -b chrome -w 400 -h 300 -x 0 -y 0 -t 10 -s 1')
+      .example('$0 my-scenario.txt')
+      .example('$0 my-scenario.txt -p -b chrome -w 400 -h 300 -x 0 -y 0 -t 10 -s 1')
       .options({
-        r: {
-          alias: 'run', type: 'boolean', demand: false,
-          describe: 'run the scenario file'
+        p: {
+          alias: 'print', type: 'boolean', demand: false,
+          describe: 'print out javascript file instead running'
         },
         b: {
           alias: 'browser', type: 'string', demand: false,
           describe: 'browser to run. default. chrome'
+        },
+        r: {
+          alias: 'baseUrl', type: 'string', demand: false,
+          describe: 'base url'
         },
         w: {
           alias: 'width', type: 'number', demand: false,
@@ -56,16 +60,17 @@ var config = {
   };
 
 //override default config from options
-console.log('argv', argv);
+//console.log('argv', argv);
 argv.browser && (config.browser.name   = argv.browser);
 argv.width   && (config.browser.width  = argv.width);
 argv.height  && (config.browser.height = argv.height);
-argv.top !== undefined  && (config.browser.top    = argv.top);
-argv.left !== undefined && (config.browser.left   = argv.left);
-argv.timeout && (config.timeout = argv.timeout * 1000);
+argv.baseUrl && (config.baseUrl        = argv.baseUrl);
+argv.top !== undefined  && (config.browser.top  = argv.top);
+argv.left !== undefined && (config.browser.left = argv.left);
+argv.timeout !== undefined && (config.timeout = argv.timeout * 1000);
 argv.delay !== undefined  && (config.speed = argv.delay * 1000);
 
 var compiler = new Compiler(filePath, config);
 var javascript = compiler.compile();
 // if `-x`, execute immediately, or else printout out
-argv.run ? eval(javascript) : console.log(javascript);
+argv.print ?  console.log(javascript) : eval(javascript);
