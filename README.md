@@ -4,7 +4,7 @@ Run Test In Plain English
 
 Goal
 ------
-The test script should be like this;
+The web browser test script should be like this;
 
     open browser '/login'
     enter text 'John' into 'username'
@@ -25,7 +25,7 @@ Instead of;
       })
     });
 
-    ... more here ...
+    ... even more javascript here ...
 
     driver.quit();
 

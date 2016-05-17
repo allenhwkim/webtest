@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "description": "Execute test scenario in plain English",
   "main": "index.js",
+  "bin" : {
+    "web-test" : "bin/web-test"
+  },
+  "scripts": {
+    "test": "node_modules/jasmine/bin/jasmine.js && node spec/lib/expressions/test.js"
+  },
   "dependencies": {
     "chromedriver": "^2.21.2",
     "mustache": "^2.2.1",
@@ -13,9 +19,6 @@
     "connect": "^3.4.1",
     "jasmine": "^2.4.1",
     "serve-static": "^1.10.2"
-  },
-  "scripts": {
-    "test": "node_modules/jasmine/bin/jasmine.js && node spec/lib/expressions/test.js"
   },
   "repository": {
     "type": "git",
