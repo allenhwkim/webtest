@@ -1,6 +1,6 @@
 Web-Test
 =========
-Run Test In Plain English
+Run Web Page Test In Plain English
 
 Goal
 ------
