@@ -55,7 +55,7 @@ var WebDriverRT = require('../lib/web-test'),
 
 var filePath = path.resolve(process.cwd(), argv._[0])
 var config = {
-    expressionDirs: ['lib/expressions'],
+    expressionDirs: [path.join(__dirname, '..', 'lib','expressions')],
     browser: { name: 'chrome', width: 500, height: 800}
   };
 
