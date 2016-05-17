@@ -10,12 +10,14 @@ Core Expression Test Scenario
     click 'input'
     click link 'Go To #id1'
     enter text 'hello core' into 'mytext'
+    enter 'hello core' into 'mytext'
     submit
 
   Verifications
 
     verify title is 'core expression test'
     verify title matches 'core'
+    verify text 'Go To #id1'
     verify element 'select.options' located
     verify element 'select.options' is visible
     verify element 'div.hidden' is not visible
