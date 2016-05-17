@@ -50,10 +50,11 @@ Usage
 
   1. Write test scenario in plain English. e.g.,  my-test-scenario.txt
 
-         open browser 'http://google.com'
-         enter 'Allen Kim' into 'Search'
-         submit
-         see 'allenhwkim (Allen Kim) · GitHub'
+         My Google
+           Test Case 1open browser 'http://google.com'
+             enter 'Allen Kim' into 'Search'
+             submit
+             see 'allenhwkim (Allen Kim) · GitHub'
 
   2. Run the test
 
