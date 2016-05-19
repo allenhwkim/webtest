@@ -1,6 +1,6 @@
 {
   "name": "web-test",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Execute test scenario in plain English",
   "main": "index.js",
   "bin" : {
