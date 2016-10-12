@@ -46,6 +46,7 @@ Features
   * Run web browser test in plain English from command line or a file
   * Built-in chromedriver, firefox driver, and reporter
   * No need to run a selenium-server standalone jar file
+  * Ability to control execution speed
   * No protractor, just test web page
   * Angular1-friendly, Angular2-friendly, Or, any framework friendly
 
