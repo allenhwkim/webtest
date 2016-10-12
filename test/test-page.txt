@@ -16,8 +16,12 @@ This is to test all core commands with test-page.html
     click link "Click Here To Change Url"
   test `enter text into`
     enter text 'Hello World' into text
+  test `set speed`
+    set speed 1s
   test `verify element disabled`
     verify elmement #submit is disabled
+  test `set speed`
+    set speed 0s
   test `verify element enabled`
     click #enable
     verify elmement #submit is enabled

@@ -20,7 +20,7 @@ class SeleniumWebTestDriver {
 
     Object.assign(
       this.config,
-      { browser: { name: 'chrome' }, timeout: 10000 },
+      { browser: { name: 'chrome' }, timeout: 10000, speed: 0 },
       config
     );
     console.log('SeleniumWebTestDriver is initialized as', this.config);
@@ -57,7 +57,7 @@ class SeleniumWebTestDriver {
         this.lastFoundElement = el;
         return this.driver.actions().mouseMove(el).perform()
       })
-      .then(() => this.driver.sleep(this.speed))
+      .then(() => this.driver.sleep(this.config.speed))
       .then(() => this.lastFoundElement)
       .catch(e => {throw e;});
   }
@@ -107,7 +107,8 @@ class SeleniumWebTestDriver {
         condition = seleniumWebDriver.until[arg0](el, arg2); break;
     }
 
-    return this.driver.wait(condition, this.config.timeout);
+    return this.driver.sleep(this.config.speed)
+      .then(() => this.driver.wait(condition, this.config.timeout));
   }
 }
 module.exports =  new SeleniumWebTestDriver();
