@@ -2,6 +2,17 @@ Web-Test
 =========
 Run Web Page Test In Plain English
 
+Principle
+---------
+ 
+  1. Web browser test in plain English
+  
+     Not Javascript nor other language
+     
+  2. Test visible sections. 
+  
+     Not variable, attributes, nor properties
+     
 Goal
 ------
 The web browser test script should be like this;
@@ -32,72 +43,68 @@ Instead of;
 Features
 ----------
 
-  * Run test as plain English test scenario
+  * Run web browser test in plain English from command line or a file
   * Built-in chromedriver, firefox driver, and reporter
   * No need to run a selenium-server standalone jar file
-  * Ability to control execution speed
   * No protractor, just test web page
-  * Angular1-friendly and Angular2-friendly
+  * Angular1-friendly, Angular2-friendly, Or, any framework friendly
 
 
 Install 
 -------
   * `npm install web-test`
-  * or, `npm install web-test -g` to enable `web-test` command globally
+  * or, `npm install web-test -g` to enable `webtest` command anywhere
 
 Usage
 -----
 
-  1. Write test scenario in plain English. e.g.,  my-test-scenario.txt
+  1. **Run `webtest` in command line**
+  
+         web-test (master)$ node index.js 
+         SeleniumWebTestDriver is initialized as { browser: { name: 'chrome' }, timeout: 10000 }
+         ? > open browser chrome
+         OK
+         ? > go to https://www.google.com
+         OK
+
+  1. Or, write tests in plain English. e.g.,  my-test-scenario.txt
 
          My Google
-           Test Case 1open browser 'http://google.com'
+           Test Case 1
+             open browser chrome
+             go to http://google.com
              enter 'Allen Kim' into 'Search'
              submit
-             see 'allenhwkim (Allen Kim) · GitHub'
+             see 'allenhwkim'
 
-  2. Run the test
+    Then, and run the test file
 
-         web-test my-test-scenario.txt
-
-  3. Done
-
-Scenario File Example
----------------------
-
-    This is my scenario
-
-      Angular2 test 1 and this is a test case
-        open browser 'https://run.plnkr.co/plunks/3wZsyl/'
-        click 'input.form-control'
-        enter text 'Foo Bar' into 'input.form-control'
-        submit
-        see '"greenCarName": "Foo Bar"'
-
-      Angular2 test 2 and this is a test case
-        click link 'Angular 2 Form Builder'
-        close browser
+        $ web-test my-test.txt
 
 Core Commands
---------------
-  * open browser {{STR}}
-  * click
-  * click {{STR}}
-  * click link {{STR}}
+-------------
+
+  * click link <link-text>
+  * click <selector>
   * close browser
-  * visit {{STR}}
-  * see {{STR}}
+  * enter text <string> into <selector>
+  * go to <url>
+  * open browser <browser-name>
+  * see "<text>"
+  * set window position <left> <top>
+  * set window size <width> <height>
   * submit
-  * enter text {{STR1}} into {{STR2}}
+  * verify element <selector> is disabled
+  * verify element <selector> is enabled
+  * verify element <selector> is not selected
+  * verify element <selector> is not visible
+  * verify element <selector> is selected
+  * verify element <selector> <style-name> is "<style-value>"
+  * verify element <selector> text matches "<string>"
+  * verify element <selector> text is "<string>"
+  * verify element <selector> is visible
+  * verify title matches "<title>"
+  * verify title is "<title>"
+  * verify url matches <string>
   * wait for page load
-  * verify title is {{STR}}
-  * verify title matches {{STR}}
-  * verify element {{STR}} located
-  * verify element {{STR}} is visible
-  * verify element {{STR}} is not visible
-  * verify element {{STR}} is enabled
-  * verify element {{STR}} is disabled
-  * verify element {{STR}} is selected
-  * verify element {{STR}} is not selected
-  * verify element {{STR1}} text is {{STR2}}
-  * verify element {{STR1}} text matches {{STR2}}
+

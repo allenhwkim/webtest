@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+  <title>Test Form</title>
+  <script>
+  window.onload = () => {
+    document.querySelector('#page-url').innerHTML = window.location.href;
+  }
+  </script>
+</head>
+<body>
+Page url:
+<div id="page-url">Page Url Goes Here</div>
+<br/>
+<fieldset>
+  <legend>Commands Test</legend>
+  <ul>
+    <form>
+      <li>click: <br/>
+        <div id="change-color"
+             onclick="this.style.background='yellow'">
+          click here to change background color and an element
+        </div>
+        <div id="show-hidden"
+             onclick="document.getElementById('hidden').style.display=''">
+           click here to see hidden element
+        </div>
+        <div id="hidden" style="display:none">Hidden Element</div>
+      </li>
+      <li>
+        click link: <br/>
+        <a href="?link=1">Click Here To Change Url</a>
+      </li>
+      <li>
+        enter text into: <br/>
+        <input name="input" id="" placeholder="text" />
+      </li>
+      <li>
+        radio 1<input id="radio1" type="radio" name="radio">
+        radio 2<input id="radio2" type="radio" name="radio">
+        radio 3<input id="radio3" type="radio" name="radio">
+      </li>
+      <li>
+        <input id="checkbox1" type="checkbox" name="checkbox1">
+        checkbox 1
+      </li>
+      <li>
+        <select name="select">
+          <option>A</option>
+          <option>B</option>
+          <option>C</option>
+        </select>
+      </li>
+      <li>
+        textarea:
+        <textarea name="textarea">text area</textarea>
+      </li>
+      <li>
+        verify element disabled/enabled: <br/>
+        <button id="enable" type="button" onclick="document.querySelector('#submit').disabled=false">Enable</button>
+      </li>
+      <input id="submit" type="submit" disabled="disabled"/>
+    </form>
+  </ul>
+</fieldset>
+</body>
+</html>

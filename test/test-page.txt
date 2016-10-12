@@ -1,0 +1,50 @@
+This is to test all core commands with test-page.html
+  test `open browser`
+    open browser chrome
+  test `go to`
+    go to http://localhost:8080/test/test-page.html
+  test `set window position`
+    set window position 0 0
+  test `set window size`
+    set window size 100 600
+  test `see`
+    see "click here to change background color"
+  test `click`
+    click
+    click div#change-color
+  test `click link`
+    click link "Click Here To Change Url"
+  test `enter text into`
+    enter text 'Hello World' into text
+  test `verify element disabled`
+    verify elmement #submit is disabled
+  test `verify element enabled`
+    click #enable
+    verify elmement #submit is enabled
+  test `verify element selected`
+    click #radio1
+  test `verify element not selected`
+    verify element #radio2 is not selected
+  test `verify element not visible`
+    verify element #hidden is not visible
+  test `verify element visible`
+    click #show-hidden
+    verify element #hidden is visible
+  test `verify element style`
+    click #change-color
+    verify element #change-color background-color is "rgba(255, 255, 0, 1)"
+  test `verify element text match`
+    verify element #hidden text matches "^Hidden\ Element"
+  test `verify title`
+    verify title is "Test Form"
+  test `verify title match`
+    verify title matches "Form"
+  test `verify url match`
+    verify url matches "^http:\/\/"
+  test `submit`
+    click #enable
+    submit
+  test `wait for page load`
+    wait for page load
+  test `close browser`
+    close browser
