@@ -5,9 +5,12 @@ var fs = require('fs');
 var path = require('path');
 var inquirer = require('inquirer');
 
-var webTestCommand = require('./src/web-test-command');
-var runCommandsInSequence = require('./src/run-commands-in-sequence');
-var InquirerCommandPrompt = require('./src/inquirer-command-prompt');
+var webTestCommand = require(
+  path.join(__dirname, 'src', 'web-test-command'));
+var runCommandsInSequence = require(
+  path.join(__dirname, 'src', 'run-commands-in-sequence'));
+var InquirerCommandPrompt = require(
+  path.join(__dirname, 'src', 'inquirer-command-prompt'));
 inquirer.registerPrompt('command', InquirerCommandPrompt);
 
 /**
@@ -23,7 +26,7 @@ var commandsFile = argv._[0];
 /**
  * register commands and helps
  */
-var commandFiles = fs.readdirSync('./commands');
+var commandFiles = fs.readdirSync(path.join(__dirname, 'commands'));
 var helps = [];
 commandFiles.forEach( file => {
   let commandObj = require(path.join(__dirname, 'commands', file));
