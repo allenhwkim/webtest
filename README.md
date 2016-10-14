@@ -85,27 +85,27 @@ Usage
 Core Commands
 -------------
 
-  * click link <link-text>
-  * click <selector>
+  * click link `<link-text>`
+  * click `<selector>`
   * close browser
-  * enter text <string> into <selector>
-  * go to <url>
-  * open browser <browser-name>
-  * see "<text>"
-  * set window position <left> <top>
-  * set window size <width> <height>
+  * enter text `<string>` into `<selector>`
+  * go to `<url>`
+  * open browser `<browser-name>`
+  * see "`<text>`"
+  * set window position `<left>` `<top>`
+  * set window size `<width>` `<height>`
   * submit
-  * verify element <selector> is disabled
-  * verify element <selector> is enabled
-  * verify element <selector> is not selected
-  * verify element <selector> is not visible
-  * verify element <selector> is selected
-  * verify element <selector> <style-name> is "<style-value>"
-  * verify element <selector> text matches "<string>"
-  * verify element <selector> text is "<string>"
-  * verify element <selector> is visible
-  * verify title matches "<title>"
-  * verify title is "<title>"
-  * verify url matches <string>
+  * verify element `<selector>` is disabled
+  * verify element `<selector>` is enabled
+  * verify element `<selector>` is not selected
+  * verify element `<selector>` is not visible
+  * verify element `<selector>` is selected
+  * verify element `<selector>` `<style-name>` is "`<style-value>`"
+  * verify element `<selector>` text matches "`<string>`"
+  * verify element `<selector>` text is "`<string>`"
+  * verify element `<selector>` is visible
+  * verify title matches "`<title>`"
+  * verify title is "`<title>`"
+  * verify url matches `<string>`
   * wait for page load
 
