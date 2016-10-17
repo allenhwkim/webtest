@@ -76,6 +76,7 @@ function processCommand() {
       } else {
         let func = cmdObj.func;
         let args = cmdObj.arguments;
+        console.log(cmdObj.regExp);
         return func.apply(null, args);
       }
     },

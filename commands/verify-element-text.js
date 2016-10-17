@@ -10,7 +10,7 @@ module.exports = {
   /** must return a Promise, so that it can be chained with next command*/
   func: function(selector, text) {
     return seleniumWebTestDriver
-      .waitUntil('elementTextMatches', selector, new RegExp(`^${text}$`))
+      .waitUntil('elementTextIs', selector, text)
       .then(el => seleniumWebTestDriver.lastElement = el);
   }
 };

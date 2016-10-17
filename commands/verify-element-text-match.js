@@ -1,6 +1,6 @@
 'use strict';
 var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
-const RE_STR  = '[\'"]?([^\'\"]+)[\'"]?'; // e.g. foo.bar, "foo.bar", or 'foo bar'
+const RE_STR  = '["]?([^\"]+)["]?'; // e.g. foo.bar, "foo.bar", or "foo bar"
 const RE_STR_WITH_QUOTE = '[\'"]([\\s\\S]+)[\'"]'; //e.g. 'foo bar', "foo bar"
 
 module.exports = {

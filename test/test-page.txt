@@ -20,7 +20,7 @@ This is to test all core commands with test-page.html
   click #show-hidden
   verify element #hidden is visible
   click #change-color
-  verify element #change-color background-color is "rgba(255, 255, 0, 1)"
+  verify element #change-color style background-color is "rgba(255, 255, 0, 1)"
   verify element #hidden text matches "^Hidden\ Element"
   verify title is "Test Form"
   verify title matches "Form"
