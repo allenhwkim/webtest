@@ -1,6 +1,6 @@
 'use strict';
 var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
-const RE_STR  = '[ ]?([\\S]+)?'; // e.g. foo.bar, "foo.bar", or 'foo.bar'. not "foo bar"
+const RE_STR  = '["]?([^\"]+)["]?'; // e.g. foo.bar, "foo.bar", or "foo bar"
 
 module.exports = {
   name: 'verify element selected',
