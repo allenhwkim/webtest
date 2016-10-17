@@ -21,7 +21,11 @@ class WebTestCommand {
       throw `ERROR: command object requires name, regExp, and func`;
     }
 
-    this.commandObjects[commandObj.name] = commandObj;
+    if (this.commandObjects[commandObj.name]) {
+      throw `ERROR: duplicate command registration. command ${commandObj.name} already exists`;
+    } else {
+      this.commandObjects[commandObj.name] = commandObj;
+    }
   }
 
   /**
