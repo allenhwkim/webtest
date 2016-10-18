@@ -6,9 +6,24 @@ Test with Array of strings
   go to http://127.0.0.1:9001/app
   verify text 'selected model1: "is"' present
   click #model1
-  enter letter "t" into "ng2-auto-complete input"
+  press "t" into "ng2-auto-complete input"
   verify element "ul li:nth-child(2)" text is "text"
-  enter letter "e" into "ng2-auto-complete input"
+  press "e" into "ng2-auto-complete input"
   verify element "ul li:nth-child(1)" text is "text"
-  press ENTER in "ng2-auto-complete input"
+  press ENTER into "ng2-auto-complete input"
+  verify element #model1 value is "text"
+
+Test with array of id/value
+  verify element #model2 value is "One"
+  click link "Change It"
+  verify element #model2 value is "it"
+  click #model2
+  verify element "ul li:nth-child(1)" text is "Select One"
+  verify element "ul li:nth-child(2)" text is "(1)One"
+  see "Select One"
+  click
+  verify element #model2 value is ""
+  enter text "four" into #model2
+  click "ul li:nth-child(2)"
+  verify element #model2 value is "Four"
 
