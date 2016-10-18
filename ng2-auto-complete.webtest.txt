@@ -1,0 +1,14 @@
+This is webtest commands running on 127.0.0.1:9001/app
+To run this file, please run `npm test`
+
+Test with Array of strings
+  open browser chrome
+  go to http://127.0.0.1:9001/app
+  verify text 'selected model1: "is"' present
+  click #model1
+  enter letter "t" into "ng2-auto-complete input"
+  verify element "ul li:nth-child(2)" text is "text"
+  enter letter "e" into "ng2-auto-complete input"
+  verify element "ul li:nth-child(1)" text is "text"
+  press ENTER in "ng2-auto-complete input"
+

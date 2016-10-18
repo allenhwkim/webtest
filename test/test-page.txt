@@ -8,10 +8,10 @@ This is to test all core commands with test-page.html
   click "body div#change-color"
   click link "Click Here To Change Url"
   enter text 'Hello World' into text
-  enter letter 'A' into text
-  set speed 1s
+  press "A" into text
+  set speed 1 second
   verify element #submit is disabled
-  set speed 0s
+  set speed 1 millisecond
   click #enable
   verify element #submit is enabled
   click #radio1

@@ -103,6 +103,7 @@ class SeleniumWebTestDriver {
           `input[placeholder='${arg1}'], ` +
           `textarea[placeholder='${arg1}']`
         };
+        this.driver.sleep(50); // To prevent staleness of an element
         el = this.driver.findElement(locator);
         condition = seleniumWebDriver.until[arg0](el, arg2); break;
     }
