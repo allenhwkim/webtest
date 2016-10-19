@@ -14,6 +14,7 @@ module.exports = {
     /** must return a Promise, so that it can be chained with next command*/
     function(selector) {
       if (selector) {
+        seleniumWebTestDriver.driver.sleep(100); //To prevent stale element error
         return seleniumWebTestDriver.findBy('css', selector)
           .then(element => element.click());
       }

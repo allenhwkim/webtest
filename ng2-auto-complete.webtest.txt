@@ -15,7 +15,7 @@ Test with Array of strings
 
 Test with array of id/value
   verify element #model2 value is "One"
-  click link "Change It"
+  click link "Change It"ver
   verify element #model2 value is "it"
   click #model2
   verify element "ul li:nth-child(1)" text is "Select One"
@@ -27,3 +27,22 @@ Test with array of id/value
   click "ul li:nth-child(2)"
   verify element #model2 value is "Four"
 
+Test with array of key/name
+  verify element #model3 value is "Key Three"
+  click #model3
+  press ARROW_DOWN into "#model3 ~ ng2-auto-complete input"
+  press ARROW_DOWN into "#model3 ~ ng2-auto-complete input"
+  press ARROW_DOWN into "#model3 ~ ng2-auto-complete input"
+  press ENTER into "#model3 ~ ng2-auto-complete input"
+  verify element #model3 value is "Key Four"
+
+Test With Remote Source as HTTP URI String
+  click #model4
+  enter text "the white house" into "#model4 ~ ng2-auto-complete input"
+  verify text "DC 20500" present
+
+Test With Remote Source as Observable
+  click #model5
+  enter text "hulk/Bruce" into "#model5 ~ ng2-auto-complete input"
+  verify text "Hulk/Bruce Banner" present
+  press ENTER into "#model5 ~ ng2-auto-complete input"

@@ -16,7 +16,7 @@ module.exports = {
       return seleniumWebTestDriver.findBy('css', selector)
         .then(element => {
           let key = character;
-          if (character.match(/^[A-Z][A-Z]+$/)) {
+          if (character.match(/^[A-Z][A-Z_]+$/)) {
             key = SeleniumWebDriver.Key[key];
           }
           //TODO. combination keys. e.g. ALT+ENTER
