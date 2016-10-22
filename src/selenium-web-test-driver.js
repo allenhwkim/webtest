@@ -13,8 +13,21 @@ class SeleniumWebTestDriver {
   constructor(config) {
     !singletonInstance && (singletonInstance = this);
 
-    this.driver = new seleniumWebDriver.Builder();
-    this.browser = null;
+    if (process.env.SAUCE_USERNAME != undefined) {
+console.log('....', process.env);
+      this.driver = new seleniumWebDriver.Builder()
+        .usingServer('http://'+ process.env.SAUCE_USERNAME+':'+process.env.SAUCE_ACCESS_KEY+'@ondemand.saucelabs.com:80/wd/hub')
+        .withCapabilities({
+          'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+          build: process.env.TRAVIS_BUILD_NUMBER,
+          username: process.env.SAUCE_USERNAME,
+          accessKey: process.env.SAUCE_ACCESS_KEY
+        });
+        //}).build();
+    } else {
+      this.driver = new seleniumWebDriver.Builder();
+    }
+
     this.config = {};
     this.lastFoundElement = null;
 
