@@ -14,7 +14,6 @@ class SeleniumWebTestDriver {
     !singletonInstance && (singletonInstance = this);
 
     if (process.env.SAUCE_USERNAME != undefined) {
-console.log('....', process.env);
       this.driver = new seleniumWebDriver.Builder()
         .usingServer('http://'+ process.env.SAUCE_USERNAME+':'+process.env.SAUCE_ACCESS_KEY+'@ondemand.saucelabs.com:80/wd/hub')
         .withCapabilities({
