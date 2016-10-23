@@ -1,5 +1,8 @@
 Web-Test
 =========
+[![Build Status](https://travis-ci.org/allenhwkim/webtest.svg?branch=master)](https://travis-ci.org/allenhwkim/webtest)
+[![Join the chat at https://gitter.im/allenhwkim/webtest](https://badges.gitter.im/allenhwkim/webtest.svg)](https://gitter.im/allenhwkim/webtest?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Run Web Page Test In Plain English
 
 Principle
@@ -109,3 +112,8 @@ Core Commands
   * verify url matches `<string>`
   * wait for page load
 
+NOTE: 
+-----
+ 
+  * If webtest is run on TRAVIS CI environment, the browser is always `firefox` 
+    although user specify the browser in `open browser` command
