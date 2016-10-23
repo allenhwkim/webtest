@@ -1,16 +1,17 @@
 'use strict';
 var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
-const RE_STR  = '([\\S]+)';   // e.g. foo.bar, "foo.bar", or 'foo.bar'. not "foo bar"
+const RE_STR  = '[ ]?([\\S]*)';   // e.g. foo.bar, "foo.bar", or 'foo.bar'. not "foo bar"
 
 module.exports = {
   name: 'open browser',
   help: 'open browser <chrome|firefox>',
-  regExp: new RegExp(`^open browser ${RE_STR}`),
+  regExp: new RegExp(`^open browser${RE_STR}`),
   func:
     /** must return a Promise, so that it can be chained with next command*/
     function(browserName) {
       let window;
       let config = seleniumWebTestDriver.config;
+      let browser = process.env['TRAVIS'] ? 'firefox' : browserName || config.browser.name || 'chrome';
 
       seleniumWebTestDriver.driver = seleniumWebTestDriver.driver
         .forBrowser(browserName || config.browser.name)

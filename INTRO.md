@@ -11,7 +11,7 @@ You can think of `webtest` as dialogue between "you" and "web browser" such as;
 * goto www.google.com
 * enter “allenhwkim” into “Search”
 * submit it
-* see “allenhwkim”
+* see "allenhwkim"
 
 Technically `webtest` is written in Javascript and Selenium WebDriverJS,
 but you don’t need to know Javascript to nor Selenium WebDriverJS.

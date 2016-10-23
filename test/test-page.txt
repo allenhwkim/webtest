@@ -1,5 +1,5 @@
 This is to test all core commands with test-page.html
-  open browser firefox
+  open browser
   go to http://localhost:8080/test/test-page.html
   set window position 0 0
   set window size 100 600
