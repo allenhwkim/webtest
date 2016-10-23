@@ -13,9 +13,7 @@ module.exports = {
       let config = seleniumWebTestDriver.config;
       let browser = process.env['TRAVIS'] ? 'firefox' : browserName || config.browser.name || 'chrome';
 
-      seleniumWebTestDriver.driver = seleniumWebTestDriver.driver
-        .forBrowser(browserName || config.browser.name)
-        .build();
+      seleniumWebTestDriver.driver = seleniumWebTestDriver.driver.forBrowser(browser).build();
       window = seleniumWebTestDriver.driver.manage().window();
 
       if (parseInt(config.left) >= 0 && parseInt(config.top) >= 0) {
