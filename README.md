@@ -1,5 +1,7 @@
 Web-Test
 =========
+
+[![Join the chat at https://gitter.im/allenhwkim/webtest](https://badges.gitter.im/allenhwkim/webtest.svg)](https://gitter.im/allenhwkim/webtest?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Run Web Page Test In Plain English
 
 Principle
