@@ -9,9 +9,11 @@ module.exports = {
   func: /** must return a Promise, so that it can be chained with next command*/
     function(string) {
       return seleniumWebTestDriver.driver.wait(function () {
-        return seleniumWebTestDriver.driver.getPageSource()
-          .then(function (source) {
-            return (source.indexOf(string) > -1);
+        // investigate this, http://stackoverflow.com/a/19360765/454252
+        // and this http://stackoverflow.com/a/24288779/454252
+        return seleniumWebTestDriver.driver.findElement({css: "body"}).getText()
+          .then(function (text) {
+            return (text.indexOf(string) > -1);
           });
       }, seleniumWebTestDriver.config.timeout);
     }
