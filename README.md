@@ -56,15 +56,14 @@ Features
 
 Install 
 -------
-  * `npm install web-test`
-  * or, `npm install web-test -g` to enable `webtest` command anywhere
+  * `npm install webtest`
 
 Usage
 -----
 
   1. **Run `webtest` in command line**
   
-         web-test (master)$ node index.js 
+         webtest (master)$ node index.js 
          SeleniumWebTestDriver is initialized as { browser: { name: 'chrome' }, timeout: 10000 }
          ? > open browser chrome
          OK
@@ -83,7 +82,7 @@ Usage
 
     Then, and run the test file
 
-        $ web-test my-test.txt
+        $ webtest my-test.txt
 
 Core Commands
 -------------
