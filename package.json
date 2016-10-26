@@ -1,5 +1,5 @@
 {
-  "name": "web-test",
+  "name": "webtest",
   "version": "0.2.6",
   "description": "Execute test scenario in plain English",
   "main": "index.js",
