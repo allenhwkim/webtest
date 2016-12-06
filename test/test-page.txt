@@ -1,9 +1,10 @@
 This is to test all core commands with test-page.html
   open browser
-  go to http://localhost:8080/test/test-page.html
+  go to http://localhost:8000/test/test-page.html
   set window position 0 0
   set window size 100 600
   see "click here to change background color"
+
   click
   click "body div#change-color"
   click link "Click Here To Change Url"
@@ -11,12 +12,15 @@ This is to test all core commands with test-page.html
   press "A" into text
   set speed 1 second
   verify element #submit is disabled
+
   set speed 1 millisecond
   click #enable
   verify element #submit is enabled
+
   click #radio1
   verify element #radio2 is not selected
   verify element #hidden is not visible
+
   click #show-hidden
   verify element #hidden is visible
   click #change-color
@@ -27,7 +31,13 @@ This is to test all core commands with test-page.html
   verify url matches "^http:\/\/"
   verify text "click here to change something" not present
   verify text "Click Here To Change Url" present
+
   click #enable
   submit
+
+  click textarea
+  clear textarea
+  verify element textarea value is ""
+
   wait for page load
   close browser
