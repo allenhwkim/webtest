@@ -1,4 +1,4 @@
-Web-Test
+webtest
 =========
 [![Build Status](https://travis-ci.org/allenhwkim/webtest.svg?branch=master)](https://travis-ci.org/allenhwkim/webtest)
 [![Join the chat at https://gitter.im/allenhwkim/webtest](https://badges.gitter.im/allenhwkim/webtest.svg)](https://gitter.im/allenhwkim/webtest?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)

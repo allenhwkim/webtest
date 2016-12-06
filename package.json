@@ -1,7 +1,7 @@
 {
   "name": "webtest",
-  "version": "0.2.6",
-  "description": "Execute test scenario in plain English",
+  "version": "0.2.8",
+  "description": "Execute browser test in plain English",
   "main": "index.js",
   "bin": {
     "webtest": "./index.js"
@@ -30,12 +30,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jsvalley/web-test.git"
+    "url": "git+https://github.com/allenhwkim/webtest.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jsvalley/web-test/issues"
+    "url": "https://github.com/allenhwkim/webtest/issues"
   },
-  "homepage": "https://github.com/jsvalley/web-test#readme"
+  "homepage": "https://github.com/allenhwkim/webtest#readme"
 }
