@@ -110,9 +110,21 @@ Core Commands
   * verify title is "`<title>`"
   * verify url matches `<string>`
   * wait for page load
+  
+  * save value of expression `<js-expression>` to `<variable>`
+  * save value of element `<selector>` to `<variable>`
+  * print `<variable>`
+  * verify `<js-expression>`
 
 NOTE: 
 -----
  
   * If webtest is run on TRAVIS CI environment, the browser is always `firefox` 
     although user specify the browser in `open browser` command
+
+
+Developer Note
+--------------
+
+    $ npm install -g # to install this to run on local environment e.g., $ webtest
+    

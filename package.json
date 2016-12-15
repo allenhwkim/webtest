@@ -7,22 +7,23 @@
     "webtest": "./index.js"
   },
   "scripts": {
-    "start": "forever start --silent node_modules/http-server/bin/http-server",
-    "stop": "forever stop --silent node_modules/http-server/bin/http-server",
-    "test": "npm-run-all start test:webtest stop",
-    "test:webtest": "node index.js test/test-page.txt"
+    "start": "http-server -o",
+    "test:start": "forever start --silent node_modules/http-server/bin/http-server",
+    "test:stop": "forever stop --silent node_modules/http-server/bin/http-server",
+    "test": "npm-run-all test:start test:webtest test:stop",
+    "test:webtest": "node index.js test/test-page.webtest.txt"
   },
   "dependencies": {
     "chromedriver": "^2.24.1",
-    "forever": "^0.15.2",
     "inquirer": "^1.2.1",
     "mustache": "^2.2.1",
-    "npm-run-all": "^3.1.0",
     "preferences": "^0.2.1",
     "selenium-webdriver": "^2.53.3",
     "yargs": "^4.8.1"
   },
   "devDependencies": {
+    "npm-run-all": "^3.1.0",
+    "forever": "^0.15.2",
     "connect": "^3.4.1",
     "http-server": "^0.9.0",
     "jasmine": "^2.4.1",

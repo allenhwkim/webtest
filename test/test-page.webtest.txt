@@ -34,10 +34,14 @@ This is to test all core commands with test-page.html
 
   click #enable
   submit
+  wait for page load
 
   click textarea
   clear textarea
   verify element textarea value is ""
 
-  wait for page load
+drag and drop test
+  drag element 'drag1' 10 pixel up, then drop
+
+end of test
   close browser

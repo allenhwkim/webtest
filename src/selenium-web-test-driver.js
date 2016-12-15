@@ -14,8 +14,9 @@ class SeleniumWebTestDriver {
     !singletonInstance && (singletonInstance = this);
 
     this.driver = new seleniumWebDriver.Builder();
-    this.config = {};
+    this.config= {};
     this.lastFoundElement = null;
+    this.variables = {};
 
     Object.assign(
       this.config,

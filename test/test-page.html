@@ -61,7 +61,27 @@ Page url:
       </li>
       <input id="submit" type="submit" disabled="disabled"/>
     </form>
+
   </ul>
+</fieldset>
+
+<fieldset>
+  <legend>Drag and Drop Test</legend>
+  <div style="border:1px solid #333" 
+    ondrop="drop(event)"
+    ondragover="allowDrop(event)">Drop Here</div>
+  <div id="drag1" 
+    draggable="true"
+    ondragstart="drag(event)">Drag This</div>
+  <script>
+    function allowDrop(ev) { ev.preventDefault(); }
+    function drag(ev) { ev.dataTransfer.setData("text", ev.target.id);}
+    function drop(ev) {
+      ev.preventDefault();
+      var id = ev.dataTransfer.getData("text");
+      ev.target.appendChild(document.querySelector('#'+id));
+    }
+  </script>
 </fieldset>
 </body>
 </html>
