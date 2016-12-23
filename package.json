@@ -1,14 +1,14 @@
 {
   "name": "webtest",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "Execute browser test in plain English",
   "main": "index.js",
   "bin": {
     "webtest": "./index.js"
   },
   "scripts": {
-    "start": "http-server -o",
-    "test:start": "forever start --silent node_modules/http-server/bin/http-server",
+    "start": "http-server -o -p 8000",
+    "test:start": "forever start --silent node_modules/http-server/bin/http-server -p 8000",
     "test:stop": "forever stop --silent node_modules/http-server/bin/http-server",
     "test": "npm-run-all test:start test:webtest test:stop",
     "test:webtest": "node index.js test/test-page.webtest.txt"

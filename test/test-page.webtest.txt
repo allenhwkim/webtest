@@ -43,5 +43,14 @@ This is to test all core commands with test-page.html
 drag and drop test
   drag element 'drag1' 10 pixel up, then drop
 
+variable test
+  save value of expression "var today=new Date(); return today" to "today"
+  print variable "today"
+  verify expression "today.getYear() === (new Date()).getYear()"
+
+  save value of element "input#my-input" to 'myInputVariable'
+  print variable "myInputVariable"
+  verify expression "myInputVariable === 'hello world'"
+
 end of test
   close browser

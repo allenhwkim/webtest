@@ -113,8 +113,8 @@ Core Commands
   
   * save value of expression `<js-expression>` to `<variable>`
   * save value of element `<selector>` to `<variable>`
-  * print `<variable>`
-  * verify `<js-expression>`
+  * print variable `<variable>`
+  * verify expression `<js-expression>`
 
 NOTE: 
 -----
