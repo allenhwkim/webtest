@@ -5,25 +5,34 @@ This is to test all core commands with test-page.html
   set window size 100 600
   see "click here to change background color"
 
+#click test
   click
   click "body div#change-color"
+
+#click link test
   click link "Click Here To Change Url"
+
+#enter text into test
   enter text 'Hello World' into text
   press "A" into text
   set speed 1 second
   verify element #submit is disabled
 
-  set speed 1 millisecond
-  click #enable
-  verify element #submit is enabled
+#set value test
+  set element input#range value 50
+  verify element input#range value is "50"
 
+#radio button test
   click #radio1
   verify element #radio2 is not selected
   verify element #hidden is not visible
 
+#hidden element test
   click #show-hidden
   verify element #hidden is visible
   click #change-color
+
+#verify commands test
   verify element #change-color style background-color is "rgba(255, 255, 0, 1)"
   verify element #hidden text matches "^Hidden\ Element"
   verify title is "Test Form"
@@ -32,18 +41,22 @@ This is to test all core commands with test-page.html
   verify text "click here to change something" not present
   verify text "Click Here To Change Url" present
 
-  click #enable
-  submit
-  wait for page load
-
+#textarea test
   click textarea
   clear textarea
   verify element textarea value is ""
 
-drag and drop test
+#submit button test
+  set speed 1 millisecond
+  click #enable
+  verify element #submit is enabled
+  submit
+  wait for page load
+
+#drag and drop test
   drag element 'drag1' 10 pixel up, then drop
 
-variable test
+#variable test
   save value of expression "var today=new Date(); return today" to "today"
   print variable "today"
   verify expression "today.getYear() === (new Date()).getYear()"
@@ -52,5 +65,5 @@ variable test
   print variable "myInputVariable"
   verify expression "myInputVariable === 'hello world'"
 
-end of test
+#end of test
   close browser
