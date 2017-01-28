@@ -23,6 +23,7 @@ This is to test all core commands with test-page.html
   verify element input#range value is "50"
 
 #radio button test
+  set speed 1 millisecond
   click #radio1
   verify element #radio2 is not selected
   verify element #hidden is not visible
@@ -40,6 +41,8 @@ This is to test all core commands with test-page.html
   verify url matches "^http:\/\/"
   verify text "click here to change something" not present
   verify text "Click Here To Change Url" present
+  verify element #textarea value is "text area"
+  verify element #textarea value matches "^t(.*)a$"
 
 #textarea test
   click textarea

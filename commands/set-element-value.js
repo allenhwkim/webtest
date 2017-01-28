@@ -12,7 +12,11 @@ module.exports = {
         .then(element => {
           // console.log('element', element.constructor.name)
           seleniumWebTestDriver.driver.executeScript(
-            `arguments[0].value = '${value}'`, element
+            `
+              arguments[0].value = '${value}';
+              arguments[0].dispatchEvent(new Event('change'));
+            `,
+            element
           );
           seleniumWebTestDriver.lastFoundElement = element;
         });
