@@ -16,11 +16,15 @@ Page url:
   <legend>Commands Test</legend>
   <ul>
     <form>
-      <li>click: <br/>
+      <li>
+        <h3>click test</h3>
         <div id="change-color"
              onclick="this.style.background='yellow'">
           click here to change background color and an element
         </div>
+      </li>
+      <li>
+        <h3>hidden element test</h3>
         <div id="show-hidden"
              onclick="document.getElementById('hidden').style.display=''">
            click here to see hidden element
@@ -28,23 +32,26 @@ Page url:
         <div id="hidden" style="display:none">Hidden Element</div>
       </li>
       <li>
-        click link: <br/>
+        <h3> click link test</h3>
         <a href="?link=1">Click Here To Change Url</a>
       </li>
       <li>
-        enter text into: <br/>
-        <input name="input" id="" placeholder="text" />
+        <h3>enter text into test</h3>
+        <input name="input" placeholder="text" />
       </li>
       <li>
+        <h3>radio button test</h3>
         radio 1<input id="radio1" type="radio" name="radio">
         radio 2<input id="radio2" type="radio" name="radio">
         radio 3<input id="radio3" type="radio" name="radio">
       </li>
       <li>
+        <h3>checkbox test</h3>
         <input id="checkbox1" type="checkbox" name="checkbox1">
         checkbox 1
       </li>
       <li>
+        <h3>select tag test</h3>
         <select name="select">
           <option>A</option>
           <option>B</option>
@@ -52,14 +59,22 @@ Page url:
         </select>
       </li>
       <li>
-        textarea:
+        <h3>textarea  test</h3>
         <textarea name="textarea">text area</textarea>
       </li>
       <li>
-        verify element disabled/enabled: <br/>
-        <button id="enable" type="button" onclick="document.querySelector('#submit').disabled=false">Enable</button>
+        <h3>class names  test</h3>
+        <div id="class-names" class="test1 test2">Test Div with class name 'test1 test2'</div>
       </li>
-      <input id="submit" type="submit" disabled="disabled"/>
+      <li>
+        <h3>presence test</h3>
+        <div id="presence">Test Div with id 'present'</div>
+      </li>
+      <li>
+        <h3>submit test</h3>
+        <button id="enable" type="button" onclick="document.querySelector('#submit').disabled=false">Enable</button>
+        <input id="submit" type="submit" disabled="disabled"/>
+      </li>
     </form>
   </ul>
 </fieldset>

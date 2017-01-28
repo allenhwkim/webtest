@@ -1,43 +1,72 @@
 This is to test all core commands with test-page.html
+
+START
   open browser
-  go to http://localhost:8000/test/test-page.html
+  go to http://localhost:8080/test/test-page.html
   set window position 0 0
   set window size 100 600
   see "click here to change background color"
 
+CLICK
   click
   click "body div#change-color"
-  click link "Click Here To Change Url"
-  enter text 'Hello World' into text
-  press "A" into text
-  set speed 1 second
-  verify element #submit is disabled
 
-  set speed 1 millisecond
-  click #enable
-  verify element #submit is enabled
-
-  click #radio1
-  verify element #radio2 is not selected
-  verify element #hidden is not visible
-
+HIDDEN ELEMENT
   click #show-hidden
   verify element #hidden is visible
   click #change-color
   verify element #change-color style background-color is "rgba(255, 255, 0, 1)"
   verify element #hidden text matches "^Hidden\ Element"
+
+CLICK LINK
+  click link "Click Here To Change Url"
+
+ENTER TEXT INTO
+  enter text 'Hello World' into text
+  press "A" into text
+  set speed 1 second
+
+ENABLED/DISABLED
+  click link "Click Here To Change Url"
+  verify element #submit is disabled
+  set speed 1 millisecond
+  click #enable
+  verify element #submit is enabled
+
+RADIO BUTTON
+  click #radio1
+  verify element #radio2 is not selected
+  verify element #hidden is not visible
+
+VERIFY COMMANDS
   verify title is "Test Form"
   verify title matches "Form"
   verify url matches "^http:\/\/"
   verify text "click here to change something" not present
   verify text "Click Here To Change Url" present
 
-  click #enable
-  submit
+CHECKBOX
 
+SELECT TAG
+
+TEXTAREA
   click textarea
   clear textarea
   verify element textarea value is ""
 
+SUBMIT
+  click #enable
+  submit
+
+CLASS NAMES
+  verify element #class-names has class test1
+  verify element #class-names has class test2
+  verify element #class-names does not have class test3
+
+PRESENCE
+  verify element #presence present
+  verify element #presence-not not present
+
+END
   wait for page load
   close browser

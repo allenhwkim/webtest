@@ -10,7 +10,6 @@ module.exports = {
   func: function() {
     return seleniumWebTestDriver.waitUntil('alertIsPresent')
       .then(el => {
-console.log('el..... alertIsPresent', el);
         seleniumWebTestDriver.lastFoundElement = el
       });
   }

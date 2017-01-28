@@ -10,11 +10,9 @@ module.exports = {
   func: function(selector, className) {
     return seleniumWebTestDriver.driver.wait( function() {
       return seleniumWebTestDriver.driver.findElement({css: selector})
-        .then(element => {
-          seleniumWebTestDriver.lastFoundElement = element;
-          let classeNames = element.getAttribute('class').split(' ');
-          return classeNames.indexOf(className) === -1;
-        })
+        .then(element => seleniumWebTestDriver.lastFoundElement = element)
+        .then(element => element.getAttribute('class'))
+        .then(classNames => classNames.indexOf(className) === -1);
     }, seleniumWebTestDriver.config.timeout);
   }
 };
