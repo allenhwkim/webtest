@@ -15,6 +15,7 @@ module.exports = {
       return seleniumWebTestDriver.driver.findElement({css: cssSelector})
         .then(element => {
           return seleniumWebTestDriver.driver.executeScript(`
+            arguments[0].value = '${value}';
             arguments[0].setAttribute('value', '${value}');
             arguments[0].dispatchEvent(new Event('change'));
             return true;
