@@ -13,7 +13,7 @@ module.exports = {
     return seleniumWebTestDriver.driver.wait( function() {
       return seleniumWebTestDriver.driver.findElement({css: cssSelector})
         .getAttribute("value")
-        .then( val => val.match(valueRE));
+        .then( val => !!val.match(valueRE));
     }, seleniumWebTestDriver.config.timeout);
   }
 };

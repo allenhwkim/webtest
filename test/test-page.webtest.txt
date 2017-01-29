@@ -22,8 +22,8 @@ CLICK LINK
   click link "Click Here To Change Url"
 
 ENTER TEXT INTO
-  enter text 'Hello World' into text
-  press "A" into text
+  enter text 'Hello World' into "Enter text into here"
+  press "A" into input#my-input
   set speed 1 second
 
 ENABLED/DISABLED
@@ -70,6 +70,19 @@ CLASS NAMES
 PRESENCE
   verify element #presence present
   verify element #presence-not not present
+
+DRAG-AND-DROP
+  drag element 'drag1' 10 pixel up, then drop
+
+SAVE VARIABLE
+  save value of expression "var today=new Date(); return today" to "today"
+  print variable "today"
+  verify expression "today.getYear() === (new Date()).getYear()"
+
+  enter text 'We can save variable' into "input#my-input"
+  save value of element "input#my-input" to 'myInputVariable'
+  print variable "myInputVariable"
+  verify expression "myInputVariable === 'We can save variable'"
 
 END
   wait for page load

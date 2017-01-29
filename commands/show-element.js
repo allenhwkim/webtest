@@ -2,10 +2,6 @@
 var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
 const RE_STR  = '["]?([^\"]+)["]?'; // e.g. foo.bar, "foo.bar", or "foo bar"
 
-/**
- * e.g. click .foo.bar
- *    click #my-id
- */
 module.exports = {
   name: 'show element',
   help: 'show element <selector>',
