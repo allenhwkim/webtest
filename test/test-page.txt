@@ -45,6 +45,10 @@ VERIFY COMMANDS
   verify text "click here to change something" not present
   verify text "Click Here To Change Url" present
 
+INPUT RANGE
+  set element #range value as 11
+  verify element #range value is 11
+
 CHECKBOX
 
 SELECT TAG
