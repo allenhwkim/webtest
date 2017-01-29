@@ -59,9 +59,9 @@ SUBMIT
   submit
 
 CLASS NAMES
-  verify element #class-names has class test1
-  verify element #class-names has class test2
-  verify element #class-names does not have class test3
+  verify element #class-names with class test1
+  verify element #class-names with class test2
+  verify element #class-names without class test3
 
 PRESENCE
   verify element #presence present

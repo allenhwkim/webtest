@@ -3,9 +3,9 @@ var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
 const RE_STR  = '["]?([^\"]+)["]?'; // e.g. foo.bar, "foo.bar", or "foo bar"
 
 module.exports = {
-  name: 'verify alert is present',
-  help: 'verify alert is present',
-  regExp: new RegExp(`^verify alert is disabled`),
+  name: 'verify alert present',
+  help: 'verify alert present',
+  regExp: new RegExp(`^verify alert [is ]*present`),
   /** must return a Promise, so that it can be chained with next command*/
   func: function() {
     return seleniumWebTestDriver.waitUntil('alertIsPresent')

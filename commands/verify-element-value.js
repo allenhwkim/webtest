@@ -5,8 +5,8 @@ const RE_STR_WITH_QUOTE = '[\'"]([\\s\\S]*)[\'"]'; //e.g. 'foo bar', "foo bar"
 
 module.exports = {
   name: 'verify element value',
-  help: 'verify element <selector> value is "<string>"',
-  regExp: new RegExp(`^verify element ${RE_STR} value is ${RE_STR_WITH_QUOTE}$`),
+  help: 'verify element <selector> value "<string>"',
+  regExp: new RegExp(`^verify element ${RE_STR} value [is ]*${RE_STR_WITH_QUOTE}$`),
   /** must return a Promise, so that it can be chained with next command*/
   func: function(selector, text) {
     let cssSelector = `${selector}, [placeholder='${selector}']`;
