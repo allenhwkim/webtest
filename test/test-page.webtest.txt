@@ -74,15 +74,21 @@ PRESENCE
 DRAG-AND-DROP
   drag element 'drag1' 10 pixel up, then drop
 
+ALERT/CONFIRM
+  run script "alert(12345)"
+  verify alert "12345" and click ok
+  run script "confirm(12345)"
+  verify alert "12345" and click cancel
+
 SAVE VARIABLE
-  save value of expression "var today=new Date(); return today" to "today"
+  run script "var today=new Date(); return today" and save to "today"
   print variable "today"
-  verify expression "today.getYear() === (new Date()).getYear()"
+  verify script "today.getYear() === (new Date()).getYear()"
 
   enter text 'We can save variable' into "input#my-input"
   save value of element "input#my-input" to 'myInputVariable'
   print variable "myInputVariable"
-  verify expression "myInputVariable === 'We can save variable'"
+  verify script "myInputVariable === 'We can save variable'"
 
 END
   wait for page load
