@@ -14,7 +14,8 @@ module.exports = {
       return seleniumWebTestDriver.driver.findElement({css: cssSelector})
         .getAttribute("value")
         .then( val => {
-          seleniumWebTestDriver.variables[variableName] = val;
+          let expr = `return window['${variableName}']=arguments[0];`;
+          seleniumWebTestDriver.driver.executeScript(expr, val);
           return seleniumWebTestDriver.lastFoundElement;
         });
     }, seleniumWebTestDriver.config.timeout);

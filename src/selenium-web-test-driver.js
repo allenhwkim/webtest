@@ -16,7 +16,6 @@ class SeleniumWebTestDriver {
     this.driver = new seleniumWebDriver.Builder();
     this.config= {};
     this.lastFoundElement = null;
-    this.variables = {};
 
     Object.assign(
       this.config,
