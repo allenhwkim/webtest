@@ -52,6 +52,8 @@ INPUT RANGE
 CHECKBOX
 
 SELECT TAG
+  select "C" from #select
+  verify element "#select option:nth-child(3)" selected
 
 TEXTAREA
   click textarea
