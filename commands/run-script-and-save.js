@@ -1,6 +1,6 @@
 'use strict';
 var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
-const RE_EXPRESSION_STR = `["'](.*?)["']`;
+const RE_EXPRESSION_STR = `["](.*?)["]`;
 const RE_VARIABLE    = `['"]?([a-z$]?[a-zA-Z0-9_]*)["']?`;
 
 module.exports = {
