@@ -12,6 +12,6 @@ module.exports = {
   func: /** must return a Promise, so that it can be chained with next command*/
     function(string) {
       let xpath = `//*[contains(., '${string}')][not(.//*[contains(., '${string}')])]`;
-      return seleniumWebTestDriver.findBy('xpath', xpath);
+      return seleniumWebTestDriver.findVisibleBy('xpath', xpath);
     }
 };

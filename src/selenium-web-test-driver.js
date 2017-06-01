@@ -26,10 +26,7 @@ class SeleniumWebTestDriver {
     return singletonInstance;
   }
 
-  /**
-   * returns ManagedPromise<Element>
-   */
-  findBy(by, string) {
+  getLocator(by, string) {
     let locator;
     if (by == "linkText") {
       locator = {linkText: string};
@@ -47,12 +44,39 @@ class SeleniumWebTestDriver {
     } else if (by === 'xpath') {
       locator = {xpath: string};
     }
-    //console.log('SeleniumWebTestDriver#findBy', 'locator', locator);
+    return locator;
+  }
+
+  /**
+   * returns ManagedPromise<Element>
+   */
+  findBy(by, string) {
+    var locator = this.getLocator(by, string);
 
     return this.driver.wait(
         seleniumWebDriver.until.elementLocated(locator), this.config.timeout
       )
       .then(el => {
+        this.lastFoundElement = el;
+        return this.driver.actions().mouseMove(el).perform()
+      })
+      .then(() => this.driver.sleep(this.config.speed))
+      .then(() => this.lastFoundElement)
+      .catch(e => {throw e;});
+  }
+
+  /**
+   * returns ManagedPromise<Element>
+   */
+  findVisibleBy(by, string) {
+    var locator = this.getLocator(by, string);
+
+    return this.driver.wait( () => {
+        var elements = this.driver.findElements(locator);
+        return seleniumWebDriver.promise.filter(elements, element => element.isDisplayed());
+      }, this.config.timeout)
+      .then(elements => {
+        var el = elements[0];
         this.lastFoundElement = el;
         return this.driver.actions().mouseMove(el).perform()
       })

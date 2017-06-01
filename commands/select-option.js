@@ -12,7 +12,7 @@ module.exports = {
   regExp: new RegExp(`^select ${RE_STR_WITH_QUOTE} from ${RE_STR}`),
   func: /** must return a Promise, so that it can be chained with next command*/
     function(string, selector) {
-      return seleniumWebTestDriver.findBy('css', selector)
+      return seleniumWebTestDriver.findVisibleBy('css', selector)
         .then(element => element.sendKeys(string))
     }
 };

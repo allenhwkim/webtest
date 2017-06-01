@@ -11,7 +11,7 @@ module.exports = {
   regExp: new RegExp(`^click link ${RE_STR_WITH_QUOTE}`),
   func: /** must return a Promise, so that it can be chained with next command*/
     function(linkText) {
-      return seleniumWebTestDriver.findBy('linkText', linkText)
+      return seleniumWebTestDriver.findVisibleBy('linkText', linkText)
         .then(element => element.click());
     }
 };

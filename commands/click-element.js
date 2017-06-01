@@ -15,7 +15,7 @@ module.exports = {
     function(selector) {
       if (selector) {
         seleniumWebTestDriver.driver.sleep(100); //To prevent stale element error
-        return seleniumWebTestDriver.findBy('css', selector)
+        return seleniumWebTestDriver.findVisibleBy('css', selector)
           .then(element => element.click());
       }
     }
