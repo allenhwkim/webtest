@@ -10,7 +10,7 @@
     "start": "forever start --silent node_modules/http-server/bin/http-server",
     "stop": "forever stop --silent node_modules/http-server/bin/http-server",
     "test": "npm-run-all start test:webtest stop",
-    "test:webtest": "node index.js test/test-page.webtest.txt",
+    "test:webtest": "node index.js test/test-page.webtest.txt test/test-page.webtest.txt -s 100",
     "upgrade": "npm-check-updates -a/--upgradeAll && npm i"
   },
   "dependencies": {

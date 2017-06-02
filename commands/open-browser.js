@@ -1,4 +1,5 @@
 'use strict';
+let seleniumWebDriver = require('selenium-webdriver');
 var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
 const RE_STR  = '[ ]?([\\S]*)';   // e.g. foo.bar, "foo.bar", or 'foo.bar'. not "foo bar"
 
@@ -13,7 +14,8 @@ module.exports = {
       let config = seleniumWebTestDriver.config;
       let browser = process.env['TRAVIS'] ? 'firefox' : browserName || config.browser.name || 'chrome';
 
-      seleniumWebTestDriver.driver = seleniumWebTestDriver.driver.forBrowser(browser).build();
+      let builder = new seleniumWebDriver.Builder();
+      seleniumWebTestDriver.driver = builder.forBrowser(browser).build();
       window = seleniumWebTestDriver.driver.manage().window();
 
       if (parseInt(config.left) >= 0 && parseInt(config.top) >= 0) {

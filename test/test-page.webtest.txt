@@ -26,12 +26,16 @@ CLICK LINK
 ENTER TEXT INTO
   enter text 'Hello World' into "Enter text into here"
   press "A" into input#my-input
+
+SET/RESET SPEED
   set speed 1 second
+  reset speed
+  set speed 2 second
+  reset speed
 
 ENABLED/DISABLED
   click link "Click Here To Change Url"
   verify element #submit is disabled
-  set speed 1 millisecond
   click #enable
   verify element #submit is enabled
 

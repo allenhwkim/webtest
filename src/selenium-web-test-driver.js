@@ -14,7 +14,7 @@ class SeleniumWebTestDriver {
   constructor(config) {
     !singletonInstance && (singletonInstance = this);
 
-    this.driver = new seleniumWebDriver.Builder();
+    this.driver; //this is completed by open-browser command
     this.config= {};
     this.lastFoundElement = null;
 

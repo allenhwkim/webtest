@@ -1,7 +1,10 @@
 'use strict';
 
-let singletonInstance = null;
+var fs = require('fs');
+var path = require('path');
+var inquirer = require('inquirer');
 
+let singletonInstance = null;
 /**
  * set and get user-defined webtest command objects
  * e.g. `open browser http://www.google.com`
@@ -10,6 +13,11 @@ class WebTestCommand {
   constructor(config) {
     !singletonInstance && (singletonInstance = this);
     this.commandObjects = {};
+
+    // register a new inquirer prompt type, command
+    let InquirerCommandPrompt = require(path.join(__dirname, 'inquirer-command-prompt'));
+    inquirer.registerPrompt('command', InquirerCommandPrompt);
+
     return singletonInstance;
   }
 
@@ -50,6 +58,51 @@ class WebTestCommand {
     return commandObjWithArguments;
   }
 
+  getAllCommands() {
+    let commandFiles = fs.readdirSync(path.join(__dirname, '..', 'commands'));
+    return commandFiles.map(
+      fileName => require(path.join(__dirname, '..', 'commands', fileName))
+    );
+  }
+
+  processNextCommand() {
+    inquirer.prompt([{
+      name: 'webtest-command',
+      type: 'command',
+      message: '>',
+      validate: command => true
+    }]).then(answers => {
+      let cmd = answers['webtest-command'];
+      if (!cmd || cmd === '?' || cmd === 'help') {
+        return Promise.resolve('help');
+      } else {
+        let cmdObj = this.get(cmd);
+        return cmdObj ? Promise.resolve(cmdObj) : Promise.reject(cmdObj);
+      }
+    }).then(
+      cmdObj =>  {
+        if (cmdObj === 'help') {
+          console.log("list of commands:");
+          console.log(helps.map(el => `. ${el}`).join("\n"));
+          return true;
+        } else {
+          let func = cmdObj.func;
+          let args = cmdObj.arguments;
+          console.log(cmdObj.regExp);
+          return func.apply(null, args);
+        }
+      },
+      err => {
+        throw "Invalid webtest command";
+      }
+    ).then( () => {
+      console.log('OK');
+      this.processNextCommand(); 
+    }).catch(err => {
+      console.error('ERROR', err);
+      this.processNextCommand();
+    });
+  }
 }
 
 module.exports = new WebTestCommand();
