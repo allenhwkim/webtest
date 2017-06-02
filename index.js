@@ -49,7 +49,7 @@ if (testFiles.length) {
     .then(() => console.log('DONE'))
     .catch(err => {
       if (!argv['leave-browser-open']) {
-        webTergstCommand.get('close browser').func();
+        webTestCommand.get('close browser').func();
       }
       console.log(err);
     });
