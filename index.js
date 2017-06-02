@@ -12,8 +12,8 @@ var argv = require('yargs')
       describe: 'execution speed in milliseconds',
       type: 'number'
     },
-    'o' :{
-      alias: 'open-browser',
+    'l' :{
+      alias: 'leave-browser-open',
       describe: 'if true, do not close browser with errors',
       type: 'boolean'
     }
@@ -48,8 +48,8 @@ if (testFiles.length) {
   runCommandsInSequence(lineCommands)
     .then(() => console.log('DONE'))
     .catch(err => {
-      if (!argv['open-browser']) {
-        webTestCommand.get('close browser').func();
+      if (!argv['leave-browser-open']) {
+        webTergstCommand.get('close browser').func();
       }
       console.log(err);
     });
