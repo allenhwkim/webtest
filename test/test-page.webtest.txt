@@ -12,11 +12,13 @@ CLICK
   click "body div#change-color"
 
 HIDDEN ELEMENT
+  find element #hidden
+  run script "document.querySelector('#hidden').innerHTML='My Hidden Element'"
   click #show-hidden
   verify element #hidden is visible
   click #change-color
   verify element #change-color style background-color is "rgba(255, 255, 0, 1)"
-  verify element #hidden text matches "^Hidden\ Element"
+  verify element #hidden text matches "Hidden\ Element"
 
 CLICK LINK
   click link "Click Here To Change Url"

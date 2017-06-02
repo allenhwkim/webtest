@@ -29,7 +29,7 @@ class SeleniumWebTestDriver {
   /**
    * returns ManagedPromise<Element>
    */
-  findBy(by, string) {
+  findBy(by, string, isVisible=true) {
     let locator;
     if (by == "linkText") {
       locator = {linkText: string};
@@ -54,7 +54,7 @@ class SeleniumWebTestDriver {
       )
       .then(el => {
         this.lastFoundElement = el;
-        return this.driver.actions().mouseMove(el).perform()
+        return isVisible ? this.driver.actions().mouseMove(el).perform() : null;
       })
       .then(() => this.driver.sleep(this.config.speed))
       .then(() => this.lastFoundElement)
