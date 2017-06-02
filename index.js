@@ -17,11 +17,25 @@ inquirer.registerPrompt('command', InquirerCommandPrompt);
  * arguments 
  */
 var argv = require('yargs')
-  .usage('Usage: $0 <command-file> [options]')
-  .example('"$0 my-commands.txt"', 'run file then quit')
+  .usage('Usage: $0 <command-files> [options]')
+  .options({
+    's': {
+      alias: 'speed',
+      describe: 'execution speed in milliseconds',
+      type: 'number'
+    },
+    'c' :{
+      alias: 'auto-close',
+      default: true,
+      describe: 'auto close browser with errors',
+      type: 'boolean'
+    }
+  })
+  .example('$0 command1.txt command 2.txt --speed=1000 -auto-close=false', 
+    'run command1.txt and command2.txt with speed 1 second')
   .help('h')
   .argv;
-var commandsFile = argv._[0];
+var testFiles = argv._;
 
 /**
  * register commands and helps
@@ -38,13 +52,16 @@ commandFiles.forEach( file => {
  * if file is given, do batch process
  * if none given, open CLI
  */
-if (commandsFile) {
-  if (fs.existsSync(commandsFile)) {
-    var commands = fs.readFileSync(commandsFile, "utf8");
-    runAll(commands.split("\n"));
-  } else {
-    throw `Invalid file name ${commandsFile}`;
-  }
+if (testFiles) {
+  testFiles.forEach(testFile => {
+    if (fs.existsSync(testFile)) {
+      console.log(`Processing file ${testFile}`);
+      var commands = fs.readFileSync(testFile, "utf8");
+      runAll(commands.split("\n"));
+    } else {
+      throw `Invalid file name ${testFile}`;
+    }
+  });
 } else {
   console.log("list of commands:");
   console.log(helps.map(el => `. ${el}`).join("\n"));
@@ -102,7 +119,9 @@ function runAll(commandStrings) {
   runCommandsInSequence(commandStrings)
     .then(() => console.log('DONE'))
     .catch(err => {
-      webTestCommand.get('close browser').func();
+      if (argv.c) {
+        webTestCommand.get('close browser').func();
+      }
       console.log(err);
     });
 }

@@ -1,4 +1,5 @@
 'use strict';
+var argv = require('yargs').argv;
 
 let chromedriver = require('chromedriver');
 let seleniumWebDriver = require('selenium-webdriver');
@@ -111,5 +112,6 @@ class SeleniumWebTestDriver {
       .then(() => this.driver.wait(condition, this.config.timeout));
   }
 }
-module.exports =  new SeleniumWebTestDriver();
+var options = argv.speed ? {speed: argv.speed} : {};
+module.exports =  new SeleniumWebTestDriver(options);
 
