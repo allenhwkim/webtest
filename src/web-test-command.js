@@ -10,9 +10,11 @@ let singletonInstance = null;
  * e.g. `open browser http://www.google.com`
  */
 class WebTestCommand {
+
   constructor(config) {
     !singletonInstance && (singletonInstance = this);
     this.commandObjects = {};
+    this.helps = [];
 
     // register a new inquirer prompt type, command
     let InquirerCommandPrompt = require(path.join(__dirname, 'inquirer-command-prompt'));
@@ -33,6 +35,7 @@ class WebTestCommand {
       throw `ERROR: duplicate command registration. command ${commandObj.name} already exists`;
     } else {
       this.commandObjects[commandObj.name] = commandObj;
+      this.helps.push(commandObj.help);
     }
   }
 
@@ -83,7 +86,7 @@ class WebTestCommand {
       cmdObj =>  {
         if (cmdObj === 'help') {
           console.log("list of commands:");
-          console.log(helps.map(el => `. ${el}`).join("\n"));
+          console.log(this.helps.map(el => `. ${el}`).join("\n"));
           return true;
         } else {
           let func = cmdObj.func;
