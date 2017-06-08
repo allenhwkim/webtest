@@ -1,5 +1,6 @@
 'use strict';
 var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+var retry = require('webdriverjs-retry');
 const RE_STR  = '["]?([^\"]+)["]?'; // e.g. foo.bar, "foo.bar", or "foo bar"
 
 /**
@@ -14,7 +15,8 @@ module.exports = {
     function(selector) {
       if (seleniumWebTestDriver.lastFoundElement) {
         let lastFoundElement = seleniumWebTestDriver.lastFoundElement;
-        return lastFoundElement.click();
+        var fn = () => lastFoundElement.click();
+        return retry.run(fn, 5000, 200);
       } else {
         throw "There is no element to click";
       }

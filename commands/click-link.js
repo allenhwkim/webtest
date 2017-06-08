@@ -1,5 +1,7 @@
 'use strict';
 var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+var retry = require('webdriverjs-retry');
+
 const RE_STR_WITH_QUOTE = '[\'"]([\\s\\S]+)[\'"]'; //e.g. 'foo bar', "foo bar"
 
 /**
@@ -11,7 +13,12 @@ module.exports = {
   regExp: new RegExp(`^click link ${RE_STR_WITH_QUOTE}`),
   func: /** must return a Promise, so that it can be chained with next command*/
     function(linkText) {
-      return seleniumWebTestDriver.findBy('linkText', linkText)
-        .then(element => element.click());
+      var fn = () => {
+        seleniumWebTestDriver.findBy('linkText', linkText)
+        .then(element => {
+          return element.click()
+        });
+      };
+      return retry.run(fn, 5000, 200);
     }
 };

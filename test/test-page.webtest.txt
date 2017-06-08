@@ -5,9 +5,11 @@ START
   go to http://localhost:8080/test/test-page.html
   set window position 0 0
   set window size 100 600
-  see "click here to change background color"
 
 CLICK
+  click #blocker-btn1
+  click #blocker-btn2
+  see "click here to change background color"
   click
   click "body div#change-color"
 
@@ -21,6 +23,7 @@ HIDDEN ELEMENT
   verify element #hidden text matches "Hidden\ Element"
 
 CLICK LINK
+  click #blocker-btn3
   click link "Click Here To Change Url"
 
 ENTER TEXT INTO

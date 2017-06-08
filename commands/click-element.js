@@ -1,5 +1,6 @@
 'use strict';
 var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+var retry = require('webdriverjs-retry');
 const RE_STR  = '["]?([^\"]+)["]?'; // e.g. foo.bar, "foo.bar", or "foo bar"
 
 /**
@@ -13,10 +14,11 @@ module.exports = {
   func:
     /** must return a Promise, so that it can be chained with next command*/
     function(selector) {
-      if (selector) {
-        seleniumWebTestDriver.driver.sleep(100); //To prevent stale element error
-        return seleniumWebTestDriver.findBy('css', selector)
+      seleniumWebTestDriver.driver.sleep(100); //To prevent stale element error
+      var fn = () => {
+        seleniumWebTestDriver.findBy('css', selector)
           .then(element => element.click());
-      }
+      };
+      return retry.run(fn, 5000, 200);
     }
 };

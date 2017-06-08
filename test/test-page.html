@@ -2,9 +2,23 @@
 <html>
 <head>
   <title>Test Form</title>
+  <style>
+  .blocker {
+    display: none; position: relative; width: 100%;
+    height: 50px; top: -2em; background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid #ccc; 
+  }
+  </style>
   <script>
   window.onload = () => {
     document.querySelector('#page-url').innerHTML = window.location.href;
+  }
+  function showThenHideBlocker(selector) {
+    var el = document.querySelector(selector);
+    el.style.display = 'block';
+    setTimeout(function() {
+      el.style.display = 'none';
+    }, 500);
   }
   </script>
 </head>
@@ -22,6 +36,8 @@ Page url:
              onclick="this.style.background='yellow'">
           click here to change background color and an element
         </div>
+        <div class="blocker" id="blocker1"></div>
+        <button type="button" id="blocker-btn1" onclick="showThenHideBlocker('#blocker1')">show blocker 1</button>
       </li>
       <li>
         <h3>hidden element test</h3>
@@ -29,11 +45,15 @@ Page url:
              onclick="document.getElementById('hidden').style.display=''">
            click here to see hidden element
         </div>
+        <div class="blocker" id="blocker2"></div>
+        <button type="button" id="blocker-btn2" onclick="showThenHideBlocker('#blocker2')">show blocker 2</button>
         <div id="hidden" style="display:none">Hidden Element</div>
       </li>
       <li>
         <h3> click link test</h3>
         <a href="?link=1">Click Here To Change Url</a>
+        <button type="button" id="blocker-btn3" onclick="showThenHideBlocker('#blocker3')">show blocker 3</button>
+        <div id="blocker3" class="blocker"></div>
       </li>
       <li>
         <h3>enter text into test</h3>
