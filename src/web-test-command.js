@@ -3,6 +3,10 @@
 var fs = require('fs');
 var path = require('path');
 var inquirer = require('inquirer');
+var webtestDriver = require('./selenium-web-test-driver');
+let seleniumWebDriver = require('selenium-webdriver');
+var until = seleniumWebDriver.until;
+var By = seleniumWebDriver.By;
 
 let singletonInstance = null;
 /**
@@ -69,13 +73,14 @@ class WebTestCommand {
   }
 
   processNextCommand() {
+    let cmd;
     inquirer.prompt([{
       name: 'webtest-command',
       type: 'command',
       message: '>',
       validate: command => true
     }]).then(answers => {
-      let cmd = answers['webtest-command'];
+      cmd = answers['webtest-command'];
       if (!cmd || cmd === '?' || cmd === 'help') {
         return Promise.resolve('help');
       } else {
@@ -96,7 +101,12 @@ class WebTestCommand {
         }
       },
       err => {
-        throw "Invalid webtest command";
+        let prop = cmd.match(/^(\w+)/)[0];
+        if (webtestDriver[prop]) {
+          console.log(eval(`webtestDriver.${cmd}`));
+        } else {
+          throw "Invalid webtest command";
+        }
       }
     ).then( () => {
       console.log('OK');

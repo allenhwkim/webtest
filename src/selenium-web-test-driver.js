@@ -2,7 +2,9 @@
 var argv = require('yargs').argv;
 
 let chromedriver = require('chromedriver');
-let seleniumWebDriver = require('selenium-webdriver');
+let seleniumWebdriver = require('selenium-webdriver');
+let until = seleniumWebdriver.until;
+let By = seleniumWebdriver.By;
 
 let singletonInstance = null;
 
@@ -17,6 +19,8 @@ class SeleniumWebTestDriver {
     this.driver; //this is completed by open-browser command
     this.config= {};
     this.lastFoundElement = null;
+    this.until = until;
+    this.By = By;
 
     Object.assign(
       this.config,
@@ -51,7 +55,7 @@ class SeleniumWebTestDriver {
     //console.log('SeleniumWebTestDriver#findBy', 'locator', locator);
     let elLocation;
     return this.driver.wait(
-        seleniumWebDriver.until.elementLocated(locator), this.config.timeout
+        until.elementLocated(locator), this.config.timeout
       )
       .then(el => {
         this.lastFoundElement = el;
@@ -94,18 +98,18 @@ class SeleniumWebTestDriver {
 
     switch (arg0) {
       case 'alertIsPresent':
-        condition = seleniumWebDriver.until[arg0](); break;
+        condition = until[arg0](); break;
       case 'titleIs':
       case 'titleContains':
       case 'titleMatches':
-        condition = seleniumWebDriver.until[arg0](arg1); break;
+        condition = until[arg0](arg1); break;
       case 'elementLocated':
         locator = {
           css: `${arg1}, ` +
           `input[placeholder='${arg1}'], ` +
           `textarea[placeholder='${arg1}']`
         };
-        condition = seleniumWebDriver.until[arg0](locator); break;
+        condition = until[arg0](locator); break;
       case 'elementIsVisible':
       case 'elementIsNotVisible':
       case 'elementIsEnabled':
@@ -118,7 +122,7 @@ class SeleniumWebTestDriver {
           `textarea[placeholder='${arg1}']`
         };
         el = this.driver.findElement(locator);
-        condition = seleniumWebDriver.until[arg0](el); break;
+        condition = until[arg0](el); break;
       case 'elementTextIs':
       case 'elementTextContains':
       case 'elementTextMatches':
@@ -129,7 +133,7 @@ class SeleniumWebTestDriver {
         };
         this.driver.sleep(50); // To prevent staleness of an element
         el = this.driver.findElement(locator);
-        condition = seleniumWebDriver.until[arg0](el, arg2); break;
+        condition = until[arg0](el, arg2); break;
     }
 
     return this.driver.sleep(this.config.speed)
