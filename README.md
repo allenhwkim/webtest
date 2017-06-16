@@ -64,7 +64,7 @@ Usage
   1. **Run `webtest` in command line**
   
          webtest (master)$ node index.js 
-         SeleniumWebTestDriver is initialized as { browser: { name: 'chrome' }, timeout: 10000 }
+         webTestDriver is initialized as { browser: { name: 'chrome' }, timeout: 10000 }
          ? > open browser chrome
          OK
          ? > go to https://www.google.com

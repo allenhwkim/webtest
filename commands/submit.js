@@ -1,5 +1,5 @@
 'use strict';
-var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+var webtestDriver = require('../src/web-test-driver');
 
 module.exports = {
   name: 'submit',
@@ -12,7 +12,7 @@ module.exports = {
         ' button[type="submit"],'+
         ' form button:not([type])';
 
-      return seleniumWebTestDriver
+      return webtestDriver
         .findBy('css', selector)
         .then(element => element.click());
     }

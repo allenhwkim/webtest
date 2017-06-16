@@ -1,5 +1,5 @@
 'use strict';
-var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+var webtestDriver = require('../src/web-test-driver');
 
 module.exports = {
   name: 'close browser',
@@ -8,6 +8,6 @@ module.exports = {
   func:
     /** must return a Promise, so that it can be chained with next command*/
     function () {
-      return Promise.resolve(seleniumWebTestDriver.driver.quit());
+      return Promise.resolve(webtestDriver.driver.quit());
     }
 };

@@ -1,5 +1,5 @@
 'use strict';
-var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+var webtestDriver = require('../src/web-test-driver');
 const RE_STR  = '["]?([^\"]+)["]?'; // e.g. foo.bar, "foo.bar", or "foo bar"
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
   /** must return a Promise, so that it can be chained with next command*/
   func: function(selector) {
     selector = selector.replace(/ is/g,'');
-    return seleniumWebTestDriver.waitUntil('elementIsDisabled', selector)
-      .then(el => seleniumWebTestDriver.lastFoundElement = el);
+    return webtestDriver.waitUntil('elementIsDisabled', selector)
+      .then(el => webtestDriver.lastFoundElement = el);
   }
 };

@@ -11,7 +11,7 @@ let singletonInstance = null;
 /**
  * Selenium WebDriver Substitute For Everything Asynchronous Operation
  */
-class SeleniumWebTestDriver {
+class WebTestDriver {
 
   constructor(config) {
     !singletonInstance && (singletonInstance = this);
@@ -27,7 +27,7 @@ class SeleniumWebTestDriver {
       { browser: { name: 'chrome' }, timeout: 10000, speed: 0 },
       config
     );
-    console.log('SeleniumWebTestDriver is initialized as', this.config);
+    console.log('WebTestDriver is initialized as', this.config);
     return singletonInstance;
   }
 
@@ -52,7 +52,7 @@ class SeleniumWebTestDriver {
     } else if (by === 'xpath') {
       locator = {xpath: string};
     }
-    //console.log('SeleniumWebTestDriver#findBy', 'locator', locator);
+    //console.log('WebTestDriver#findBy', 'locator', locator);
     let elLocation;
     return this.driver.wait(
         until.elementLocated(locator), this.config.timeout
@@ -141,5 +141,5 @@ class SeleniumWebTestDriver {
   }
 }
 var options = argv.speed ? {speed: argv.speed} : {};
-module.exports =  new SeleniumWebTestDriver(options);
+module.exports =  new WebTestDriver(options);
 

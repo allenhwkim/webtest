@@ -1,8 +1,8 @@
 'use strict';
-var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+var webtestDriver = require('../src/web-test-driver');
 const RE_NUM  = '([0-9]+)?';
 const RE_UNIT = '(second|seconds|millisecond|milliseconds)?';
-const resetSpeed = seleniumWebTestDriver.config.speed;
+const resetSpeed = webtestDriver.config.speed;
 
 module.exports = {
   name: '(re)set speed',
@@ -19,8 +19,8 @@ module.exports = {
       } else if (unit.match(/^millisecond/)) {
         speed =  parseInt(num);
       } 
-      seleniumWebTestDriver.config.speed = speed;
+      webtestDriver.config.speed = speed;
       console.log('seting speed to', speed);
-      return seleniumWebTestDriver.driver.executeScript('void(0)');
+      return webtestDriver.driver.executeScript('void(0)');
     }
 };

@@ -1,5 +1,5 @@
 'use strict';
-var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+var webtestDriver = require('../src/web-test-driver');
 const RE_STR_WITH_QUOTE = '[\'"]([\\s\\S]+)[\'"]'; //e.g. 'foo bar', "foo bar"
 
 /**
@@ -12,6 +12,6 @@ module.exports = {
   func: /** must return a Promise, so that it can be chained with next command*/
     function(string) {
       let xpath = `//*[contains(., '${string}')][not(.//*[contains(., '${string}')])]`;
-      return seleniumWebTestDriver.findBy('xpath', xpath);
+      return webtestDriver.findBy('xpath', xpath);
     }
 };

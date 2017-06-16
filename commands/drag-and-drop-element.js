@@ -1,5 +1,5 @@
 'use strict';
-var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+var webtestDriver = require('../src/web-test-driver');
 const RE_DIRECTION = '(left|right|up|down)'; // e.g. foo.bar, "foo.bar", or "foo bar"
 const RE_SELECTOR  = '[\'"]([\\s\\S]+)[\'"]'; //e.g. 'foo bar', "foo bar"
 const RE_AMOUNT    = '([0-9]+)';
@@ -21,9 +21,9 @@ module.exports = {
         case "down":  directionObj.y = parseInt(amount)*1;  break;
       }
     console.log('directionObj', directionObj, selector, direction, amount);
-      return seleniumWebTestDriver.findBy('css', selector)
+      return webtestDriver.findBy('css', selector)
         .then(element =>  {
-          return seleniumWebTestDriver.driver
+          return webtestDriver.driver
             .actions()
             .mouseMove(element)
             .mouseDown()

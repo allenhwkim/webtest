@@ -1,5 +1,5 @@
 'use strict';
-var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+var webtestDriver = require('../src/web-test-driver');
 var assert = require('assert');
 const RE_STR_WITH_QUOTE = '["]([^"]+)["]'; //e.g. 'foo bar', "foo bar"
 
@@ -10,9 +10,9 @@ module.exports = {
   /** must return a Promise, so that it can be chained with next command*/
   func: function(expression) {
     let expr = `return !!(${expression})`;
-    return seleniumWebTestDriver.driver.wait( function() {
-      return seleniumWebTestDriver.driver.executeScript(expr)
+    return webtestDriver.driver.wait( function() {
+      return webtestDriver.driver.executeScript(expr)
         .then(result => result);
-    }, seleniumWebTestDriver.config.timeout);
+    }, webtestDriver.config.timeout);
   }
 };

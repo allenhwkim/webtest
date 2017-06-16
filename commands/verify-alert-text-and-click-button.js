@@ -1,5 +1,5 @@
 'use strict';
-var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+var webtestDriver = require('../src/web-test-driver');
 const RE_STR_WITH_QUOTE = '[\'"]?([\\s\\S]+?)[\'"]?'; //e.g. 'foo bar', "foo bar"
 
 module.exports = {
@@ -9,8 +9,8 @@ module.exports = {
   /** must return a Promise, so that it can be chained with next command*/
   func: function(text, button) {
     let alert;
-    return seleniumWebTestDriver.waitUntil('alertIsPresent')
-      .then(() => seleniumWebTestDriver.driver.switchTo().alert())
+    return webtestDriver.waitUntil('alertIsPresent')
+      .then(() => webtestDriver.driver.switchTo().alert())
       .then( ret => {
         alert = ret;
         return alert.getText()
@@ -21,9 +21,9 @@ module.exports = {
         }
         (button.toUpperCase() === 'OK') ?
           alert.accept() : alert.dismiss();
-        return seleniumWebTestDriver.driver.switchTo().defaultContent();
+        return webtestDriver.driver.switchTo().defaultContent();
       })
-      .then(() => seleniumWebTestDriver.driver.sleep(seleniumWebTestDriver.config.speed))
-      .then(() => seleniumWebTestDriver.lastFoundElement);
+      .then(() => webtestDriver.driver.sleep(webtestDriver.config.speed))
+      .then(() => webtestDriver.lastFoundElement);
   }
 };

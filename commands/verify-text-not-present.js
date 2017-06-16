@@ -1,5 +1,5 @@
 'use strict';
-var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+var webtestDriver = require('../src/web-test-driver');
 const RE_STR_WITH_QUOTE = '[\'"]([\\s\\S]+)[\'"]'; //e.g. 'foo bar', "foo bar"
 
 module.exports = {
@@ -8,11 +8,11 @@ module.exports = {
   regExp: new RegExp(`^verify text ${RE_STR_WITH_QUOTE} [is ]*not present`),
   func: /** must return a Promise, so that it can be chained with next command*/
     function(string) {
-      return seleniumWebTestDriver.driver.wait(function () {
-        return seleniumWebTestDriver.driver.getPageSource()
+      return webtestDriver.driver.wait(function () {
+        return webtestDriver.driver.getPageSource()
           .then(function (source) {
             return (source.indexOf(string) === -1);
           });
-      }, seleniumWebTestDriver.config.timeout);
+      }, webtestDriver.config.timeout);
     }
 };

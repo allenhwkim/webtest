@@ -3,10 +3,10 @@
 var fs = require('fs');
 var path = require('path');
 var inquirer = require('inquirer');
-var webtestDriver = require('./selenium-web-test-driver');
-let seleniumWebDriver = require('selenium-webdriver');
-var until = seleniumWebDriver.until;
-var By = seleniumWebDriver.By;
+var webtestDriver = require('./web-test-driver');
+let seleniumWebdriver = require('selenium-webdriver');
+var until = seleniumWebdriver.until;
+var By = seleniumWebdriver.By;
 
 let singletonInstance = null;
 /**

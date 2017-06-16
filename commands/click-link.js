@@ -1,5 +1,5 @@
 'use strict';
-var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+var webtestDriver = require('../src/web-test-driver');
 var retry = require('webdriverjs-retry');
 
 const RE_STR_WITH_QUOTE = '[\'"]([\\s\\S]+)[\'"]'; //e.g. 'foo bar', "foo bar"
@@ -14,7 +14,7 @@ module.exports = {
   func: /** must return a Promise, so that it can be chained with next command*/
     function(linkText) {
       var fn = () => {
-        seleniumWebTestDriver.findBy('linkText', linkText)
+        webtestDriver.findBy('linkText', linkText)
         .then(element => {
           return element.click()
         });

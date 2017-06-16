@@ -1,5 +1,5 @@
 'use strict';
-var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+var webtestDriver = require('../src/web-test-driver');
 const RE_STR  = '["]?([^\"]+)["]?'; // e.g. foo.bar, "foo.bar", or "foo bar"
 const RE_STR_WITH_QUOTE = '[\'"]?([\\s\\S]*)[\'"]?'; //e.g. 'foo bar', "foo bar"
 
@@ -11,16 +11,16 @@ module.exports = {
   func: function(selector, value) {
     let cssSelector = `${selector}, [placeholder='${selector}']`;
     value = value || "";
-    return seleniumWebTestDriver.driver.wait( function() {
-      return seleniumWebTestDriver.driver.findElement({css: cssSelector})
+    return webtestDriver.driver.wait( function() {
+      return webtestDriver.driver.findElement({css: cssSelector})
         .then(element => {
-          return seleniumWebTestDriver.driver.executeScript(`
+          return webtestDriver.driver.executeScript(`
             arguments[0].value = '${value}';
             arguments[0].setAttribute('value', '${value}');
             arguments[0].dispatchEvent(new Event('change'));
             return true;
           `, element);
         })
-    }, seleniumWebTestDriver.config.timeout);
+    }, webtestDriver.config.timeout);
   }
 };

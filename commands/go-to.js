@@ -1,5 +1,5 @@
 'use strict';
-var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+var webtestDriver = require('../src/web-test-driver');
 const RE_URL  = '([\\S]+)';            // e.g. foo.bar, "foo.bar", or 'foo.bar'. not "foo bar"
 
 module.exports = {
@@ -9,8 +9,8 @@ module.exports = {
   func:
     /** must return a Promise, so that it can be chained with next command*/
     function(url) {
-      let fullUrl = (`${seleniumWebTestDriver.baseUrl||''}${url}`);
+      let fullUrl = (`${webtestDriver.baseUrl||''}${url}`);
 
-      return seleniumWebTestDriver.driver.get(fullUrl);
+      return webtestDriver.driver.get(fullUrl);
     }
 };

@@ -1,6 +1,6 @@
 'use strict';
-let SeleniumWebDriver = require('selenium-webdriver');
-var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+let SeleniumWebdriver = require('selenium-webdriver');
+var webtestDriver = require('../src/web-test-driver');
 const RE_STR  = '["]?([^\"]+)["]?'; // e.g. foo.bar, "foo.bar"
 
 /**
@@ -13,11 +13,11 @@ module.exports = {
   func: /** must return a Promise, so that it can be chained with next command*/
     function(character, selector) {
 
-      return seleniumWebTestDriver.findBy('css', selector)
+      return webtestDriver.findBy('css', selector)
         .then(element => {
           let key = character;
           if (character.match(/^[A-Z][A-Z_]+$/)) {
-            key = SeleniumWebDriver.Key[key];
+            key = SeleniumWebdriver.Key[key];
           }
           //TODO. combination keys. e.g. ALT+ENTER
           element.sendKeys(key);

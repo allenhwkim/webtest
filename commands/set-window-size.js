@@ -1,5 +1,5 @@
 'use strict';
-var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+var webtestDriver = require('../src/web-test-driver');
 const RE_NUM  = '([0-9]+)';
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
   func:
     /** must return a Promise, so that it can be chained with next command*/
     function(width, height) {
-      let window = seleniumWebTestDriver.driver.manage().window();
+      let window = webtestDriver.driver.manage().window();
       return window.setSize(parseInt(width), parseInt(height));
     }
 };

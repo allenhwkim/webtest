@@ -1,6 +1,6 @@
 'use strict';
-let seleniumWebDriver = require('selenium-webdriver');
-var seleniumWebTestDriver = require('../src/selenium-web-test-driver');
+let seleniumWebdriver = require('selenium-webdriver');
+var webtestDriver = require('../src/web-test-driver');
 const RE_STR  = '[ ]?([\\S]*)';   // e.g. foo.bar, "foo.bar", or 'foo.bar'. not "foo bar"
 
 module.exports = {
@@ -11,12 +11,12 @@ module.exports = {
     /** must return a Promise, so that it can be chained with next command*/
     function(browserName) {
       let window;
-      let config = seleniumWebTestDriver.config;
+      let config = webtestDriver.config;
       let browser = process.env['TRAVIS'] ? 'firefox' : browserName || config.browser.name || 'chrome';
 
-      let builder = new seleniumWebDriver.Builder();
-      seleniumWebTestDriver.driver = builder.forBrowser(browser).build();
-      window = seleniumWebTestDriver.driver.manage().window();
+      let builder = new seleniumWebdriver.Builder();
+      webtestDriver.driver = builder.forBrowser(browser).build();
+      window = webtestDriver.driver.manage().window();
 
       if (parseInt(config.left) >= 0 && parseInt(config.top) >= 0) {
         window.setPosition(config.left, config.top);
@@ -25,6 +25,6 @@ module.exports = {
         window.setSize(config.width,  config.height);
       }
 
-      return seleniumWebTestDriver.driver;
+      return webtestDriver.driver;
     }
 };
