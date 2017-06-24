@@ -46,7 +46,7 @@ class WebTestCommand {
   /**
    * get command object from an user command. e.g. 'click .foo.bar'
    */
-  get(commandStr) {
+  getCommand(commandStr) {
     let commandObjWithArguments;
     let trimmedCommandStr = commandStr.trim();
 
@@ -72,6 +72,33 @@ class WebTestCommand {
     );
   }
 
+  runCommand(command) {
+    return Promise.resolve(command)
+      .then(command => {
+        return this.getCommand(command);
+      }).then( cmdObj => {
+        if (cmdObj && cmdObj.func) {                          // command given and command found
+          let func = cmdObj.func;
+          let args = cmdObj.arguments;
+          func.apply(null, args);
+          return  cmdObj.regExp;
+        } else if (command === '?' || command === 'help') {     // help asked
+          return 'list of commands:\n' + this.helps.map(el => '. '+el).join('\n')
+        } else if (command && typeof cmdObj === 'undefined') { // command given but command not found
+          let prop = command.match(/^(\w+)/)[0];
+          if (webtestDriver[prop]) {
+            return '' + eval(`webtestDriver.${cmd}`)
+          } else {
+            throw "Invalid webtest command";
+          }
+        } else if (command === '') {                            // command is not given at all
+          return command;
+        }
+      }).then( str => {
+        return { result: 'OK', response: str };
+      });
+  }
+
   processNextCommand() {
     let cmd;
     inquirer.prompt([{
@@ -81,35 +108,9 @@ class WebTestCommand {
       validate: command => true
     }]).then(answers => {
       cmd = answers['webtest-command'];
-      if (!cmd || cmd === '?' || cmd === 'help') {
-        return Promise.resolve('help');
-      } else {
-        let cmdObj = this.get(cmd);
-        return cmdObj ? Promise.resolve(cmdObj) : Promise.reject(cmdObj);
-      }
-    }).then(
-      cmdObj =>  {
-        if (cmdObj === 'help') {
-          console.log("list of commands:");
-          console.log(this.helps.map(el => `. ${el}`).join("\n"));
-          return true;
-        } else {
-          let func = cmdObj.func;
-          let args = cmdObj.arguments;
-          console.log(cmdObj.regExp);
-          return func.apply(null, args);
-        }
-      },
-      err => {
-        let prop = cmd.match(/^(\w+)/)[0];
-        if (webtestDriver[prop]) {
-          console.log(eval(`webtestDriver.${cmd}`));
-        } else {
-          throw "Invalid webtest command";
-        }
-      }
-    ).then( () => {
-      console.log('OK');
+      return this.runCommand(cmd);
+    }).then( resp => {
+      console.log(resp.result, resp.response);
       this.processNextCommand(); 
     }).catch(err => {
       console.error('ERROR', err);
