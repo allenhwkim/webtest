@@ -46,7 +46,7 @@ if (testFiles.length) {
     .then(() => console.log('DONE'))
     .catch(err => {
       if (!argv['leave-browser-open']) {
-        webTestCommand.get('close browser').func();
+        webTestCommand.getCommand('close browser').func();
       }
       console.log(err);
     });
@@ -54,14 +54,17 @@ if (testFiles.length) {
   //start web server
   var app = express();
   app.use(serveStatic(path.join(__dirname, 'src', 'web')));
-  app.get('/run?cmd=:command', (req, res, next) => {
+  app.get('/run', (req, res, next) => {
+    let command = req.query.cmd;
+    console.log('command >>>>>>>>>>>>...', command, req.query, req.params);
     webTestCommand.runCommand(command)
-      .then( resp => {
-        console.log(resp.result, resp.response);
-        resp.send(resp);
+      .then(result => {
+        console.log(result);
+        result.response = result.response.toString();
+        res.send(result);
       }).catch( err => {
         console.error('ERROR', err);
-        resp.send({result: 'ERROR', response: err});
+        res.send({result: 'ERROR', response: err});
       });
   });
   app.listen(argv.port || 3000);

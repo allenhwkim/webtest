@@ -54,8 +54,11 @@ class WebTestDriver {
     }
     //console.log('WebTestDriver#findBy', 'locator', locator);
     let elLocation;
-    return this.driver.wait(
-        until.elementLocated(locator), this.config.timeout
+
+
+    return this.driver.wait( 
+        () => this.driver.findElement(locator), 
+        this.config.timeout
       )
       .then(el => {
         this.lastFoundElement = el;

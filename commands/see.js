@@ -20,6 +20,6 @@ module.exports = {
               return el.isEnabled();
             }
           })
-      }, webtestDriver.config.timeout);
+      }, webtestDriver.config.timeout)
     }
 };

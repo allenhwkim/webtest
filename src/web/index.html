@@ -4,16 +4,39 @@
     <style>
       * {box-sizing: border-box;}
       html, body {margin: 0; width: 100%; height: 100%;}
-      #command-section, #browser-section { width: 50%; float: left; padding: 2px;}
+      #command-section, #browser-section { width: 50%; float: left; padding: 2px; height: 100%; overflow: auto;}
+      #command-response { overflow: auto; }
       #command { width: 100%; }
-      #browser-section {height: 100%;}
     </style>
+    <script>
+    window.onload = () => {
+      let commandEl = document.querySelector('#command');
+      let responseEl = document.querySelector('#command-response');
+      commandEl.addEventListener('keypress', e => {
+        if (e.charCode === 13) { //Enter
+          fetch(`run?cmd=${e.target.value}`)
+            .then( resp => resp.json() )
+            .then( resp => {
+              console.log('resp', resp);
+              var preEl = document.createElement('pre');
+              preEl.innerHTML += `> ${e.target.value}\n${''+resp.response}`;
+              responseEl.appendChild(preEl);
+              commandEl.value = '';
+              commandEl.scrollIntoView(false);
+              setTimeout(() => commandEl.focus(), 500);
+            });
+        }
+      });
+      commandEl.click();
+    }
+    </script>
   </head>
   <body>
     <iframe id="browser-section" name="browser-section">
     </iframe>
     <div id='command-section'>
-      <input id="command" name="command" placeholder="command"/>
+      <div id="command-response"></div>
+      <input id="command" name="command" placeholder="command" autofocus="true"/>
     </div>
   </body>
 </html>
