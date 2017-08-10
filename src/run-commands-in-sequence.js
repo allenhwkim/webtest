@@ -4,7 +4,7 @@ var webTestCommand = require('./web-test-command');
 function runCommandsInSequence(commandStrings) {
   let result = Promise.resolve();
   commandStrings.forEach(commandStr => {
-    let commandObj = webTestCommand.getCommand(commandStr);
+    let commandObj = webTestCommand.get(commandStr);
     let func, args, output;
 
     if (commandObj) {
