@@ -8,17 +8,78 @@
     height: 50px; top: -2em; background-color: rgba(255, 255, 255, 0.5);
     border: 1px solid #ccc; 
   }
+  #canvas {
+    border:1px solid blue;
+    background-color: #eee;
+  }
   </style>
   <script>
+  var canvas, ctx, canvasOffset, offsetX, offsetY, startX, startY, isDown;
   window.onload = () => {
     document.querySelector('#page-url').innerHTML = window.location.href;
+
+    canvas = document.getElementById("canvas");
+    ctx = canvas.getContext("2d");
+    canvasOffset = getOffset(canvas);
+    offsetX = canvasOffset.x;
+    offsetY = canvasOffset.y;
+    startX;
+    startY;
+    isDown = false;
   }
+
+  function getOffset(element) {
+    var xPosition = 0;
+    var yPosition = 0;
+
+    while (element) {
+      xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+      yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+      element = element.offsetParent;
+    }
+    return { x: xPosition, y: yPosition };
+  }
+
   function showThenHideBlocker(selector) {
     var el = document.querySelector(selector);
     el.style.display = 'block';
     setTimeout(function() {
       el.style.display = 'none';
     }, 500);
+  }
+
+  function drawLine(x, y) {
+    ctx.beginPath();
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(x, y);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.restore();
+  }
+  
+  function drawMouseDown(e)  {
+    ctx.save();
+    e.preventDefault();
+    e.stopPropagation();
+    startX = parseInt(e.clientX - offsetX+window.scrollX);
+    startY = parseInt(e.clientY - offsetY+window.scrollY);
+    isDown = true;
+  }
+
+  function drawMouseMove(e)  {
+    if (!isDown) { return; }
+    e.preventDefault();
+    e.stopPropagation();
+    mouseX = parseInt(e.clientX - offsetX + window.scrollX);
+    mouseY = parseInt(e.clientY - offsetY + window.scrollY);
+    drawLine(mouseX, mouseY);
+  }
+
+  function drawMouseUp(e) {
+    if (!isDown) { return; }
+    e.preventDefault();
+    e.stopPropagation();
+    isDown = false;
   }
   </script>
 </head>
@@ -93,6 +154,13 @@ Page url:
       <li>
         <h3>presence test</h3>
         <div id="presence">Test Div with id 'present'</div>
+      </li>
+      <li>
+        <h3>drag/drop test</h3>
+        <canvas id="canvas" width=600 height=200
+          onmousedown="drawMouseDown(event)"
+          onmousemove="drawMouseMove(event)"
+          onmouseup="drawMouseUp(event)"></canvas>
       </li>
       <li>
         <h3>submit test</h3>

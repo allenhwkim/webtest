@@ -4,7 +4,7 @@ START
   open browser
   go to http://localhost:8080/test/test-page.html
   set window position 0 0
-  set window size 100 600
+  set window size 800 600
 
 CLICK
   click #blocker-btn1
@@ -69,27 +69,21 @@ TEXTAREA
   clear textarea
   verify element textarea value is ""
 
+DRAG-AND-DROP
+  mouse down on element "#canvas"
+  sleep 600 milliseconds
+  move mouse x 100 y 10
+  sleep 100 milliseconds
+  move mouse x 0 y 20
+  sleep 100 milliseconds
+  move mouse x 0 y 30
+  sleep 100 milliseconds
+  mouse up
+  sleep 1000 milliseconds
+
 SUBMIT
   click #enable
   submit
-
-CLASS NAMES
-  verify element #class-names with class test1
-  verify element #class-names with class test2
-  verify element #class-names without class test3
-
-PRESENCE
-  verify element #presence present
-  verify element #presence-not not present
-
-DRAG-AND-DROP
-  drag element 'drag1' 10 pixel up, then drop
-
-ALERT/CONFIRM
-  run script "alert(12345)"
-  verify alert "12345" and click ok
-  run script "confirm(12345)"
-  verify alert "12345" and click cancel
 
 SAVE VARIABLE
   run script "var today=new Date(); return today" and save to "today"
@@ -101,6 +95,21 @@ SAVE VARIABLE
   print variable "myInputVariable"
   verify script "myInputVariable === 'We can save variable'"
 
+ALERT/CONFIRM
+  run script "alert(12345)"
+  verify alert "12345" and click ok
+  run script "confirm(12345)"
+  verify alert "12345" and click cancel
+
+PRESENCE
+  verify element #presence present
+  verify element #presence-not not present
+
+CLASS NAMES
+  verify element #class-names with class test1
+  verify element #class-names with class test2
+  verify element #class-names without class test3
+
 END
   wait for page load
-  close browser
+  --close browser
