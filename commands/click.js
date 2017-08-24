@@ -1,6 +1,6 @@
 'use strict';
 var webtestDriver = require('../src/web-test-driver');
-var retry = require('webdriverjs-retry');
+var retry = require('../src/webdriverjs-retry');
 const RE_STR  = '["]?([^\"]+)["]?'; // e.g. foo.bar, "foo.bar", or "foo bar"
 
 /**

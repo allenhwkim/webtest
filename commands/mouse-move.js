@@ -9,7 +9,6 @@ module.exports = {
   func: /** must return a Promise, so that it can be chained with next command*/
     function(xAmt, yAmt) {
       let directionObj = {x: parseInt(xAmt), y: parseInt(yAmt)};
-      console.log('xxxxxxxxxx', directionObj);
       return webtestDriver.driver.actions().
         mouseMove(directionObj).perform();
     }
