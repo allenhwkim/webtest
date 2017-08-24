@@ -112,4 +112,4 @@ CLASS NAMES
 
 END
   wait for page load
-  --close browser
+  close browser
