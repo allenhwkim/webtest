@@ -71,15 +71,15 @@ TEXTAREA
 
 DRAG-AND-DROP
   mouse down on element "#canvas"
-  sleep 600 milliseconds
+  sleep 600
   move mouse x 100 y 10
-  sleep 100 milliseconds
+  sleep 100
   move mouse x 0 y 20
-  sleep 100 milliseconds
+  sleep 100
   move mouse x 0 y 30
-  sleep 100 milliseconds
+  sleep 100
   mouse up
-  sleep 1000 milliseconds
+  sleep 1000
 
 SUBMIT
   click #enable
