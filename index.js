@@ -73,11 +73,8 @@ if (testFiles.length) {
   //open browser with index.html
   webTestCommand.runCommand('open browser')
     .then(() => webTestCommand.runCommand('go to http://localhost:'+port))
-    .then(() => console.log(1))
     .then(() => webTestCommand.runCommand('switch to frame browser-section')) //all command will run on iframe
-    .then(() => console.log(2))
-    .then(() => webTestCommand.runCommand('go to http://localhost:8080/test/test-page.html')) //all command will run on iframe
-    .then(() => console.log(3))
+    .then(() => webTestCommand.runCommand('go to http://www.rogers.com'))
 } else {
   console.log("list of commands:");
   console.log(allHelps.map(el => `. ${el}`).join("\n"));

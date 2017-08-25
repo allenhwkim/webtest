@@ -10,7 +10,14 @@ module.exports = {
     /** must return a Promise, so that it can be chained with next command*/
     function(url) {
       let fullUrl = (`${webtestDriver.baseUrl||''}${url}`);
-
-      return webtestDriver.driver.get(fullUrl);
+      return webtestDriver.driver.executeScript(`window.location.href = '${fullUrl}';`)
+        .then( () => { // wait for page to load
+           return webtestDriver.driver.wait( function() {
+             return webtestDriver.driver.executeScript('return document.readyState')
+               .then(function(resp) {
+                 return resp === 'complete';
+               })
+          }, webtestDriver.config.timeout);
+        });
     }
 };
