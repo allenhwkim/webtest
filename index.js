@@ -2,6 +2,8 @@
 'use strict';
 var fs = require('fs');
 var path = require('path');
+var express = require('express');
+var serveStatic = require('serve-static');
 
 // arguments
 var argv = require('yargs')
@@ -56,6 +58,7 @@ if (testFiles.length) {
 } else if (argv.browser) {
   //start web server
   var app = express();
+  var port = argv.port || 3000;
   app.use(serveStatic(path.join(__dirname, 'src', 'web')));
   app.get('/run', (req, res, next) => {
     let command = req.query.cmd;
@@ -69,13 +72,16 @@ if (testFiles.length) {
         res.send({result: 'ERROR', response: err});
       });
   });
-  app.listen(argv.port || 3000);
+  app.listen(port);
   console.log('webserver running ...');
   //open browser with index.html
   webTestCommand.runCommand('open browser')
-    .then(() => webTestCommand.runCommand('go to http://localhost:3000/'))
+    .then(() => webTestCommand.runCommand('go to http://localhost:'+port))
+    .then(() => console.log(1))
     .then(() => webTestCommand.runCommand('switch to frame browser-section')) //all command will run on iframe
+    .then(() => console.log(2))
     .then(() => webTestCommand.runCommand('go to http://localhost:8080/test/test-page.html')) //all command will run on iframe
+    .then(() => console.log(3))
 } else {
   console.log("list of commands:");
   console.log(allHelps.map(el => `. ${el}`).join("\n"));
