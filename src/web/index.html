@@ -18,9 +18,9 @@
           fetch(`run?cmd=${e.target.value}`)
             .then( resp => resp.json() )
             .then( resp => {
-              console.log('resp', resp);
+	      console.log('resp', resp);
               var preEl = document.createElement('pre');
-              preEl.innerHTML += `> ${e.target.value}\n${''+resp.response}`;
+              preEl.innerHTML += `> ${e.target.value}\n${''+JSON.stringify(resp)}`;
               responseEl.appendChild(preEl);
               commandEl.value = '';
               commandEl.scrollIntoView(false);

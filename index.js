@@ -57,24 +57,28 @@ if (testFiles.length) {
   var port = argv.port || 3000;
   app.use(serveStatic(path.join(__dirname, 'src', 'web')));
   app.get('/run', (req, res, next) => {
-    let command = req.query.cmd;
+    let command = req.query.cmd, cmdObj, resp;
+    console.log('received command to run from browser', command);
+    cmdObj = webTestCommand.getCommand(command);
     webTestCommand.runCommand(command)
       .then(result => {
-        console.log(result);
-        result.response = result.response.toString();
-        res.send(result);
+        resp = {result:'OK', regExp: ''+cmdObj.regExp};
+        console.log(resp);
+        res.send(resp);
       }).catch( err => {
-        console.error('ERROR', err);
-        res.send({result: 'ERROR', response: err});
+	console.log(err);
+        res.send({error: ''+err});
       });
   });
   app.listen(port);
   console.log('webserver running ...');
+
   //open browser with index.html
   webTestCommand.runCommand('open browser')
     .then(() => webTestCommand.runCommand('go to http://localhost:'+port))
     .then(() => webTestCommand.runCommand('switch to frame browser-section')) //all command will run on iframe
-    .then(() => webTestCommand.runCommand('go to http://www.rogers.com'))
+    .then(() => webTestCommand.runCommand('go to http://www.rogers.com'));
+
 } else {
   console.log("list of commands:");
   console.log(allHelps.map(el => `. ${el}`).join("\n"));

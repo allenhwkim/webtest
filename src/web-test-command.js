@@ -77,36 +77,29 @@ class WebTestCommand {
       .then(command => {
         return this.getCommand(command);
       }).then( cmdObj => {
-        let ret;
         if (cmdObj && cmdObj.func) {                          // command given and command found
           let func = cmdObj.func;
           let args = cmdObj.arguments;
-          func.apply(null, args);
-          ret = cmdObj.regExp;
-        } else if (command === '?' || command === 'help') {     // help asked
-          ret = 'list of commands:\n' + this.helps.map(el => '. '+el).join('\n')
-        } else if (command && typeof cmdObj === 'undefined') { // command given but command not found
+          return func.apply(null, args);
+        } else if (command === '?' || command === 'help') { // help asked
+          return 'list of commands:\n' + this.helps.map(el => '. '+el).join('\n');
+        } else if (command === '') {
+          return "";
+        } else if (typeof cmdObj === 'undefined') { // if command not found
           let matches = command.match(/^(\w+)/);
           if (matches) {
             let prop = command.match(/^(\w+)/)[0];
             if (webtestDriver[prop]) {
-              ret = '' + eval(`webtestDriver.${cmd}`)
+              return  '' + eval(`webtestDriver.${cmd}`)
             }
           } 
-        } else if (command === '') {                            // command is not given at all
-          ret = command;
-        }
-        if (typeof ret === 'undefined') {
-          throw "Invalid webtest command";
-        }
-        return ret;
-      }).then( str => {
-        return { result: 'OK', response: str };
+          return "Invalid webtest command"
+        } 
       });
   }
 
   processNextCommand() {
-    let cmd;
+    let cmd, cmdObj;
     inquirer.prompt([{
       name: 'webtest-command',
       type: 'command',
@@ -114,9 +107,10 @@ class WebTestCommand {
       validate: command => true
     }]).then(answers => {
       cmd = answers['webtest-command'];
+      cmdObj = this.getCommand(cmd);
       return this.runCommand(cmd);
     }).then( resp => {
-      console.log(resp.result, resp.response);
+      console.log('OK ' + cmdObj.regExp);
       this.processNextCommand(); 
     }).catch(err => {
       console.error('ERROR', err);
