@@ -5,23 +5,19 @@ var path = require('path');
 var express = require('express');
 var serveStatic = require('serve-static');
 
-// arguments
 var argv = require('yargs')
   .usage('Usage: $0 <command-files> [options]')
   .options({
-    's': {
-      alias: 'speed',
-      describe: 'execution speed in milliseconds',
-      type: 'number'
-    },
-    'l' :{
-      alias: 'leave-browser-open',
-      describe: 'if true, do not close browser with errors',
-      type: 'boolean'
-    }
+    's': { alias: 'speed', describe: 'execution speed in milliseconds', type: 'number' },
+    'l' :{ alias: 'leave-browser-open', describe: 'if true, do not close browser with errors', type: 'boolean' },
+    'i' :{ alias: 'cli', describe: 'if true, run in interactive mode', type: 'boolean' },
+    'b' :{ alias: 'browser', describe: 'if true, run in interactive mode in a browser', type: 'boolean' }
   })
   .example('$0 command1.txt command 2.txt --speed=1000 --open-browser=true', 
     'run command1.txt and command2.txt with speed 1 second')
+  .example('$0 file1.txt command file2.txt --s 1000 -l', 'run file1.txt and file2.txt with speed 1 second')
+  .example('$0', 'open interactve mode')
+  .example('$0 -b', 'open browser mode')
   .help('h')
   .argv;
 
