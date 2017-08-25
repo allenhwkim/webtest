@@ -53,6 +53,29 @@ if (testFiles.length) {
       }
       console.log(err);
     });
+} else if (argv.browser) {
+  //start web server
+  var app = express();
+  app.use(serveStatic(path.join(__dirname, 'src', 'web')));
+  app.get('/run', (req, res, next) => {
+    let command = req.query.cmd;
+    webTestCommand.runCommand(command)
+      .then(result => {
+        console.log(result);
+        result.response = result.response.toString();
+        res.send(result);
+      }).catch( err => {
+        console.error('ERROR', err);
+        res.send({result: 'ERROR', response: err});
+      });
+  });
+  app.listen(argv.port || 3000);
+  console.log('webserver running ...');
+  //open browser with index.html
+  webTestCommand.runCommand('open browser')
+    .then(() => webTestCommand.runCommand('go to http://localhost:3000/'))
+    .then(() => webTestCommand.runCommand('switch to frame browser-section')) //all command will run on iframe
+    .then(() => webTestCommand.runCommand('go to http://localhost:8080/test/test-page.html')) //all command will run on iframe
 } else {
   console.log("list of commands:");
   console.log(allHelps.map(el => `. ${el}`).join("\n"));
