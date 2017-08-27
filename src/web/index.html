@@ -22,16 +22,18 @@
         background: url('loading.gif') no-repeat right center;
       }
     </style>
-    <script src="https://unpkg.com/touch-ui/dist/touch-ui.js"></script>
+    <script src="https://unpkg.com/touch-ui/dist/touch-ui.min.js"></script>
     <script>
     // TODO: resize right and bottom command section
     // TODO: set command history and make it accessible by up and down key stroke
     let commadnEl, browserSectionEl, commandSectionEl, startWidth, startHeight, resizable;
     let savedWidth, savedHeight;
+    let history = new CommandHistory();
 
     window.onload = () => {
       commandEl = document.querySelector('#command');
       commandEl.addEventListener('keypress', commandHandler);
+      commandEl.addEventListener('keydown', historyHandler);
       commandEl.click();
 
       browserSectionEl = document.querySelector('#browser-section');
@@ -47,11 +49,21 @@
         commandEl.disabled = true;
         fetch(`run?cmd=${commandEl.value}`)
           .then( resp  => resp.text())
-          .then( txt   => dispayResponse(txt) )
+          .then( txt   => {
+            history.add(commandEl.value);
+            displayResponse(txt);
+          })
           .catch(error => {
             displayResponse(error);
           });
-      }
+      } 
+    }
+
+    function historyHandler(e) {
+      console.log('history', history.commands);
+      let newCommand = e.keyCode === 38 ? history.get(-1) : 
+                       e.keyCode === 40 ? history.get(+1) : commandEl.value;
+      commandEl.value = newCommand || commandEl.value;
     }
 
     function resizeStartHandler(e) {
@@ -109,6 +121,21 @@
     function clearCommandResponse() {
       let responseEl = document.querySelector('#command-response');
       responseEl.innerHTML = '';
+    }
+
+    function CommandHistory() {
+      this.commands = [];
+
+      this.add = function(command) {
+        this.commands.push(command);
+        this.index = this.commands.length -1;
+      }
+
+      this.get = function(num) {
+        this.index = (this.index + this.commands.length + num) % this.commands.length;
+        return this.commands[this.index];
+      }
+
     }
     </script>
   </head>
