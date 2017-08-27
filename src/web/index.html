@@ -16,41 +16,99 @@
       .dock-bottom #browser-section { width: 100%; float: left; padding: 2px; height: 50%; overflow: auto;}
       .dock-bottom #command-section { width: 100%; float: left; padding: 2px; height: 50%; overflow: auto;}
       #command-response { overflow: auto; }
-      #command { border: none; width: calc(100% - 20px) }
+      #command { border: none; width: calc(100% - 20px);  font-family: monospace; white-space: pre;}
       #command:focus { outline: none; }
       #command.loading {
         background: url('loading.gif') no-repeat right center;
       }
     </style>
+    <script src="https://unpkg.com/touch-ui/dist/touch-ui.js"></script>
     <script>
+    // TODO: resize right and bottom command section
+    // TODO: set command history and make it accessible by up and down key stroke
+    let commadnEl, browserSectionEl, commandSectionEl, startWidth, startHeight, resizable;
+    let savedWidth, savedHeight;
+
     window.onload = () => {
-      let commandEl = document.querySelector('#command');
-      let responseEl = document.querySelector('#command-response');
-      commandEl.addEventListener('keypress', e => {
-        if (e.charCode === 13) { //Enter
-          commandEl.classList.add('loading');
-          commandEl.disabled = true;
-          fetch(`run?cmd=${e.target.value}`)
-            .then( resp => resp.json() )
-            .then( resp => {
-              var preEl = document.createElement('pre');
-              preEl.innerHTML += `\n> ${e.target.value}\n${''+JSON.stringify(resp)}`;
-              responseEl.appendChild(preEl);
-              commandEl.value = '';
-              commandEl.scrollIntoView(false);
-              setTimeout(() => {
-                commandEl.classList.remove('loading');
-                commandEl.disabled = false;
-                commandEl.focus()
-              }, 500);
-            });
-        }
-      });
+      commandEl = document.querySelector('#command');
+      commandEl.addEventListener('keypress', commandHandler);
       commandEl.click();
+
+      browserSectionEl = document.querySelector('#browser-section');
+      commandSectionEl = document.querySelector('#command-section');
+      resizable = TouchUI.resizable(browserSectionEl);
+      browserSectionEl.addEventListener('resize-start', resizeStartHandler);
+      browserSectionEl.addEventListener('resize-move', resizeMoveHandler);
     }
+
+    function commandHandler(e) {
+      if (e.charCode === 13) { //Enter
+        commandEl.classList.add('loading');
+        commandEl.disabled = true;
+        fetch(`run?cmd=${commandEl.value}`)
+          .then( resp  => resp.text())
+          .then( txt   => dispayResponse(txt) )
+          .catch(error => {
+            displayResponse(error);
+          });
+      }
+    }
+
+    function resizeStartHandler(e) {
+      startWidth  = commandSectionEl.getBoundingClientRect().width;
+      startHeight  = commandSectionEl.getBoundingClientRect().height;
+    }
+
+    function resizeMoveHandler(e) {
+      if (e.resizePosition == 'right') {
+        commandSectionEl.style.width  = startWidth  + (e.move.x * -1) + 'px';
+      } else if (e.resizePosition == 'bottom') {
+        commandSectionEl.style.height = startHeight  + (e.move.y * -1) + 'px';
+      }
+    };
+
+    function displayResponse(response) {
+      let responseEl = document.querySelector('#command-response');
+      var preEl = document.createElement('pre');
+      preEl.innerHTML += `> ${commandEl.value}\n${response}`;
+      responseEl.appendChild(preEl);
+      commandEl.value = '';
+      commandEl.scrollIntoView(false);
+      setTimeout(() => {
+        commandEl.classList.remove('loading');
+        commandEl.disabled = false;
+        commandEl.focus()
+      }, 500);
+    }
+
     function setDock(dockClass) {
       document.body.classList.remove('dock-right', 'dock-bottom');
       document.body.classList.add(dockClass);
+      if (dockClass == 'dock-right') {
+        savedHeight = commandSectionEl.style.height;
+        browserSectionEl.style.height = '100%';
+        commandSectionEl.style.height = '100%';
+        if (savedWidth) {
+          commandSectionEl.style.width = savedWidth;
+          browserSectionEl.style.width = `calc(100% - ${savedWidth})`;
+        } 
+        resizable.reset({positions: 'right'});
+      } else if (dockClass == 'dock-bottom'){
+        savedWidth = commandSectionEl.style.width;
+        browserSectionEl.style.width = '100%';
+        commandSectionEl.style.width = '100%';
+        if (savedHeight) {
+          commandSectionEl.style.height = savedHeight;
+          browserSectionEl.style.height = `calc(100% - ${savedHeight})`;
+        } 
+        commandSectionEl.style.height = savedHeight ? savedHeight : '50%';
+        resizable.reset({positions: 'bottom'});
+      }
+    }
+
+    function clearCommandResponse() {
+      let responseEl = document.querySelector('#command-response');
+      responseEl.innerHTML = '';
     }
     </script>
   </head>
@@ -63,6 +121,7 @@
           <img src="browser-gear.png" /> WEBTEST v0.6.4
         </div>
         <div class="docks">
+          <img src="clear.ico" onclick="clearCommandResponse()" />
           <img src="dock-bottom.ico" onclick="setDock('dock-bottom')" />
           <img src="dock-right.ico"  onclick="setDock('dock-right')"/>
         </div>

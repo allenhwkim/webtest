@@ -57,17 +57,17 @@ if (testFiles.length) {
   var port = argv.port || 3000;
   app.use(serveStatic(path.join(__dirname, 'src', 'web')));
   app.get('/run', (req, res, next) => {
-    let command = req.query.cmd, cmdObj, resp;
-    console.log('received command to run from browser', command);
+    let command = req.query.cmd.trim(), cmdObj, resp;
+    console.log('running', command);
     cmdObj = webTestCommand.getCommand(command);
     webTestCommand.runCommand(command)
       .then(result => {
-        resp = {result:'OK', regExp: ''+cmdObj.regExp};
-        console.log(resp);
+        let resp = typeof result === 'string' ? result : 'ok';
         res.send(resp);
       }).catch( err => {
-	console.log(err);
-        res.send({error: ''+err});
+      	console.log(err);
+        res.status(500);
+        res.send(''+err);
       });
   });
   app.listen(port);
@@ -77,7 +77,7 @@ if (testFiles.length) {
   webTestCommand.runCommand('open browser')
     .then(() => webTestCommand.runCommand('go to http://localhost:'+port))
     .then(() => webTestCommand.runCommand('switch to frame browser-section')) //all command will run on iframe
-    .then(() => webTestCommand.runCommand('go to http://www.rogers.com'));
+    .then(() => webTestCommand.runCommand('go to https://rawgit.com/allenhwkim/touch-ui/master/demo/index.html'));
 
 } else {
   console.log("list of commands:");

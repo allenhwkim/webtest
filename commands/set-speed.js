@@ -6,7 +6,7 @@ const resetSpeed = webtestDriver.config.speed;
 
 module.exports = {
   name: '(re)set speed',
-  help: '(re)set speed <speed> seconds',
+  help: 'set speed <speed> seconds',
   regExp: new RegExp(`^(set|reset) speed[ ]?${RE_NUM}[ ]?${RE_UNIT}`),
   func:
     /** must return a Promise, so that it can be chained with next command*/

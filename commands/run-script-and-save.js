@@ -5,7 +5,7 @@ const RE_VARIABLE    = `['"]?([a-z$]?[a-zA-Z0-9_]*)["']?`;
 
 module.exports = {
   name: 'run script and save',
-  help: 'run script "<expressions>"( and save to )?<variable>',
+  help: 'run script "<expressions>" and save to <variable>',
   regExp: new RegExp(`^run script ${RE_EXPRESSION_STR}( and save to )?${RE_VARIABLE}`),
   func: function(expressionStr, save, variableName) {
     let func = `function webtestFunc() { ${expressionStr} }`;

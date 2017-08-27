@@ -1,6 +1,6 @@
 'use strict';
 var webtestDriver = require('../src/web-test-driver');
-const RE_NUM    = '([0-9]+)';
+const RE_NUM    = '([\-0-9]+)';
 
 module.exports = {
   name: 'move mouse xy',

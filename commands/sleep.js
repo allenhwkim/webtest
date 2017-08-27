@@ -8,7 +8,7 @@ const RE_UNIT = '( second| seconds| millisecond| milliseconds)?';
  */
 module.exports = {
   name: 'wait for a period',
-  help: 'sleep <num> (milli)second',
+  help: 'sleep <num> milliseconds',
   regExp: new RegExp(`^sleep ${RE_NUM}${RE_UNIT}`),
   func: /** must return a Promise, so that it can be chained with next command*/
     function(num, unit) {
