@@ -35,6 +35,8 @@
       commandEl.addEventListener('keypress', commandHandler);
       commandEl.addEventListener('keydown', historyHandler);
       commandEl.click();
+      commandEl.value = 'help';
+      commandHandler({charCode:13});
 
       browserSectionEl = document.querySelector('#browser-section');
       commandSectionEl = document.querySelector('#command-section');
@@ -82,7 +84,7 @@
     function displayResponse(response) {
       let responseEl = document.querySelector('#command-response');
       var preEl = document.createElement('pre');
-      preEl.innerHTML += `> ${commandEl.value}\n${response}`;
+      preEl.innerHTML += `> ${commandEl.value}\n${response.replace('/</g','&lt;')}`;
       responseEl.appendChild(preEl);
       commandEl.value = '';
       commandEl.scrollIntoView(false);

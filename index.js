@@ -10,8 +10,8 @@ var argv = require('yargs')
   .options({
     's': { alias: 'speed', describe: 'execution speed in milliseconds', type: 'number' },
     'l' :{ alias: 'leave-browser-open', describe: 'if true, do not close browser with errors', type: 'boolean' },
-    'i' :{ alias: 'cli', describe: 'if true, run in interactive mode', type: 'boolean' },
-    'b' :{ alias: 'browser', describe: 'if true, run in interactive mode in a browser', type: 'boolean' }
+    'i' :{ alias: 'interactive', describe: 'if true, run in interactive mode', type: 'boolean', default: false },
+    'b' :{ alias: 'browser', describe: 'if true, run in interactive mode in a browser', type: 'boolean', default: true }
   })
   .example('$0 command1.txt command 2.txt --speed=1000 --open-browser=true', 
     'run command1.txt and command2.txt with speed 1 second')
@@ -51,6 +51,10 @@ if (testFiles.length) {
       }
       console.log(err);
     });
+} else if (argv.interactive) {
+  console.log("list of commands:");
+  console.log(allHelps.map(el => `. ${el}`).join("\n"));
+  webTestCommand.processNextCommand();
 } else if (argv.browser) {
   //start web server
   var app = express();
@@ -77,10 +81,7 @@ if (testFiles.length) {
   webTestCommand.runCommand('open browser')
     .then(() => webTestCommand.runCommand('go to http://localhost:'+port))
     .then(() => webTestCommand.runCommand('switch to frame browser-section')) //all command will run on iframe
-    .then(() => webTestCommand.runCommand('go to https://rawgit.com/allenhwkim/touch-ui/master/demo/index.html'));
-
-} else {
-  console.log("list of commands:");
-  console.log(allHelps.map(el => `. ${el}`).join("\n"));
-  webTestCommand.processNextCommand();
+    .then(() => webTestCommand.runCommand('go to https://rawgit.com/allenhwkim/touch-ui/master/demo/index.html'))
+    .then(() => webTestCommand.runCommand('help'));
 }
+
