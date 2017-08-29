@@ -15,12 +15,14 @@
   },
   "dependencies": {
     "chromedriver": "^2.24.1",
+    "express": "^4.15.4",
     "forever": "^0.15.2",
     "inquirer": "^1.2.1",
     "mustache": "^2.2.1",
     "npm-run-all": "^3.1.0",
     "preferences": "^0.2.1",
     "selenium-webdriver": "^2.53.3",
+    "serve-static": "^1.12.4",
     "yargs": "^4.8.1"
   },
   "devDependencies": {

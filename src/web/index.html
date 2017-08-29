@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <style>
+      * {box-sizing: border-box;}
+      html, body {margin: 0; width: 100%; height: 100%; font-size: 12px;}
+      .header {border-bottom: 1px solid #ccc; line-height: 20px; background-color: #eee;}
+      .header .logo {display: inline-block;}
+      .header .docks {float: right;}
+      .header .docks img {opacity: 0.5;}
+      .header .docks img:hover {opacity: 1}
+      .header img {vertical-align: middle; width: 16px; height: 12px;}
+      .dock-right #browser-section { width: 50%; float: left; padding: 2px; height: 100%; overflow: auto;}
+      .dock-right #command-section { width: 50%; float: left; padding: 2px; height: 100%; overflow: auto;}
+      .dock-bottom #browser-section { width: 100%; float: left; padding: 2px; height: 50%; overflow: auto;}
+      .dock-bottom #command-section { width: 100%; float: left; padding: 2px; height: 50%; overflow: auto;}
+      #command-response { overflow: auto; }
+      #command { border: none; width: calc(100% - 20px);  font-family: monospace; white-space: pre;}
+      #command:focus { outline: none; }
+      #command.loading {
+        background: url('loading.gif') no-repeat right center;
+      }
+    </style>
+    <script src="https://unpkg.com/touch-ui/dist/touch-ui.min.js"></script>
+    <script>
+    // TODO: resize right and bottom command section
+    // TODO: set command history and make it accessible by up and down key stroke
+    let commadnEl, browserSectionEl, commandSectionEl, startWidth, startHeight, resizable;
+    let savedWidth, savedHeight;
+    let history = new CommandHistory();
+
+    window.onload = () => {
+      commandEl = document.querySelector('#command');
+      commandEl.addEventListener('keypress', commandHandler);
+      commandEl.addEventListener('keydown', historyHandler);
+      commandEl.click();
+      commandEl.value = 'help';
+      commandHandler({charCode:13});
+
+      browserSectionEl = document.querySelector('#browser-section');
+      commandSectionEl = document.querySelector('#command-section');
+      resizable = TouchUI.resizable(browserSectionEl);
+      browserSectionEl.addEventListener('resize-start', resizeStartHandler);
+      browserSectionEl.addEventListener('resize-move', resizeMoveHandler);
+    }
+
+    function commandHandler(e) {
+      if (e.charCode === 13) { //Enter
+        commandEl.classList.add('loading');
+        commandEl.disabled = true;
+        fetch(`run?cmd=${commandEl.value}`)
+          .then( resp  => resp.text())
+          .then( txt   => {
+            history.add(commandEl.value);
+            displayResponse(txt);
+          })
+          .catch(error => {
+            displayResponse(error);
+          });
+      } 
+    }
+
+    function historyHandler(e) {
+      console.log('history', history.commands);
+      let newCommand = e.keyCode === 38 ? history.get(-1) : 
+                       e.keyCode === 40 ? history.get(+1) : commandEl.value;
+      commandEl.value = newCommand || commandEl.value;
+    }
+
+    function resizeStartHandler(e) {
+      startWidth  = commandSectionEl.getBoundingClientRect().width;
+      startHeight  = commandSectionEl.getBoundingClientRect().height;
+    }
+
+    function resizeMoveHandler(e) {
+      if (e.resizePosition == 'right') {
+        commandSectionEl.style.width  = startWidth  + (e.move.x * -1) + 'px';
+      } else if (e.resizePosition == 'bottom') {
+        commandSectionEl.style.height = startHeight  + (e.move.y * -1) + 'px';
+      }
+    };
+
+    function displayResponse(response) {
+      let responseEl = document.querySelector('#command-response');
+      var preEl = document.createElement('pre');
+      preEl.innerHTML += `> ${commandEl.value}\n${response.replace('/</g','&lt;')}`;
+      responseEl.appendChild(preEl);
+      commandEl.value = '';
+      commandEl.scrollIntoView(false);
+      setTimeout(() => {
+        commandEl.classList.remove('loading');
+        commandEl.disabled = false;
+        commandEl.focus()
+      }, 500);
+    }
+
+    function setDock(dockClass) {
+      document.body.classList.remove('dock-right', 'dock-bottom');
+      document.body.classList.add(dockClass);
+      if (dockClass == 'dock-right') {
+        savedHeight = commandSectionEl.style.height;
+        browserSectionEl.style.height = '100%';
+        commandSectionEl.style.height = '100%';
+        if (savedWidth) {
+          commandSectionEl.style.width = savedWidth;
+          browserSectionEl.style.width = `calc(100% - ${savedWidth})`;
+        } 
+        resizable.reset({positions: 'right'});
+      } else if (dockClass == 'dock-bottom'){
+        savedWidth = commandSectionEl.style.width;
+        browserSectionEl.style.width = '100%';
+        commandSectionEl.style.width = '100%';
+        if (savedHeight) {
+          commandSectionEl.style.height = savedHeight;
+          browserSectionEl.style.height = `calc(100% - ${savedHeight})`;
+        } 
+        commandSectionEl.style.height = savedHeight ? savedHeight : '50%';
+        resizable.reset({positions: 'bottom'});
+      }
+    }
+
+    function clearCommandResponse() {
+      let responseEl = document.querySelector('#command-response');
+      responseEl.innerHTML = '';
+    }
+
+    function CommandHistory() {
+      this.commands = [];
+
+      this.add = function(command) {
+        this.commands.push(command);
+        this.index = this.commands.length -1;
+      }
+
+      this.get = function(num) {
+        this.index = (this.index + this.commands.length + num) % this.commands.length;
+        return this.commands[this.index];
+      }
+
+    }
+    </script>
+  </head>
+  <body class="dock-right">
+    <iframe id="browser-section" name="browser-section">
+    </iframe>
+    <div id='command-section'>
+      <div class="header">
+        <div class="logo">
+          <img src="browser-gear.png" /> WEBTEST v0.6.4
+        </div>
+        <div class="docks">
+          <img src="clear.ico" onclick="clearCommandResponse()" />
+          <img src="dock-bottom.ico" onclick="setDock('dock-bottom')" />
+          <img src="dock-right.ico"  onclick="setDock('dock-right')"/>
+        </div>
+      </div>
+      <div id="command-response"></div>
+      > <input id="command" name="command" placeholder="command" autofocus="true"/>
+    </div>
+  </body>
+</html>

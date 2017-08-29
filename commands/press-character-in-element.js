@@ -8,7 +8,7 @@ const RE_STR  = '["]?([^\"]+)["]?'; // e.g. foo.bar, "foo.bar"
  */
 module.exports = {
   name: 'press chracter in element',
-  help: 'press <character> in[to]? "<selector>',
+  help: 'press <character> into "<selector>',
   regExp: new RegExp(`^press ${RE_STR} into ${RE_STR}`),
   func: /** must return a Promise, so that it can be chained with next command*/
     function(character, selector) {

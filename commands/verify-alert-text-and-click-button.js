@@ -4,7 +4,7 @@ const RE_STR_WITH_QUOTE = '[\'"]?([\\s\\S]+?)[\'"]?'; //e.g. 'foo bar', "foo bar
 
 module.exports = {
   name: 'verify alert text and click button',
-  help: 'verify alert "<string>" and click OK|CANCEL',
+  help: 'verify alert "<string>" and click ok',
   regExp: new RegExp(`^verify alert ${RE_STR_WITH_QUOTE} and click (ok|cancel)$`, 'i'),
   /** must return a Promise, so that it can be chained with next command*/
   func: function(text, button) {
