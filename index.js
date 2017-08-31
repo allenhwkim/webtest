@@ -67,7 +67,7 @@ if (testFiles.length) {
     webTestCommand.runCommand(command)
       .then(result => {
         let resp = typeof result === 'string' ? result : 'ok';
-        res.send(resp);
+        setTimeout( _ => res.send(resp), 10);
       }).catch( err => {
       	console.log(err);
         res.status(500);

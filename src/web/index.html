@@ -4,21 +4,25 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <style>
       * {box-sizing: border-box;}
-      html, body {margin: 0; width: 100%; height: 100%; font-size: 12px;}
-      .header {border-bottom: 1px solid #ccc; line-height: 20px; background-color: #eee;}
-      .header .logo {display: inline-block;}
-      .header .docks {float: right;}
-      .header .docks img {opacity: 0.5;}
-      .header .docks img:hover {opacity: 1}
-      .header img {vertical-align: middle; width: 16px; height: 12px;}
-      .dock-right #browser-section { width: 50%; float: left; padding: 2px; height: 100%; overflow: auto;}
-      .dock-right #command-section { width: 50%; float: left; padding: 2px; height: 100%; overflow: auto;}
-      .dock-bottom #browser-section { width: 100%; float: left; padding: 2px; height: 50%; overflow: auto;}
-      .dock-bottom #command-section { width: 100%; float: left; padding: 2px; height: 50%; overflow: auto;}
-      #command-response { overflow: auto; }
-      #command { border: none; width: calc(100% - 20px);  font-family: monospace; white-space: pre;}
-      #command:focus { outline: none; }
-      #command.loading {
+      html, body {margin: 0; width: 100%; height: 100%; font-size: 12px; xxoverflow: hidden;}
+      .main {height: calc(100% - 8px)}
+      .terminal {background-color: #333; color: #fff;}
+      .dock-right #browser-section { width: 50%; height: 100%;}
+      .dock-right #command-section { width: 50%; height: 100%;}
+      .dock-bottom #browser-section { width: 100%; height: 50%;}
+      .dock-bottom #command-section { width: 100%; height: 50%;}
+      #browser-section {float: left; padding: 2px; overflow: auto;}
+      #command-section {float: left; padding: 2px; font-size: 1.2em;}
+      #command-section #command-section-header {border-bottom: 1px solid #ccc; background-color: #eee; color: #333; padding: 2px 5px; overflow: hidden; height: 20px}
+      #command-section #command-section-header .logo {display: inline-block;}
+      #command-section #command-section-header .docks {float: right;}
+      #command-section #command-section-header .docks img {opacity: 0.5;}
+      #command-section #command-section-header .docks img:hover {opacity: 1}
+      #command-section #command-section-header img {vertical-align: middle; width: 16px; height: 12px;}
+      #command-section #command-display { height: calc(100% - 20px); overflow: auto; }
+      #command-section #command-display #command { border: none; height: 1.2em; resize: none; width: calc(100% - 20px); overflow: hidden; vertical-align: top; font-family: monospace;}
+      #command-section #command-display #command:focus { outline: none; }
+      #command-section #command-display #command.loading {
         background: url('loading.gif') no-repeat right center;
       }
     </style>
@@ -32,11 +36,17 @@
 
     window.onload = () => {
       commandEl = document.querySelector('#command');
-      commandEl.addEventListener('keypress', commandHandler);
-      commandEl.addEventListener('keydown', historyHandler);
+      commandEl.addEventListener('keypress', e => {
+        (e.charCode === 13) && processAllCommands(e.target.value);
+      });
+      commandEl.addEventListener('keydown', e => {
+        if ([38, 40].indexOf(e.keyCode) !== -1) {
+          let num = 38 ? +1 : -1;
+          commandEl.value = history.get(num);
+        }
+      });
       commandEl.click();
-      commandEl.value = 'help';
-      commandHandler({charCode:13});
+      processCommand('help')();
 
       browserSectionEl = document.querySelector('#browser-section');
       commandSectionEl = document.querySelector('#command-section');
@@ -45,27 +55,35 @@
       browserSectionEl.addEventListener('resize-move', resizeMoveHandler);
     }
 
-    function commandHandler(e) {
-      if (e.charCode === 13) { //Enter
+    async function runPromisesInSequence(promises) {
+      for (let promise of promises) {  // must be for (.. of ..)
+        await promise();
+      }
+    }
+
+    function processAllCommands(commands) {
+      var funcs = commands.split('\n').map(command => processCommand(command));
+      runPromisesInSequence(funcs);
+    }
+
+    function processCommand(command) {
+      if (command === 'cls' || command === 'clear') {
+        clearCommandResponse();
+        commandEl.value = '';
+        return _ => Promise.resolve();
+      } else {
         commandEl.classList.add('loading');
         commandEl.disabled = true;
-        fetch(`run?cmd=${commandEl.value}`)
+        return _ => fetch(`run?cmd=${command}`)
           .then( resp  => resp.text())
           .then( txt   => {
-            history.add(commandEl.value);
-            displayResponse(txt);
+            history.add(command);
+            displayResponse(command, txt);
           })
           .catch(error => {
             displayResponse(error);
           });
-      } 
-    }
-
-    function historyHandler(e) {
-      console.log('history', history.commands);
-      let newCommand = e.keyCode === 38 ? history.get(-1) : 
-                       e.keyCode === 40 ? history.get(+1) : commandEl.value;
-      commandEl.value = newCommand || commandEl.value;
+      }
     }
 
     function resizeStartHandler(e) {
@@ -81,10 +99,10 @@
       }
     };
 
-    function displayResponse(response) {
+    function displayResponse(command, response) {
       let responseEl = document.querySelector('#command-response');
       var preEl = document.createElement('pre');
-      preEl.innerHTML += `> ${commandEl.value}\n${response.replace('/</g','&lt;')}`;
+      preEl.innerHTML += `> ${command}\n${response.replace('/</g','&lt;')}`;
       responseEl.appendChild(preEl);
       commandEl.value = '';
       commandEl.scrollIntoView(false);
@@ -137,26 +155,35 @@
         this.index = (this.index + this.commands.length + num) % this.commands.length;
         return this.commands[this.index];
       }
+    }
 
+    function auto_grow(element) {
+      element.style.height = "1.2em";
+      element.style.height = (element.scrollHeight -3)+"px";
     }
     </script>
   </head>
   <body class="dock-right">
-    <iframe id="browser-section" name="browser-section">
-    </iframe>
-    <div id='command-section'>
-      <div class="header">
-        <div class="logo">
-          <img src="browser-gear.png" /> WEBTEST v0.6.4
+    <div class="main">
+      <iframe id="browser-section" name="browser-section">
+      </iframe>
+      <div id='command-section' class="terminal">
+        <div id="command-section-header">
+          <div class="logo">
+            <img src="browser-gear.png" /> WEBTEST v0.6.4
+          </div>
+          <div class="docks">
+            <img src="clear.ico" onclick="clearCommandResponse()" />
+            <img src="dock-bottom.ico" onclick="setDock('dock-bottom')" />
+            <img src="dock-right.ico"  onclick="setDock('dock-right')"/>
+          </div>
         </div>
-        <div class="docks">
-          <img src="clear.ico" onclick="clearCommandResponse()" />
-          <img src="dock-bottom.ico" onclick="setDock('dock-bottom')" />
-          <img src="dock-right.ico"  onclick="setDock('dock-right')"/>
+        <div id="command-display">
+          <div id="command-response"></div>
+          <span>&gt;</span> 
+          <textarea id="command" class="terminal" placeholder="Enter command" autofocus="true" onkeyup="auto_grow(this)"></textarea>
         </div>
       </div>
-      <div id="command-response"></div>
-      > <input id="command" name="command" placeholder="command" autofocus="true"/>
     </div>
   </body>
 </html>
