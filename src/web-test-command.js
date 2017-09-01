@@ -93,7 +93,7 @@ class WebTestCommand {
               return  '' + eval(`webtestDriver.${cmd}`)
             }
           } 
-          return "Invalid webtest command"
+          return "Invalid webtest command: " + command;
         } 
       });
   }

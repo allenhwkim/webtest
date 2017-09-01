@@ -4,7 +4,7 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <style>
       * {box-sizing: border-box;}
-      html, body {margin: 0; width: 100%; height: 100%; font-size: 12px; xxoverflow: hidden;}
+      html, body {margin: 0; width: 100%; height: 100%; font-size: 12px; overflow: hidden;}
       .main {height: calc(100% - 8px)}
       .terminal {background-color: #333; color: #fff;}
       .dock-right #browser-section { width: 50%; height: 100%;}
@@ -20,7 +20,7 @@
       #command-section #command-section-header .docks img:hover {opacity: 1}
       #command-section #command-section-header img {vertical-align: middle; width: 16px; height: 12px;}
       #command-section #command-display { height: calc(100% - 20px); overflow: auto; }
-      #command-section #command-display #command { border: none; height: 1.2em; resize: none; width: calc(100% - 20px); overflow: hidden; vertical-align: top; font-family: monospace;}
+      #command-section #command-display #command { border: none; height: 1.2em; resize: none; width: calc(100% - 20px); overflow: hidden; vertical-align: top; font-family: monospace; font-size: inherit;}
       #command-section #command-display #command:focus { outline: none; }
       #command-section #command-display #command.loading {
         background: url('loading.gif') no-repeat right center;
@@ -37,10 +37,14 @@
     window.onload = () => {
       commandEl = document.querySelector('#command');
       commandEl.addEventListener('keypress', e => {
+        console.log('e.charCode', e.charCode, 'e.keyCode', e.keyCode);
         (e.charCode === 13) && processAllCommands(e.target.value);
       });
       commandEl.addEventListener('keydown', e => {
-        if ([38, 40].indexOf(e.keyCode) !== -1) {
+        console.log('e.metaKey', e.metaKey, 'e.keyCode', e.keyCode);
+        if ((e.ctrlKey || e.metaKey) && e.keyCode === 75) { // cmd key
+          clearCommandResponse();
+        } else if ([38, 40].indexOf(e.keyCode) !== -1) {
           let num = 38 ? +1 : -1;
           commandEl.value = history.get(num);
         }
@@ -74,7 +78,7 @@
       } else {
         commandEl.classList.add('loading');
         commandEl.disabled = true;
-        return _ => fetch(`run?cmd=${command}`)
+        return _ => fetch(`run?cmd=${encodeURIComponent(command)}`)
           .then( resp  => resp.text())
           .then( txt   => {
             history.add(command);
