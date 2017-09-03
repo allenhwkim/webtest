@@ -4,6 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var express = require('express');
 var serveStatic = require('serve-static');
+var proctree = require('proctree');
 
 var argv = require('yargs')
   .usage('Usage: $0 <command-files> [options]')
@@ -63,15 +64,17 @@ if (testFiles.length) {
   app.get('/run', (req, res, next) => {
     let command = req.query.cmd.trim(), cmdObj, resp;
     console.log('running', command);
+    if (command === 'exit') {
+      proctree.treeKill(process.pid);
+    }
     cmdObj = webTestCommand.getCommand(command);
     webTestCommand.runCommand(command)
       .then(result => {
         let resp = typeof result === 'string' ? result : 'ok';
         setTimeout( _ => res.send(resp), 10);
       }).catch( err => {
-      	console.log(err);
-        res.status(500);
-        res.send(''+err);
+        res.statusMessage = err.message.replace('\n','\\n');
+        res.status(500).end();
       });
   });
   app.listen(port);
@@ -82,5 +85,6 @@ if (testFiles.length) {
     .then(() => webTestCommand.runCommand('go to http://localhost:'+port))
     .then(() => webTestCommand.runCommand('switch to frame browser-section')) //all command will run on iframe
     .then(() => webTestCommand.runCommand('go to https://rawgit.com/allenhwkim/touch-ui/master/demo/index.html'));
+
 }
 

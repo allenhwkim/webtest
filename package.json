@@ -21,6 +21,7 @@
     "mustache": "^2.2.1",
     "npm-run-all": "^3.1.0",
     "preferences": "^0.2.1",
+    "proctree": "^0.1.1",
     "selenium-webdriver": "^2.53.3",
     "serve-static": "^1.12.4",
     "yargs": "^4.8.1"

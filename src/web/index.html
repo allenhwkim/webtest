@@ -37,11 +37,9 @@
     window.onload = () => {
       commandEl = document.querySelector('#command');
       commandEl.addEventListener('keypress', e => {
-        console.log('e.charCode', e.charCode, 'e.keyCode', e.keyCode);
         (e.charCode === 13) && processAllCommands(e.target.value);
       });
       commandEl.addEventListener('keydown', e => {
-        console.log('e.metaKey', e.metaKey, 'e.keyCode', e.keyCode);
         if ((e.ctrlKey || e.metaKey) && e.keyCode === 75) { // cmd key
           clearCommandResponse();
         } else if ([38, 40].indexOf(e.keyCode) !== -1) {
@@ -70,6 +68,13 @@
       runPromisesInSequence(funcs);
     }
 
+    function handleFetchErrors(response) {
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      return response;
+    }
+
     function processCommand(command) {
       if (command === 'cls' || command === 'clear') {
         clearCommandResponse();
@@ -79,13 +84,15 @@
         commandEl.classList.add('loading');
         commandEl.disabled = true;
         return _ => fetch(`run?cmd=${encodeURIComponent(command)}`)
+          .then( handleFetchErrors )
           .then( resp  => resp.text())
           .then( txt   => {
             history.add(command);
             displayResponse(command, txt);
           })
           .catch(error => {
-            displayResponse(error);
+            displayResponse(command, ''+error);
+            throw error;
           });
       }
     }
