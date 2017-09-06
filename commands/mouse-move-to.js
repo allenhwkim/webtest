@@ -6,7 +6,7 @@ const RE_STR  = '["]?([^\"]+)["]?'; // e.g. foo.bar, "foo.bar", or "foo bar"
 module.exports = {
   name: 'move mouse to',
   help: 'move mouse to <selector>',
-  regExp: new RegExp(`^move mouse to ${RE_STR}`),
+  regExp: new RegExp(`^mouse move to ${RE_STR}`),
   func: /** must return a Promise, so that it can be chained with next command*/
     function(selector) {
       webtestDriver.driver.sleep(100); //To prevent stale element error

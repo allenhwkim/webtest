@@ -22,9 +22,8 @@
       #command-section #command-display { height: calc(100% - 20px); overflow: auto; }
       #command-section #command-display #command { border: none; height: 1.2em; resize: none; width: calc(100% - 20px); overflow: hidden; vertical-align: top; font-family: monospace; font-size: inherit;}
       #command-section #command-display #command:focus { outline: none; }
-      #command-section #command-display #command.loading {
-        background: url('loading.gif') no-repeat right center;
-      }
+      #command-section #command-display #command.loading { background: url('loading.gif') no-repeat right center; }
+      #command-section #command-display #command-response pre { margin: 0 0; }
     </style>
     <script src="https://unpkg.com/touch-ui/dist/touch-ui.min.js"></script>
     <script>
@@ -33,6 +32,7 @@
     let commadnEl, browserSectionEl, commandSectionEl, startWidth, startHeight, resizable;
     let savedWidth, savedHeight;
     let history = new CommandHistory();
+    let commandPrompt = '$';
 
     window.onload = () => {
       commandEl = document.querySelector('#command');
@@ -47,18 +47,21 @@
           clearCommandResponse();
           commandEl.focus();
         } else if ([38, 40].indexOf(e.keyCode) !== -1) {
-          let num = 38 ? +1 : -1;
+          let num = e.keyCode === 38 ? -1 : +1;
           commandEl.value = history.get(num);
         }
       });
-      commandEl.addEventListener('click', e => commandEl.focus());
-
-      processCommand('help')();
+      commandSectionEl.addEventListener('click', e => commandEl.focus());
 
       resizable = TouchUI.resizable(browserSectionEl);
       browserSectionEl.addEventListener('resize-start', resizeStartHandler);
       browserSectionEl.addEventListener('resize-move', resizeMoveHandler);
       browserSectionEl.addEventListener('resize-end', resizeEndHandler);
+
+      processAllCommands([
+        `switch to frame browser-section`,
+        `go to https://rawgit.com/allenhwkim/touch-ui/master/demo/index.html`, 
+        `help`].join('\n'));
     }
 
     async function runPromisesInSequence(promises) {
@@ -80,7 +83,10 @@
     }
 
     function processCommand(command) {
-      if (command === 'cls' || command === 'clear') {
+      if (command.trim() === '') {
+        displayResponse(command, '');
+        return _ => Promise.resolve();
+      } else if (command === 'cls' || command === 'clear') {
         clearCommandResponse();
         return _ => Promise.resolve();
       } else if (command === 'history') {
@@ -98,6 +104,7 @@
             displayResponse(command, txt);
           })
           .catch(error => {
+            history.add(command);
             displayResponse(command, ''+error);
             throw error;
           });
@@ -125,7 +132,10 @@
     function displayResponse(command, response) {
       let responseEl = document.querySelector('#command-response');
       var preEl = document.createElement('pre');
-      preEl.innerHTML += `> ${command}\n${response.replace('/</g','&lt;')}`;
+      preEl.innerHTML += `${commandPrompt} ${command}`;
+      if (response.trim()) {
+        preEl.innerHTML += `\n${response.replace(/</g,'$')}`;
+      }
       responseEl.appendChild(preEl);
       commandEl.scrollIntoView(false);
       emptyCommand();
@@ -177,11 +187,17 @@
 
       this.add = function(command) {
         this.commands.push(command);
-        this.index = this.commands.length -1;
+        this.index = this.commands.length;
       }
 
       this.get = function(num) {
-        this.index = (this.index + this.commands.length + num) % this.commands.length;
+        let newIndex;
+        if (this.index === this.commands.length) { // the first show
+          newIndex = num > 0 ? 0 : this.commands.length - 1; 
+        } else {
+          newIndex = this.index + num + this.commands.length % this.commands.length;
+        }
+        this.index = newIndex;
         return this.commands[this.index];
       }
     }
@@ -210,7 +226,7 @@
         </div>
         <div id="command-display">
           <div id="command-response"></div>
-          <span>&gt;</span> 
+          <span>$</span> 
           <textarea id="command" class="terminal" placeholder="Enter command" autofocus="true" onkeyup="auto_grow(this)"></textarea>
         </div>
       </div>

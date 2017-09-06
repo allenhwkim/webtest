@@ -82,9 +82,9 @@ if (testFiles.length) {
 
   //open browser with index.html
   webTestCommand.runCommand('open browser')
-    .then(() => webTestCommand.runCommand('go to http://localhost:'+port))
-    .then(() => webTestCommand.runCommand('switch to frame browser-section')) //all command will run on iframe
-    .then(() => webTestCommand.runCommand('go to https://rawgit.com/allenhwkim/touch-ui/master/demo/index.html'));
+    .then(() => webTestCommand.runCommand('go to http://localhost:'+port));
+    // .then(() => webTestCommand.runCommand('switch to frame browser-section')) //all command will run on iframe
+    // .then(() => webTestCommand.runCommand('go to https://rawgit.com/allenhwkim/touch-ui/master/demo/index.html'));
 
 }
 
