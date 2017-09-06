@@ -36,25 +36,29 @@
 
     window.onload = () => {
       commandEl = document.querySelector('#command');
+      browserSectionEl = document.querySelector('#browser-section');
+      commandSectionEl = document.querySelector('#command-section');
+
       commandEl.addEventListener('keypress', e => {
         (e.charCode === 13) && processAllCommands(e.target.value);
       });
       commandEl.addEventListener('keydown', e => {
         if ((e.ctrlKey || e.metaKey) && e.keyCode === 75) { // cmd key
           clearCommandResponse();
+          commandEl.focus();
         } else if ([38, 40].indexOf(e.keyCode) !== -1) {
           let num = 38 ? +1 : -1;
           commandEl.value = history.get(num);
         }
       });
-      commandEl.click();
+      commandEl.addEventListener('click', e => commandEl.focus());
+
       processCommand('help')();
 
-      browserSectionEl = document.querySelector('#browser-section');
-      commandSectionEl = document.querySelector('#command-section');
       resizable = TouchUI.resizable(browserSectionEl);
       browserSectionEl.addEventListener('resize-start', resizeStartHandler);
       browserSectionEl.addEventListener('resize-move', resizeMoveHandler);
+      browserSectionEl.addEventListener('resize-end', resizeEndHandler);
     }
 
     async function runPromisesInSequence(promises) {
@@ -78,7 +82,10 @@
     function processCommand(command) {
       if (command === 'cls' || command === 'clear') {
         clearCommandResponse();
-        commandEl.value = '';
+        return _ => Promise.resolve();
+      } else if (command === 'history') {
+        let commands = history.commands.filter(e => e).join('\n');
+        displayResponse(command, commands);
         return _ => Promise.resolve();
       } else {
         commandEl.classList.add('loading');
@@ -100,6 +107,7 @@
     function resizeStartHandler(e) {
       startWidth  = commandSectionEl.getBoundingClientRect().width;
       startHeight  = commandSectionEl.getBoundingClientRect().height;
+      document.querySelector('#iframe-blocker').style.display='';
     }
 
     function resizeMoveHandler(e) {
@@ -110,13 +118,17 @@
       }
     };
 
+    function resizeEndHandler(e) {
+      document.querySelector('#iframe-blocker').style.display='none';
+    }
+
     function displayResponse(command, response) {
       let responseEl = document.querySelector('#command-response');
       var preEl = document.createElement('pre');
       preEl.innerHTML += `> ${command}\n${response.replace('/</g','&lt;')}`;
       responseEl.appendChild(preEl);
-      commandEl.value = '';
       commandEl.scrollIntoView(false);
+      emptyCommand();
       setTimeout(() => {
         commandEl.classList.remove('loading');
         commandEl.disabled = false;
@@ -131,20 +143,21 @@
         savedHeight = commandSectionEl.style.height;
         browserSectionEl.style.height = '100%';
         commandSectionEl.style.height = '100%';
+        savedWidth = savedWidth || '50%';
         if (savedWidth) {
           commandSectionEl.style.width = savedWidth;
           browserSectionEl.style.width = `calc(100% - ${savedWidth})`;
-        } 
+        }
         resizable.reset({positions: 'right'});
       } else if (dockClass == 'dock-bottom'){
         savedWidth = commandSectionEl.style.width;
         browserSectionEl.style.width = '100%';
         commandSectionEl.style.width = '100%';
+        savedHeight = savedHeight || '50%';
         if (savedHeight) {
           commandSectionEl.style.height = savedHeight;
           browserSectionEl.style.height = `calc(100% - ${savedHeight})`;
-        } 
-        commandSectionEl.style.height = savedHeight ? savedHeight : '50%';
+        }
         resizable.reset({positions: 'bottom'});
       }
     }
@@ -152,6 +165,11 @@
     function clearCommandResponse() {
       let responseEl = document.querySelector('#command-response');
       responseEl.innerHTML = '';
+      emptyCommand();
+    }
+
+    function emptyCommand() {
+      setTimeout( _ => commandEl.value = '', 100);
     }
 
     function CommandHistory() {
@@ -178,6 +196,7 @@
     <div class="main">
       <iframe id="browser-section" name="browser-section">
       </iframe>
+      <div style="width:100%;height:100%;display:none;position:fixed;top:0;left:0;opacity:0" id="iframe-blocker"></div>
       <div id='command-section' class="terminal">
         <div id="command-section-header">
           <div class="logo">
