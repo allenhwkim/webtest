@@ -11,6 +11,7 @@ module.exports = {
   func: function(selector, text) {
     return webtestDriver
       .waitUntil('elementTextMatches', selector, new RegExp(text))
-      .then(el => webtestDriver.lastFoundElement = el);
+      .then(element => webtestDriver.lastFoundElement = element)
+      .then(element => webtestDriver.showCircleOn(element));
   }
 };

@@ -10,6 +10,7 @@ module.exports = {
   func: function(selector) {
     selector = selector.replace(/ is/g,'');
     return webtestDriver.waitUntil('elementIsNotVisible', selector)
-      .then(el => webtestDriver.lastFoundElement = el);
+      .then(element => webtestDriver.lastFoundElement = element)
+      .then(element => webtestDriver.showCircleOn(element));
   }
 };

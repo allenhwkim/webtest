@@ -12,6 +12,7 @@ module.exports = {
     let cssSelector = `${selector}, [placeholder='${selector}']`;
     return webtestDriver.driver.wait( function() {
       return webtestDriver.driver.findElement({css: cssSelector})
+        //.then(element => webtestDriver.showCircleOn(element))
         .getAttribute("value")
         .then( val => !!val.match(valueRE));
     }, webtestDriver.config.timeout);

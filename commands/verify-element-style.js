@@ -12,6 +12,7 @@ module.exports = {
     styleName = styleName.replace(/ is/g,'');
     return webtestDriver.driver.wait( function() {
       return webtestDriver.driver.findElement({css: selector})
+        // .then(element => webtestDriver.showCircleOn(element))
         .getCssValue(styleName)
         .then( val => {
           return val === styleValue

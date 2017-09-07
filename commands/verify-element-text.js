@@ -11,6 +11,7 @@ module.exports = {
   func: function(selector, text) {
     return webtestDriver
       .waitUntil('elementTextIs', selector, text)
-      .then(el => webtestDriver.lastElement = el);
+      .then(element => webtestDriver.lastElement = element)
+      .then(element => webtestDriver.showCircleOn(element));
   }
 };

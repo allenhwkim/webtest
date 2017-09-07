@@ -134,7 +134,7 @@
       var preEl = document.createElement('pre');
       preEl.innerHTML += `${commandPrompt} ${command}`;
       if (response.trim()) {
-        preEl.innerHTML += `\n${response.replace(/</g,'$')}`;
+        preEl.innerHTML += `\n${response.replace(/</g,'&lt;')}`;
       }
       responseEl.appendChild(preEl);
       commandEl.scrollIntoView(false);

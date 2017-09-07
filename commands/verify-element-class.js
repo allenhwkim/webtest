@@ -11,6 +11,7 @@ module.exports = {
     return webtestDriver.driver.wait( function() {
       return webtestDriver.driver.findElement({css: selector})
         .then(element => webtestDriver.lastFoundElement = element)
+        .then(element => webtestDriver.showCircleOn(element))
         .then(element => element.getAttribute('class'))
         .then(classNames => {
           //console.log('classNames', classNames, 'className', className)
