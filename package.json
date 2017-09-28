@@ -1,6 +1,6 @@
 {
   "name": "webtest",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "Execute browser test in plain English",
   "main": "index.js",
   "bin": {
