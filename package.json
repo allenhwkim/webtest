@@ -1,44 +1,17 @@
 {
   "name": "webtest",
-  "version": "0.8.3",
-  "description": "Execute browser test in plain English",
-  "main": "index.js",
-  "bin": {
-    "webtest": "./index.js"
-  },
+  "version": "1.0.0",
+  "description": "Run Automated Browser Test",
   "scripts": {
-    "start": "forever start --silent node_modules/http-server/bin/http-server",
-    "stop": "forever stop --silent node_modules/http-server/bin/http-server",
-    "test": "npm-run-all start test:webtest stop",
-    "test:webtest": "node index.js test/test-page.webtest.txt -s 100",
-    "upgrade": "npm-check-updates -a/--upgradeAll && npm i"
   },
   "dependencies": {
-    "chromedriver": "^2.24.1",
-    "express": "^4.15.4",
-    "forever": "^0.15.2",
-    "inquirer": "^1.2.1",
-    "mustache": "^2.2.1",
-    "npm-run-all": "^3.1.0",
-    "preferences": "^0.2.1",
-    "proctree": "^0.1.1",
-    "selenium-webdriver": "^2.53.3",
-    "serve-static": "^1.12.4",
-    "yargs": "^4.8.1"
   },
   "devDependencies": {
-    "connect": "^3.4.1",
-    "http-server": "^0.9.0",
-    "jasmine": "^2.4.1",
-    "npm-check-updates": "^2.12.1",
-    "serve-static": "^1.10.2"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/allenhwkim/webtest.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/allenhwkim/webtest/issues"
   },
