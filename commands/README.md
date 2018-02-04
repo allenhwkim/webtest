@@ -25,6 +25,11 @@
 |verifyScript  |          | script
 |verifyText    | text     | boolean
 
+* if command start with `verify`
+  * run the command every second until it matches for 10 seconds
+* else if target has a `selector`, wait for selector for 10 seconds
+  * then run the command
+
 #### xPath text matching code
 ```
 var search =  document.evaluate('//*[contains(text(), "ABC")]', document, null, XPathResult.ANY_TYPE, null)
