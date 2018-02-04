@@ -25,7 +25,7 @@
 |verifyScript  |          | script
 |verifyText    | text     | boolean
 
-xPath text matching code
+#### xPath text matching code
 ```
 var search =  document.evaluate('//*[contains(text(), "ABC")]', document, null, XPathResult.ANY_TYPE, null)
 search.iterateNex();
